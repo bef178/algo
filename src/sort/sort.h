@@ -10,4 +10,6 @@ void isort(int * a, int l, int r);
 void isort1(int * a, int l, int r);
 void isort2(int * a, int l, int r);
 
+void ssort(int * a, int l, int r);
+
 #endif // _INCLUDED_SORT
