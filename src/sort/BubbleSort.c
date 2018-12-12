@@ -8,6 +8,6 @@ void BubbleSort_sort(int * a, int l, int r) {
                 swapped = true;
             }
         }
-        r--;
+        l++;
     }
 }
