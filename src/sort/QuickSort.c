@@ -1,4 +1,4 @@
-static int findIntermediate(int * a, int i, int j, int k) {
+static int findMedian(int * a, int i, int j, int k) {
     int max;
     int min;
     if (a[i] < a[j]) {
@@ -21,8 +21,12 @@ static int findIntermediate(int * a, int i, int j, int k) {
 // divide & conquer
 static int partition(int * a, int l, int r) {
     // assert l < r;
-    int p = l;
     r--;
+    int p = findMedian(a, l, r, l + (r - l) / 2);
+    if (p != l) {
+        swap(a, p, l);
+    }
+    p = l;
     while (l < r) {
         while (l < r && a[r] > a[p]) {
             r--;
@@ -43,11 +47,6 @@ static int partition(int * a, int l, int r) {
 void QuickSort_sort(int * a, int l, int r) {
     if (l >= r - 1) {
         return;
-    }
-    // initial optimization
-    int p = findIntermediate(a, l, r, l + (r - l) / 2);
-    if (p != l) {
-        swap(a, p, l);
     }
     int i = partition(a, l, r);
     QuickSort_sort(a, l, i);
