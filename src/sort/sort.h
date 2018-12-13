@@ -12,8 +12,10 @@ void isort2(int * a, int l, int r);
 
 void ssort(int * a, int l, int r);
 
-void ShellSort_sort(int * a, int l, int r);
-
 void BubbleSort_sort(int * a, int l, int r);
+
+void QuickSort_sort(int * a, int l, int r);
+
+void ShellSort_sort(int * a, int l, int r);
 
 #endif // _INCLUDED_SORT

@@ -1,6 +1,9 @@
 #include <stdio.h>
 
 void ints2stdout(int * a, int l, int r) {
+    for (int i = 0; i < l; i++) {
+        printf(". ");
+    }
     for (int i = l; i < r; i++) {
         printf("%d ", a[i]);
     }
