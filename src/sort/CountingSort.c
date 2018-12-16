@@ -5,16 +5,8 @@
  * only suitable for situations where key range is not significantly greater than the number of items
  */
 static void sort(int * a, int l, int r) {
-    int max = a[l];
-    int min = a[l];
-    for (int i = l + 1; i < r; i++) {
-        if (max < a[i]) {
-            max = a[i];
-        }
-        if (min > a[i]) {
-            min = a[i];
-        }
-    }
+    int max = a[indexOfMax(a, l, r)];
+    int min = a[indexOfMin(a, l, r)];
 
     int c[max - min + 1];
     memset(c, 0, sizeof(c));
