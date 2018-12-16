@@ -22,5 +22,5 @@ static int lowerBound(int * a, int l, int r, int v) {
     return r;
 }
 
-search_f * BinarySearch_upperBound = &upperBound;
-search_f * BinarySearch_lowerBound = &lowerBound;
+search_f * const BinarySearch_upperBound = &upperBound;
+search_f * const BinarySearch_lowerBound = &lowerBound;

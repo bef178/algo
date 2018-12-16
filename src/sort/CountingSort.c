@@ -64,4 +64,4 @@ static void sort1(int * a, int l, int r) {
     memcpy(a + l, t, (r - l) * sizeof(int));
 }
 
-sort_f * const CountingSort_sort = sort;
+sort_f * const CountingSort_sort = &sort;
