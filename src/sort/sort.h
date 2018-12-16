@@ -22,4 +22,6 @@ void ShellSort_sort(int * a, int l, int r);
 
 extern sort_f * const CountingSort_sort;
 
+void RadixSort_lsd(int * a, int l, int r);
+
 #endif // _INCLUDED_SORT
