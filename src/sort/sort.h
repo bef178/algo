@@ -20,4 +20,6 @@ void QuickSort_sort(int * a, int l, int r);
 
 void ShellSort_sort(int * a, int l, int r);
 
+extern sort_f * const CountingSort_sort;
+
 #endif // _INCLUDED_SORT
