@@ -22,7 +22,7 @@ static void sort(int * a, int l, int r) {
         c[a[i] - min]++;
     }
 
-    for (int i = l + 1; i < r; i++) {
+    for (int i = 0; i < max - min + 1; i++) {
         c[i] += c[i - 1];
     }
 
