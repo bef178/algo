@@ -7,6 +7,6 @@ void testSort(sort_f * sort, int * a, int l, int r) {
 int main() {
     int a[] = {6,5,3,1,8,7,2,4};
     int n = sizeof(a) / sizeof(int);
-    testSort(&QuickSort_sort, a, 0, n);
+    testSort(&MergeSort_sort, a, 0, n);
     return 0;
 }
