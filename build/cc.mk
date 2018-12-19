@@ -4,8 +4,10 @@
 
 TOP := .
 BUILD := $(TOP)/build
-SRC := $(TOP)/src
 OUT := $(TOP)/out
+ifndef SRC
+SRC := $(TOP)/src
+endif
 
 include $(BUILD)/util.mk
 
@@ -41,6 +43,9 @@ a: $(OBJECT_FILES)
 o: $(OBJECT_FILES)
 	@echo "linking [$(TARGET_FILE)] ..."
 	@ld -r $^ -o $(TARGET_FILE)
+
+.PHONY: obj
+obj: $(OBJECT_FILES)
 
 $(OUT)/%.o: $(SRC)/%.c $(HEADER_FILES)
 	@echo "compiling [$@] ..."

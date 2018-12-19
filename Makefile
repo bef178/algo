@@ -1,6 +1,8 @@
 .PHONY: test
 test:
-	@ TARGET_FILE=out/test/test.out \
+	@ \
+		SRC="src test" \
+		TARGET_FILE=out/test.out \
 		make out -f build/cc.mk
 
 .PHONY: clean

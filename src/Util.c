@@ -1,15 +1,5 @@
 #include <stdio.h>
 
-void ints2stdout(int * a, int l, int r) {
-    for (int i = 0; i < l; i++) {
-        printf(". ");
-    }
-    for (int i = l; i < r; i++) {
-        printf("%d ", a[i]);
-    }
-    printf("\n");
-}
-
 int indexOfMax(int * a, int l, int r) {
     int max = l;
     for (int i = l + 1; i < r; i++) {
