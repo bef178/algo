@@ -1,6 +1,7 @@
 .PHONY: test
 test:
-	@make out -f build/cc.mk
+	@ TARGET_FILE=out/test/test.out \
+		make out -f build/cc.mk
 
 .PHONY: clean
 clean:

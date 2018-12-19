@@ -14,8 +14,7 @@ include $(BUILD)/util.mk
 HEADER_FILES := $(call find-files-h, $(SRC))
 SOURCE_FILES := $(call find-files-c, $(SRC))
 
-TARGET_TYPE := out
-TARGET_FILE := $(OUT)/sort/test.out
+$(info goal [$(MAKECMDGOALS)], target file [$(TARGET_FILE)])
 
 ########
 
