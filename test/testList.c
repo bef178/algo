@@ -3,13 +3,15 @@
 
 static void sysout(List * self) {
     for (int i = 0; i < List_size(self); ++i) {
-        void * value = List_get(self, i);
-        printf("%d ", *(int *) value);
+        int64 value = List_get(self, i);
+        printf("%ld ", value);
     }
     printf("\n");
 }
 
 void testListHead() {
+    printf("testing ListHead ...\n");
+
     ListHead * p = ListHead_malloc();
 
     ListHead_enlinkNext(p, p);
@@ -26,40 +28,40 @@ void testListHead() {
 }
 
 void testListNode() {
+    printf("testing ListNode ...\n");
+
     int a[] = { 0, 1 };
-    ListNode * p = ListNode_malloc();
-    p->value = a + 0;
+    ListNode * p = ListNode_malloc(a[0]);
 
-    assert(ListNode_fromListHead(&(p->linkage)) == p);
+    ListNode * next = ListNode_malloc(a[1]);
 
-    ListNode * next = ListNode_malloc();
-    next->value = a + 1;
-
-    ListHead_insertNext(&p->linkage, &next->linkage);
-    assert(p->linkage.next == &next->linkage);
-    assert(ListNode_fromListHead(p->linkage.next) == next);
+    ListNode_insertNext(p, next);
+    p = ListNode_offset(p, 1);
+    assert(ListNode_get(p) == a[1]);
 }
 
 void testList() {
     testListHead();
     testListNode();
 
+    printf("testing List ...\n");
+
     int i = 9;
 
     List * list = List_malloc();
-    List_insert(list, 0, &i);
+    List_insert(list, 0, i);
 
     assert(List_size(list) == 1);
-    assert(*(int *) List_get(list, 0) == 9);
+    assert(List_get(list, 0) == 9);
 
     List_clear(list);
 
     int values[5];
     for (int i = 0; i < 5; ++i) {
         values[i] = i;
-        List_insert(list, 0, values + i);
+        List_insert(list, 0, values[i]);
     }
     assert(List_size(list) == 5);
     List_remove(list, 3);
-    assert(*(int *) List_get(list, 3) == 0);
+    assert(List_get(list, 3) == 0);
 }

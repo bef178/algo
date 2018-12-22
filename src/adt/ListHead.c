@@ -1,5 +1,5 @@
 /**
- * TODO should compose a very fore-most processor:
+ * TODO there should be a fore-most processor:
  *  1. create header file
  *      x. include-guard
  *      x. add forward declaration of public macro/struct/variable/function
@@ -19,15 +19,6 @@ void ListHead_free(ListHead * self) {
     free(self);
 }
 
-void ListHead_enlinkNext(ListHead * self, ListHead * futureNext) {
-    // assert self->next == null;
-    // assert futureNext == null || futureNext->prev == null;
-    self->next = futureNext;
-    if (futureNext != NULL) {
-        futureNext->prev = self;
-    }
-}
-
 ListHead * ListHead_delinkNext(ListHead * self) {
     ListHead * ofNext = self->next;
     if (ofNext != NULL) {
@@ -35,6 +26,15 @@ ListHead * ListHead_delinkNext(ListHead * self) {
         ofNext->prev = NULL;
     }
     return ofNext;
+}
+
+void ListHead_enlinkNext(ListHead * self, ListHead * futureNext) {
+    // assert self->next == null;
+    // assert futureNext == null || futureNext->prev == null;
+    self->next = futureNext;
+    if (futureNext != NULL) {
+        futureNext->prev = self;
+    }
 }
 
 void ListHead_insertNext(ListHead * self, ListHead * futureNext) {

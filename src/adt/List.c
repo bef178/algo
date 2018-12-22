@@ -1,5 +1,5 @@
 /**
- * LinkedList with head node
+ * doubly cyclic linked list with head node
  *
  * List works based on index
  * accepting only non-null value
@@ -33,9 +33,9 @@ static int betterIndex(int size, int index) {
 
 List * List_malloc() {
     List * self = calloc(1, sizeof(List));
-    self->head = ListNode_malloc();
+    self->head = ListNode_malloc(0);
     self->size = 0;
-    ListHead_enlinkNext(&self->head->linkage, &self->head->linkage); // cyclic
+    ListNode_enlinkNext(self->head, self->head); // cyclic
     return self;
 }
 
@@ -47,7 +47,7 @@ void List_free(List * self) {
 
 void List_clear(List * self) {
     while (!List_isEmpty(self)) {
-        ListNode * p = ListNode_fromListHead(ListHead_removeNext(&self->head->linkage));
+        ListNode * p = ListNode_removeNext(self->head);
         --self->size;
         ListNode_free(p);
     }
@@ -61,38 +61,37 @@ boolean List_isEmpty(List * self) {
     return List_size(self) == 0;
 }
 
-void * List_get(List * self, int index) {
+int64 List_get(List * self, int index) {
     index = betterIndex(self->size, index);
     index = index >= 0 ? index + 1 : index;
     ListNode * p = ListNode_offset(self->head, index);
-    return p->value;
+    return ListNode_get(p);
 }
 
-void * List_set(List * self, int index, void * value) {
+int64 List_set(List * self, int index, int64 value) {
     index = betterIndex(self->size, index);
     index = index >= 0 ? index + 1 : index;
     ListNode * p = ListNode_offset(self->head, index);
-    void * old = p->value;
-    p->value = value;
+    int64 old = ListNode_get(p);
+    ListNode_set(p, value);
     return old;
 }
 
-void List_insert(List * self, int index, void * value) {
+void List_insert(List * self, int index, int64 value) {
     // assert value != null;
     index = betterIndex(self->size, index);
     ListNode * p = ListNode_offset(self->head, index);
-    ListNode * futureNext = ListNode_malloc();
-    futureNext->value = value;
-    ListHead_insertNext(&p->linkage, &futureNext->linkage);
+    ListNode * futureNext = ListNode_malloc(value);
+    ListNode_insertNext(p, futureNext);
     self->size++;
 }
 
-void * List_remove(List * self, int index) {
+int64 List_remove(List * self, int index) {
     index = betterIndex(self->size, index);
     ListNode * p = ListNode_offset(self->head, index);
-    p = ListNode_fromListHead(ListHead_removeNext(&p->linkage));
+    p = ListNode_removeNext(p);
     self->size--;
-    void * value = p->value;
+    int64 value = ListNode_get(p);
     ListNode_free(p);
     return value;
 }
@@ -100,12 +99,12 @@ void * List_remove(List * self, int index) {
 /**
  * negative for not found
  */
-int List_indexOf(List * self, int start, void * value, compare_f * compare) {
+int List_indexOf(List * self, int start, int64 value, List_comparef * compare) {
     start = betterIndex(self->size, start);
     start = start >= 0 ? start + 1 : start;
     ListNode * p = ListNode_offset(self->head, start);
     while (p != NULL && p != self->head) {
-        if (compare(p->value, value) == 0) {
+        if (compare(ListNode_get(p), value) == 0) {
             return start;
         }
         p = ListNode_offset(p, 1);
