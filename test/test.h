@@ -5,4 +5,6 @@ void testSort();
 
 void testList();
 
+void testHashMap();
+
 #endif
