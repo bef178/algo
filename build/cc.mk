@@ -20,7 +20,7 @@ $(info goal [$(MAKECMDGOALS)], target file [$(TARGET_FILE)])
 
 ########
 
-OBJECT_FILES := $(patsubst $(SRC)/%.c,$(OUT)/%.o,$(SOURCE_FILES))
+OBJECT_FILES := $(patsubst %.c,$(OUT)/%.o,$(SOURCE_FILES))
 
 CC := gcc
 CCFLAGS = -std=c99 -Werror $(addprefix -include ,$(HEADER_FILES))
@@ -47,7 +47,7 @@ o: $(OBJECT_FILES)
 .PHONY: obj
 obj: $(OBJECT_FILES)
 
-$(OUT)/%.o: $(SRC)/%.c $(HEADER_FILES)
+$(OUT)/%.o: %.c $(HEADER_FILES)
 	@echo "compiling [$@] ..."
 	@-mkdir -p $(@D)
 	@$(CC) $(CCFLAGS) -c $< -o $@
