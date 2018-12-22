@@ -8,11 +8,12 @@ typedef void (sort_f)(int * a, int l, int r);
 
 void isort(int * a, int l, int r);
 void isort1(int * a, int l, int r);
-void isort2(int * a, int l, int r);
 
 void ssort(int * a, int l, int r);
 
 void BubbleSort_sort(int * a, int l, int r);
+
+void HeapSort_sort(int * a, int l, int r);
 
 void MergeSort_sort(int * a, int l, int r);
 
