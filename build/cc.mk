@@ -13,8 +13,8 @@ include $(BUILD)/util.mk
 
 ########
 
-HEADER_FILES := $(call find-files-h, $(SRC))
-SOURCE_FILES := $(call find-files-c, $(SRC))
+HEADER_FILES := $(foreach D,$(SRC),$(call find-files-h,$(D)))
+SOURCE_FILES := $(foreach D,$(SRC),$(call find-files-c,$(D)))
 
 $(info goal [$(MAKECMDGOALS)], target file [$(TARGET_FILE)])
 

@@ -1,12 +1,11 @@
-#ifndef _INCLUDED_PRIMITIVE
-#define _INCLUDED_PRIMITIVE
+#ifndef _INCLUDED_PREDEFINED
+#define _INCLUDED_PREDEFINED
 
 #include <stdint.h>
 
 typedef int16_t int16;
 typedef int32_t int32;
 typedef int64_t int64;
-// #define int int32;
 
 typedef int8_t byte;
 
@@ -22,8 +21,7 @@ typedef _Bool boolean;
 
 typedef float float32;
 typedef double float64;
-// #define float float32
 
 #define null    ((void *) 0)
 
-#endif /* _INCLUDED_PRIMITIVE */
+#endif // _INCLUDED_PREDEFINED
