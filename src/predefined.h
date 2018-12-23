@@ -24,4 +24,6 @@ typedef double float64;
 
 #define null    ((void *) 0)
 
+#define NUL     ('\0')
+
 #endif // _INCLUDED_PREDEFINED
