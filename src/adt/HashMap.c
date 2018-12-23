@@ -25,14 +25,8 @@ static int alignCapacity(int requiredCapacity) {
     return capacity;
 }
 
-// defends against poor quality hash function, from jdk6
-static int64 rehash(int64 hashCode) {
-    hashCode ^= (hashCode >> 20) ^ (hashCode >> 12);
-    return hashCode ^ (hashCode >> 7) ^ (hashCode >> 4);
-}
-
 static List * findSlot(HashMap * self, int64 key) {
-    int64 hashCode = self->hashKey(key);
+    word hashCode = self->hashKey(key);
     hashCode = rehash(hashCode) & (self->capacity - 1);
     return self->slots[hashCode];
 }

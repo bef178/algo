@@ -5,7 +5,7 @@ typedef struct HashMap HashMap;
 
 typedef int (HashMap_comparef)(int64, int64);
 
-typedef int (HashMap_hashf)(int64);
+typedef word (HashMap_hashf)(int64);
 
 HashMap * HashMap_malloc(int capacity, HashMap_comparef * compare, HashMap_hashf * hash);
 

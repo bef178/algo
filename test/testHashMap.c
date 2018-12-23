@@ -5,7 +5,7 @@ static int compare(int64 key1, int64 key2) {
     return key1 - key2;
 }
 
-static int hash(int64 key) {
+static word hash(int64 key) {
     return key;
 }
 
