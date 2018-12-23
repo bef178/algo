@@ -1,5 +1,3 @@
-#include <stdio.h>
-
 int indexOfMax(int * a, int l, int r) {
     int max = l;
     for (int i = l + 1; i < r; i++) {
