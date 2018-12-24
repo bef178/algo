@@ -7,4 +7,6 @@ void testList();
 
 void testHashMap();
 
+void testWildcard();
+
 #endif
