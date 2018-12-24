@@ -6,6 +6,7 @@
  */
 typedef int (search_f)(int * a, int l, int r, int v);
 
+extern search_f * const BinarySearch_search;
 extern search_f * const BinarySearch_upperBound;
 extern search_f * const BinarySearch_lowerBound;
 

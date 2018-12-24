@@ -1,7 +1,7 @@
 /**
  * return the 1st index of @v
  */
-int BinarySearch_search(int * a, int l, int r, int v) {
+static int search(int * a, int l, int r, int v) {
     r--;
     while (l <= r) {
         int m = l + (r - l) / 2;
@@ -44,5 +44,6 @@ static int lowerBound(int * a, int l, int r, int v) {
     return r;
 }
 
+search_f * const BinarySearch_search = &search;
 search_f * const BinarySearch_upperBound = &upperBound;
 search_f * const BinarySearch_lowerBound = &lowerBound;
