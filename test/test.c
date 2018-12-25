@@ -5,5 +5,7 @@ int main() {
 
     testWildcard();
 
+    testEditDistance();
+
     return 0;
 }

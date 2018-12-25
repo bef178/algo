@@ -9,4 +9,6 @@ void testHashMap();
 
 void testWildcard();
 
+void testEditDistance();
+
 #endif
