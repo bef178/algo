@@ -4,6 +4,8 @@
  */
 
 #include <assert.h>
+#include <stdlib.h>
+#include <string.h>
 
 static int min(int i, int j) {
     return i <= j ? i : j;
@@ -108,6 +110,7 @@ byte * Palindrome_find(byte * a, int l, int r) {
 void testPadindrome() {
     byte * test1 = "ccccbaabbaabcac";
     byte * test2 = "ab";
-    byte * sub = Palindrome_manacher(test1);
+    byte * sub = Palindrome_manacher(test1, 0, strlen(test1));
     printf("%s\n", sub);
+    free(sub);
 }
