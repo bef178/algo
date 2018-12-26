@@ -3,14 +3,8 @@
 
 #include "BinaryTreeNode.h"
 
-typedef struct BinaryTree BinaryTree;
+void BinaryTree_free(BinaryTreeNode * root);
 
-BinaryTree * BinaryTree_malloc();
-
-void BinaryTree_free(BinaryTree * self);
-
-void BinaryTree_setRoot(BinaryTree * self, BinaryTreeNode * root);
-
-int BinaryTree_depth(BinaryTree * self);
+int BinaryTree_depth(BinaryTreeNode * root);
 
 #endif
