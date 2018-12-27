@@ -11,4 +11,6 @@ void testWildcard();
 
 void testEditDistance();
 
+void testConvertBinaryTreeToLinkedList();
+
 #endif

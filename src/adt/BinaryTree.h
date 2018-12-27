@@ -7,4 +7,6 @@ void BinaryTree_free(BinaryTreeNode * root);
 
 int BinaryTree_depth(BinaryTreeNode * root);
 
+void BinaryTree_print(BinaryTreeNode * root);
+
 #endif

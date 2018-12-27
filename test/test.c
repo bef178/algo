@@ -7,5 +7,7 @@ int main() {
 
     testEditDistance();
 
+    testConvertBinaryTreeToLinkedList();
+
     return 0;
 }

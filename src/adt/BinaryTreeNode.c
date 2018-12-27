@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <stdlib.h>
 
 BinaryTreeNode * BinaryTreeNode_malloc(int64 value) {
@@ -46,4 +47,22 @@ void BinaryTreeNode_enlinkR(BinaryTreeNode * self,
     if (futureNode != NULL) {
         futureNode->parent = self;
     }
+}
+
+void BinaryTreeNode_print(BinaryTreeNode * self) {
+    if (self == NULL) {
+        return;
+    }
+    printf("%ld:", self->value);
+    if (self->l == NULL) {
+        printf("?,");
+    } else {
+        printf("%ld,", self->l->value);
+    }
+    if (self->r == NULL) {
+        printf("?");
+    } else {
+        printf("%ld", self->r->value);
+    }
+    printf("\n");
 }

@@ -17,3 +17,12 @@ int BinaryTree_depth(BinaryTreeNode * root) {
     int depthR = BinaryTree_depth(root->r);
     return (depthL >= depthR ? depthL : depthR) + 1;
 }
+
+void BinaryTree_print(BinaryTreeNode * root) {
+    if (root == NULL) {
+        return;
+    }
+    BinaryTreeNode_print(root);
+    BinaryTree_print(root->l);
+    BinaryTree_print(root->r);
+}

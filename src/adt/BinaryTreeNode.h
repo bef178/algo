@@ -16,4 +16,6 @@ void BinaryTreeNode_enlinkL(BinaryTreeNode * self, BinaryTreeNode * futureNode);
 
 void BinaryTreeNode_enlinkR(BinaryTreeNode * self, BinaryTreeNode * futureNode);
 
+void BinaryTreeNode_print(BinaryTreeNode * self);
+
 #endif // _INCLUDED_BINARYTREENODE
