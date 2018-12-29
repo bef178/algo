@@ -23,3 +23,22 @@ int rand(int n) {
         }
     }
 }
+
+/**
+ * 概率平均化
+ */
+
+// return 0 in p, 1 in (1-p)
+int rand2p() {
+    // fake as already provided
+}
+
+int rand2() {
+    int i = rand2p();
+    int j = rand2p();
+    while (true) {
+        if (i + j == 1) {
+            return i;
+        }
+    }
+}
