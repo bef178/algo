@@ -12,13 +12,13 @@ typedef struct Deque {
     int capacity;
     int size;
     int head;
-    int64 slots[0];
+    int64 values[0];
 } Deque;
 
 Deque * Deque_malloc() {
-    const int capacity = 64;
-    Deque * p = calloc(1, sizeof(Deque) + capacity * sizeof(int64));
-    p->capacity = capacity;
+    const int CAPACITY = 64;
+    Deque * p = calloc(1, sizeof(Deque) + CAPACITY * sizeof(int64));
+    p->capacity = CAPACITY;
     return p;
 }
 
@@ -40,6 +40,11 @@ void Deque_clear(Deque * self) {
     self->capacity = capacity;
 }
 
+int64 Deque_get(Deque * deque, int i) {
+    assert(i >= 0 && i < deque->size);
+    return deque->values[i];
+}
+
 int Deque_capacity(Deque * self) {
     return self->capacity;
 }
@@ -52,7 +57,7 @@ void Deque_pushHead(Deque * self, int64 value) {
             self->head += self->capacity;
         }
     }
-    self->slots[self->head] = value;
+    self->values[self->head] = value;
     self->size++;
 }
 
@@ -62,14 +67,14 @@ void Deque_pushTail(Deque * self, int64 value) {
     if (tail >= self->capacity) {
         tail -= self->capacity;
     }
-    self->slots[tail] = value;
+    self->values[tail] = value;
     self->size++;
 }
 
 int64 Deque_pullHead(Deque * self) {
     assert(self->size > 0);
-    int64 value = self->slots[self->head];
-    self->slots[self->head] = 0;
+    int64 value = self->values[self->head];
+    self->values[self->head] = 0;
     self->head++;
     if (self->head >= self->capacity) {
         self->head -= self->capacity;
@@ -84,15 +89,15 @@ int64 Deque_pullTail(Deque * self) {
     if (tail >= self->capacity) {
         tail -= self->capacity;
     }
-    int64 value = self->slots[tail];
-    self->slots[tail] = 0;
+    int64 value = self->values[tail];
+    self->values[tail] = 0;
     self->size--;
     return value;
 }
 
 int64 Deque_peekHead(Deque * self) {
     assert(self->size > 0);
-    return self->slots[self->head];
+    return self->values[self->head];
 }
 
 int64 Deque_peekTail(Deque * self) {
@@ -101,5 +106,5 @@ int64 Deque_peekTail(Deque * self) {
     if (tail >= self->capacity) {
         tail -= self->capacity;
     }
-    return self->slots[tail];
+    return self->values[tail];
 }

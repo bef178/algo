@@ -15,4 +15,6 @@ void testConvertBinaryTreeToLinkedList();
 
 void testCombine();
 
+void testPairParen();
+
 #endif

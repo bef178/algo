@@ -1,6 +1,9 @@
 int main() {
+
     testSort();
+
     testList();
+
     testHashMap();
 
     testWildcard();
@@ -10,6 +13,8 @@ int main() {
     testConvertBinaryTreeToLinkedList();
 
     testCombine();
+
+    testPairParen();
 
     return 0;
 }

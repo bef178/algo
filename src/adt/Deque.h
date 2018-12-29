@@ -17,6 +17,8 @@ boolean Deque_isEmpty(Deque * self);
 
 void Deque_clear(Deque * self);
 
+int64 Deque_get(Deque * self, int i);
+
 int Deque_capacity(Deque * self);
 
 void Deque_pushHead(Deque * self, int64 value);
