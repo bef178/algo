@@ -1,6 +1,32 @@
 #include <assert.h>
 
-static boolean isAcceptableError(float x, float y) {
+// 求非负整数的平方根
+int Sqrt_lowerBound(int c) {
+    assert(c >= 0);
+    for (int n = sizeof(int) * 8 - 1; n >= 0; n--) {
+        if (((1 << n) & c) != 0) {
+            // guess
+            int l = 1 << (n / 2);
+            int r = 1 << (n / 2 + 1);
+            // iteration
+            while (l < r) {
+                int m = l + (r - l) / 2;
+                int t = c / m;
+                if (t == m) {
+                    return t;
+                } else if (t > m) {
+                    l = m + 1;
+                } else {
+                    r = m - 1;
+                }
+            }
+            return r;
+        }
+    }
+    return -1;
+}
+
+static boolean isErrorInRange(float x, float y) {
     float error = x - y;
     if (error < 0) {
         error = -error;
@@ -20,7 +46,7 @@ float bisectionalSqrt(float c) {
         } else {
             l = m;
         }
-        if (isAcceptableError(m, last)) {
+        if (isErrorInRange(m, last)) {
             return m;
         }
         last = m;
@@ -42,7 +68,7 @@ float newtonSqrt(float c) {
     float last = 0.0f; // initial guess
     while (true) {
         float x = (last + c / last) * 0.5f;
-        if (isAcceptableError(x, last)) {
+        if (isErrorInRange(x, last)) {
             return x;
         }
         last = x;
