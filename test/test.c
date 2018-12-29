@@ -14,6 +14,8 @@ int main() {
 
     testCombine();
 
+    testPermute();
+
     testPairParen();
 
     return 0;
