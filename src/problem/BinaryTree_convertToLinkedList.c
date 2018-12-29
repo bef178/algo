@@ -35,7 +35,7 @@ static BinaryTreeNode * inplaceConvert(BinaryTreeNode * root) {
  *
  * use only l-link and r-link
  */
-BinaryTreeNode * BinaryTree_convertToDoubleLinkedList(BinaryTreeNode * root) {
+BinaryTreeNode * BinaryTree_convertToLinkedList(BinaryTreeNode * root) {
     return inplaceConvert(root);
 }
 
@@ -65,6 +65,6 @@ void testConvertBinaryTreeToLinkedList() {
     BinarySearchTree_add(p, 8);
     BinaryTree_print(p);
     printf("\n");
-    p = BinaryTree_convertToDoubleLinkedList(p);
+    p = BinaryTree_convertToLinkedList(p);
     BinaryTree_printAsLinkedList(p);
 }
