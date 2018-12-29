@@ -13,4 +13,6 @@ void testEditDistance();
 
 void testConvertBinaryTreeToLinkedList();
 
+void testCombine();
+
 #endif

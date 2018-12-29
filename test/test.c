@@ -9,5 +9,7 @@ int main() {
 
     testConvertBinaryTreeToLinkedList();
 
+    testCombine();
+
     return 0;
 }
