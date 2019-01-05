@@ -46,7 +46,7 @@ int getEditDistance(byte * s1, int n1, int i1, byte * s2, int n2, int i2) {
         getEditDistance(s1, n1, i1 + 1, s2, n2, i2 + 1) + COST_MODIFY);
 }
 
-int getEditDistance_DP(byte * s1, int n1, byte * s2, int n2) {
+int getEditDistance_dp(byte * s1, int n1, byte * s2, int n2) {
     int cost[n1 + 1][n2 + 1];
     cost[0][0] = 0;
     for (int i = 1; i <= n1; i++) {
@@ -73,8 +73,8 @@ int getEditDistance_DP(byte * s1, int n1, byte * s2, int n2) {
 
 #include <assert.h>
 
-void testEditDistance() {
-    printf("testing edit distance ...\n");
+void testGetEditDistance() {
+    printf("testing getEditDistance ...\n");
     byte * p[][3] = {
         {"aa", "a", "\1"},
         {"aa", "aa", "\0"},
@@ -85,7 +85,7 @@ void testEditDistance() {
     };
     for (int i = 0; i < sizeof(p) / sizeof(p[0]); i++) {
         int d1 = getEditDistance(p[i][0], strlen(p[i][0]), 0, p[i][1], strlen(p[i][1]), 0);
-        int d2 = getEditDistance_DP(p[i][0], strlen(p[i][0]), p[i][1], strlen(p[i][1]));
+        int d2 = getEditDistance_dp(p[i][0], strlen(p[i][0]), p[i][1], strlen(p[i][1]));
         assert(d1 == p[i][2][0]);
         if (d2 != p[i][2][0]) {
             printf("%d %s %ld %s %ld %d\n", i, p[i][0], strlen(p[i][0]), p[i][1], strlen(p[i][1]), d2);

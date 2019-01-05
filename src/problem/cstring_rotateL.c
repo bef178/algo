@@ -13,7 +13,7 @@ static int gcd(int m, int n) {
     return m;
 }
 
-void Cstring_rotateL(byte * a, int l, int r, int m) {
+void str_rotateL(byte * a, int l, int r, int m) {
     int n = r - l;
     int g = gcd(m, n);
     if (g == n) {
@@ -34,10 +34,13 @@ void Cstring_rotateL(byte * a, int l, int r, int m) {
     }
 }
 
+#include <assert.h>
 #include <stdio.h>
+#include <string.h>
 
-void testRotateL() {
+void testCstringRotateL() {
+    printf("testing CstringRotateL ...\n");
     byte a[] = "0123456789";
-    Cstring_rotateL(a, 5, 8, 2);
-    printf("%s\n", a);
+    str_rotateL(a, 5, 8, 2);
+    assert(memcmp("0123475689", a, sizeof(a) / sizeof(byte)) == 0);
 }

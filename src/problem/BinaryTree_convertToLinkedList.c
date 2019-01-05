@@ -52,19 +52,3 @@ void BinaryTree_printAsLinkedList(BinaryTreeNode * head) {
     }
     printf("%ld\n", head->value);
 }
-
-void testConvertBinaryTreeToLinkedList() {
-    printf("testing convertBinaryTreeToLinkedList ...\n");
-    BinaryTreeNode * p = BinaryTreeNode_malloc(4);
-    BinarySearchTree_add(p, 2);
-    BinarySearchTree_add(p, 5);
-    BinarySearchTree_add(p, 1);
-    BinarySearchTree_add(p, 6);
-    BinarySearchTree_add(p, 3);
-    BinarySearchTree_add(p, 7);
-    BinarySearchTree_add(p, 8);
-    BinaryTree_print(p);
-    printf("\n");
-    p = BinaryTree_convertToLinkedList(p);
-    BinaryTree_printAsLinkedList(p);
-}

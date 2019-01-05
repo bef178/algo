@@ -57,7 +57,7 @@ int Catalan_pairParen(int n) {
     return count;
 }
 
-void testPairParen() {
+void testCatalanPairParen() {
     printf("testing Catalan_pairParen ...\n");
     assert(Catalan_pairParen(1) == 1);
     assert(Catalan_pairParen(3) == 5);

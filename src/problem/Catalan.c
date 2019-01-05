@@ -6,14 +6,8 @@
 
 #include <stdlib.h>
 
-#include "Combine.h"
-
-// f(n) = C(2n, n) / (n + 1)
-int Catalan_calculate(int n) {
-    return Combine_calculate(2 * n, n) / (n + 1);
-}
-
 // f(n) = f(0) * f(n - 1) + f(1) * f(n - 2) + ... + f(n - 2) * f(1) + f(n - 1) * f(0)
+// also f(n) = C(2n, n) / (n + 1)
 int Catalan_calculate2(int n) {
     int * a = calloc(n + 1, sizeof(int));
     a[0] = 1;
@@ -35,7 +29,7 @@ int Catalan_calculate2(int n) {
  */
 
 /**
- * n个结点的不同构二叉树数目 <==> n对括号序列
+ * n个结点的异构二叉树数 <==> n对括号的合法序列数
  * 可以想像有n+1个数作为二叉树的叶结点，括起2数即增1内部结点
  * 推导出通项公式即可证明
  */

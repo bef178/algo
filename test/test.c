@@ -1,22 +1,13 @@
 int main() {
 
     testSort();
-
     testList();
-
     testHashMap();
 
-    testWildcard();
-
-    testEditDistance();
-
-    testConvertBinaryTreeToLinkedList();
-
-    testCombine();
-
-    testPermute();
-
-    testPairParen();
+    testCstringRotateL();
+    testGetEditDistance();
+    testPermutation();
+    testCatalanPairParen();
 
     return 0;
 }

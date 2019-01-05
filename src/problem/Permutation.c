@@ -15,7 +15,7 @@ static void swapByte(byte * a, int i, int j) {
     a[i] ^= a[j];
 }
 
-int Permute_calculate(int n, int m) {
+int Permutation_calculate(int n, int m) {
     assert(m >= 0 && n >= m);
     int p = 1;
     for (int i = n; i > n - m; i--) {
@@ -28,7 +28,7 @@ int Permute_calculate(int n, int m) {
  * Problem: Next Permutation
  * re-arranges numbers lexicographically into next greater permutation of numbers
  */
-void Permute_nextPermutation(byte * a, int n) {
+void Permutation_nextPermutation(byte * a, int n) {
     // starting from right, find the first a[k] < a[k + 1]
     int k = -1;
     for (int i = n - 2; i >= 0; i--) {
@@ -69,7 +69,7 @@ static int getAvailable(byte * alphabet, int n, byte * used, int j) {
 /**
  * Given alphabet and index, find the permutation
  */
-void Permute_fromIndex(byte * alphabet, int n, int index, byte * dst) {
+void Permutation_toPermutation(byte * alphabet, int n, int index, byte * dst) {
     byte * used = calloc(n, sizeof(byte));
     for (int i = 0; i < n; i++) {
         int fi = factorial(n - 1 - i);
@@ -99,7 +99,7 @@ static int printAll2(int n, int m, byte * alphabet, byte * used, byte * dst, int
     return count;
 }
 
-void Permute_printAll2(byte * alphabet, int n, int m) {
+void Permutation_printAll2(byte * alphabet, int n, int m) {
     byte * dst = malloc(m + 1);
     dst[m] = NUL;
     byte * used = calloc(n, sizeof(byte));
@@ -110,24 +110,20 @@ void Permute_printAll2(byte * alphabet, int n, int m) {
 
 #include <string.h>
 
-void testPermute() {
-    printf("testing permute ...\n");
+void testPermutation() {
+    printf("testing Permutation ...\n");
 
     byte p[] = "12345";
 
-    Permute_fromIndex("12345", 5, 4, p);
-    printf("12345 index 4: %s\n", p);
+    Permutation_toPermutation("12345", 5, 4, p);
+    assert(strncmp("12534", p, 5) == 0);
 
-    Permute_fromIndex("12345", 5, 89, p);
-    printf("12345 index 89: %s\n", p);
+    Permutation_toPermutation("12345", 5, 89, p);
+    assert(strncmp("43521", p, 5) == 0);
 
-    printf("%s next: ", p);
-    Permute_nextPermutation(p, strlen(p));
-    printf("%s\n", p);
+    Permutation_nextPermutation(p, strlen(p));
+    assert(strncmp("45123", p, 5) == 0);
 
-    Permute_fromIndex("12345", 5, 90, p);
-    printf("12345 index 90: %s\n", p);
-
-    byte * alphabet = "abcd";
-    Permute_printAll2(alphabet, strlen(alphabet), 2);
+    Permutation_toPermutation("12345", 5, 90, p);
+    assert(strncmp("45123", p, 5) == 0);
 }

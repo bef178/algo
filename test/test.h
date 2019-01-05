@@ -2,21 +2,12 @@
 #define _INCLUDED_TEST
 
 void testSort();
-
 void testList();
-
 void testHashMap();
 
-void testWildcard();
-
-void testEditDistance();
-
-void testConvertBinaryTreeToLinkedList();
-
-void testCombine();
-
-void testPermute();
-
-void testPairParen();
+void testCstringRotateL();
+void testGetEditDistance();
+void testPermutation();
+void testCatalanPairParen();
 
 #endif

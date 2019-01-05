@@ -8,7 +8,7 @@
  * k = (p[i] * pow(2, 17-i)) % 11
  */
 
-int checksum(const char * p) {
+int getIdChecksum(const char * p) {
     int k = 0;
     for (int i = 0; i < 17; i++) {
         k += (p[i] - '0') * (1 << (17 - i));
@@ -21,8 +21,8 @@ int checksum(const char * p) {
 #include <assert.h>
 #include <stdio.h>
 
-void testChecksum() {
+void testGetIdChecksum() {
     char * p = "110108194910010014"; // 北京海淀
-    assert(p[17] == checksum(p));
-    printf("%s %c\n", p, checksum(p));
+    assert(p[17] == getIdChecksum(p));
+    printf("%s %c\n", p, getIdChecksum(p));
 }
