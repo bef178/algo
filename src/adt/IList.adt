@@ -1,0 +1,18 @@
+adt IList {
+
+    clear();
+
+    size();
+
+    isEmpty();
+
+    get(index);
+
+    set(index, value);
+
+    insert(index, value);
+
+    remove(index);
+
+    indexOf(startIndex, value);
+};
