@@ -9,23 +9,15 @@
  *      x. add forward declaration of non-interface function
  */
 
+#include <assert.h>
 #include <stdlib.h>
 
 ListHead * ListHead_malloc() {
-    return (ListHead *) calloc(1, sizeof(ListHead));
+    return calloc(1, sizeof(ListHead));
 }
 
 void ListHead_free(ListHead * self) {
     free(self);
-}
-
-ListHead * ListHead_delinkNext(ListHead * self) {
-    ListHead * ofNext = self->next;
-    if (ofNext != NULL) {
-        self->next = NULL;
-        ofNext->prev = NULL;
-    }
-    return ofNext;
 }
 
 void ListHead_enlinkNext(ListHead * self, ListHead * futureNext) {
@@ -37,31 +29,33 @@ void ListHead_enlinkNext(ListHead * self, ListHead * futureNext) {
     }
 }
 
-void ListHead_insertNext(ListHead * self, ListHead * futureNext) {
-    // assert futureNext != null;
-    ListHead * ofNext = ListHead_delinkNext(self);
-    ListHead_enlinkNext(self, futureNext);
-    ListHead_enlinkNext(futureNext, ofNext);
-}
-
-ListHead * ListHead_removeNext(ListHead * self) {
-    ListHead * ofNext = self->next;
-    if (ofNext != NULL) {
-        ListHead_enlinkNext(self, ListHead_delinkNext(ofNext));
+/**
+ * return delinked node
+ */
+ListHead * ListHead_delinkNext(ListHead * self) {
+    ListHead * p = self->next;
+    if (p != NULL) {
+        self->next = NULL;
+        p->prev = NULL;
     }
-    return ofNext;
+    return p;
 }
 
-ListHead * ListHead_offset(ListHead * self, int offset) {
-    ListHead * p = self;
-    if (offset >= 0) {
-        while (offset-- > 0 && p != NULL) {
-            p = p->next;
-        }
-    } else {
-        while (offset++ < 0 && p != NULL) {
-            p = p->prev;
-        }
+void ListHead_insertNext(ListHead * self, ListHead * futureNext) {
+    assert(futureNext != NULL);
+    // assert futureNext->next == null && futureNext->prev == null;
+    ListHead * p = ListHead_delinkNext(self);
+    ListHead_enlinkNext(self, futureNext);
+    ListHead_enlinkNext(futureNext, p);
+}
+
+/**
+ * return removed node
+ */
+ListHead * ListHead_removeNext(ListHead * self) {
+    ListHead * p = self->next;
+    if (p != NULL) {
+        ListHead_enlinkNext(self, ListHead_delinkNext(p));
     }
     return p;
 }

@@ -16,14 +16,12 @@ ListHead * ListHead_malloc();
 
 void ListHead_free(ListHead * self);
 
-ListHead * ListHead_delinkNext(ListHead * self);
-
 void ListHead_enlinkNext(ListHead * self, ListHead * futureNext);
+
+ListHead * ListHead_delinkNext(ListHead * self);
 
 void ListHead_insertNext(ListHead * self, ListHead * futureNext);
 
 ListHead * ListHead_removeNext(ListHead * self);
-
-ListHead * ListHead_offset(ListHead * self, int offset);
 
 #endif // _INCLUDED_LISTHEAD

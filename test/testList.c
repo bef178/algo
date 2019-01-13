@@ -36,8 +36,8 @@ void testListNode() {
     ListNode * next = ListNode_malloc(a[1]);
 
     ListNode_insertNext(p, next);
-    p = ListNode_offset(p, 1);
-    assert(ListNode_get(p) == a[1]);
+    p = p->next;
+    assert(p->value == a[1]);
 }
 
 void testList() {

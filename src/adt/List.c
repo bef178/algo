@@ -61,19 +61,32 @@ boolean List_isEmpty(List * self) {
     return List_size(self) == 0;
 }
 
+static ListNode * ListNode_offset(ListNode * head, int offset) {
+    if (offset >= 0) {
+        while (head != NULL && offset-- > 0) {
+            head = head->next;
+        }
+    } else {
+        while (head != NULL && offset++ < 0) {
+            head = head->prev;
+        }
+    }
+    return head;
+}
+
 int64 List_get(List * self, int index) {
     index = betterIndex(self->size, index);
     index = index >= 0 ? index + 1 : index;
     ListNode * p = ListNode_offset(self->head, index);
-    return ListNode_get(p);
+    return p->value;
 }
 
 int64 List_set(List * self, int index, int64 value) {
     index = betterIndex(self->size, index);
     index = index >= 0 ? index + 1 : index;
     ListNode * p = ListNode_offset(self->head, index);
-    int64 old = ListNode_get(p);
-    ListNode_set(p, value);
+    int64 old = p->value;
+    p->value = value;
     return old;
 }
 
@@ -91,7 +104,7 @@ int64 List_remove(List * self, int index) {
     ListNode * p = ListNode_offset(self->head, index);
     p = ListNode_removeNext(p);
     self->size--;
-    int64 value = ListNode_get(p);
+    int64 value = p->value;
     ListNode_free(p);
     return value;
 }
@@ -104,7 +117,7 @@ int List_indexOf(List * self, int start, int64 value, List_comparef * compare) {
     start = start >= 0 ? start + 1 : start;
     ListNode * p = ListNode_offset(self->head, start);
     while (p != NULL && p != self->head) {
-        if (compare(ListNode_get(p), value) == 0) {
+        if (compare(p->value, value) == 0) {
             return start;
         }
         p = ListNode_offset(p, 1);
