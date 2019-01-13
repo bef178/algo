@@ -1,13 +1,11 @@
 #ifndef _INCLUDED_HASHMAP
 #define _INCLUDED_HASHMAP
 
+#include "Int64.h"
+
 typedef struct HashMap HashMap;
 
-typedef int (HashMap_comparef)(int64, int64);
-
-typedef word (HashMap_hashf)(int64);
-
-HashMap * HashMap_malloc(int capacity, HashMap_comparef * compare, HashMap_hashf * hash);
+HashMap * HashMap_malloc(int capacity, Int64_comparef * compareKey);
 
 void HashMap_free(HashMap * self);
 
@@ -15,7 +13,7 @@ void HashMap_clear(HashMap * self);
 
 int HashMap_size(HashMap * self);
 
-boolean HashMap_contains(HashMap * self, int64 key);
+boolean HashMap_containsKey(HashMap * self, int64 key);
 
 void * HashMap_get(HashMap * self, int64 key);
 
