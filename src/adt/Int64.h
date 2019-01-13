@@ -3,4 +3,6 @@
 
 typedef int (Int64_comparef)(int64, int64);
 
+int int64compare(int64, int64);
+
 #endif // _INCLUDED_INT64

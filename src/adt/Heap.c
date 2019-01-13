@@ -4,22 +4,23 @@
  * since 2009-09-01
  */
 
+#include <assert.h>
 #include <stdlib.h>
 
 typedef struct Heap {
-    Heap_comparef * compare;
+    Int64_comparef * compare;
     int capacity;
     int size;
     int64 values[0];
 } Heap;
 
-Heap * Heap_malloc(int capacity, Heap_comparef * compare) {
-    // assert capacity > 0;
-    // assert compare != null;
-    Heap * self = calloc(1, sizeof(Heap) + capacity * sizeof(int64));
-    self->compare = compare;
-    self->capacity = capacity;
-    return self;
+Heap * Heap_malloc(int capacity, Int64_comparef * compare) {
+    assert(capacity > 0);
+    assert(compare != NULL);
+    Heap * heap = calloc(1, sizeof(Heap) + capacity * sizeof(int64));
+    heap->compare = compare;
+    heap->capacity = capacity;
+    return heap;
 }
 
 void Heap_free(Heap * self) {
