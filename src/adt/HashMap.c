@@ -26,7 +26,7 @@ static int alignCapacity(int requiredCapacity) {
 }
 
 static ListNode * findSlot(HashMap * self, int64 key) {
-    int64 hashCode = rehash(key);
+    word hashCode = Hash_rehash((word) key);
     return self->slots[hashCode % self->capacity];
 }
 
