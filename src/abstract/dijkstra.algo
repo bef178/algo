@@ -1,0 +1,56 @@
+/**
+ * 单源最短路径 Dijkstra's algorithm
+ *
+ * 贪婪：每次扩展一个离源点最近的、未被扩展的点
+ * O(n^2)
+ *
+ * since 2011-08-25
+ */
+
+输入 图G(顶点集V, 边集E), 源点s;
+
+输出 s到图中各点的最短距离
+
+1. (init)
+    unreachedSet = copy V;
+    reachedSet = {};
+    settledSet = {};
+
+    unreachedSet.remove(s);
+    reachedSet.add(s);
+    s.cost = 0;
+    s.from = null;
+
+2. (body)
+    while (!reachedSet.isEmpty()) {
+        v = vi in reachedSet where vi has min cost
+        reachedSet.remove(v);
+        settledSet.add(v);
+
+        for e in E where e.getFrom() == v {
+            w = e.getTo();
+            if (settledSet.contains(w)) {
+                continue;
+            }
+            if (reachedSet.contains(w)) {
+                if (w.cost > v.cost + e.getWeight()) {
+                    w.cost = v.cost + e.getWeight();
+                    w.from = v;
+                }
+            } else {
+                unreachedSet.remove(w);
+                reachedSet.add(w);
+                w.cost = v.cost + e.getWeight();
+                w.from = v;
+            }
+        }
+    }
+
+3. (output)
+    for v in settledSet {
+        print v.cost;
+        for (w = v; w != null; w = w.from) {
+             print w;
+        }
+        print ln
+    }
