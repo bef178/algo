@@ -9,7 +9,7 @@
 /**
  * dynamic-programming: O(n)
  */
-int getMaxSumOfSubarray_dp(int * a, int l, int r) {
+int Subarray_getMaxSubarraySum(int * a, int l, int r) {
     int sum = INT_MIN;
     int partialSum = INT_MIN;
     for (int i = l; i < r; ++i) {
@@ -28,7 +28,7 @@ int getMaxSumOfSubarray_dp(int * a, int l, int r) {
 /**
  * divide-and-conquer: O(n*logn)
  */
-int getMaxSumOfSubarray_dc(int * a, int l, int r) {
+int Subarray_getMaxSubarraySum2(int * a, int l, int r) {
     if (l > r - 1) {
         return -1;
     } else if (l == r - 1) {
@@ -59,12 +59,12 @@ int getMaxSumOfSubarray_dc(int * a, int l, int r) {
         sum = s1 + s2;
     }
 
-    int sumL = getMaxSumOfSubarray_dc(a, l, m);
+    int sumL = Subarray_getMaxSubarraySum2(a, l, m);
     if (sumL > sum) {
         sum = sumL;
     }
 
-    int sumR = getMaxSumOfSubarray_dc(a, m, r);
+    int sumR = Subarray_getMaxSubarraySum2(a, m, r);
     if (sumR > sum) {
         sum = sumR;
     }

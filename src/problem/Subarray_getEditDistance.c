@@ -27,26 +27,28 @@ static const int COST_INSERT = 1;
 static const int COST_REMOVE = 1;
 static const int COST_MODIFY = 1;
 
-int getEditDistance(byte * s1, int n1, int i1, byte * s2, int n2, int i2) {
+int Subarray_getEditDistance(byte * s1, int l1, int r1, byte * s2, int l2, int r2) {
     const int COST_INS_OR_DEL = COST_INSERT <= COST_REMOVE ? COST_INSERT : COST_REMOVE;
-    while (i1 < n1 && i2 < n2 && s1[i1] == s2[i2]) {
-        i1++;
-        i2++;
+    while (l1 < r1 && l2 < r2 && s1[l1] == s2[l2]) {
+        l1++;
+        l2++;
     }
 
-    if (i1 == n1) {
-        return (n2 - i2) * COST_INS_OR_DEL;
-    } else if (i2 == n2) {
-        return (n1 - i1) * COST_INS_OR_DEL;
+    if (l1 == r1) {
+        return (r2 - l2) * COST_INS_OR_DEL;
+    } else if (l2 == r2) {
+        return (r1 - l1) * COST_INS_OR_DEL;
     }
 
     return min(
-        getEditDistance(s1, n1, i1 + 1, s2, n2, i2) + COST_REMOVE, // remove s1[i1] from s1
-        getEditDistance(s1, n1, i1, s2, n2, i2 + 1) + COST_INSERT, // insert s2[i2] into s1
-        getEditDistance(s1, n1, i1 + 1, s2, n2, i2 + 1) + COST_MODIFY);
+        Subarray_getEditDistance(s1, l1 + 1, r1, s2, l2, r2) + COST_REMOVE, // remove s1[l1] from s1
+        Subarray_getEditDistance(s1, l1, r1, s2, l2 + 1, r2) + COST_INSERT, // insert s2[l2] into s1
+        Subarray_getEditDistance(s1, l1 + 1, r1, s2, l2 + 1, r2) + COST_MODIFY);
 }
 
-int getEditDistance_dp(byte * s1, int n1, byte * s2, int n2) {
+int Subarray_getEditDistance2(byte * s1, int l1, int r1, byte * s2, int l2, int r2) {
+    int n1 = r1 - l1;
+    int n2 = r2 - l2;
     int cost[n1 + 1][n2 + 1];
     cost[0][0] = 0;
     for (int i = 1; i <= n1; i++) {
@@ -73,8 +75,8 @@ int getEditDistance_dp(byte * s1, int n1, byte * s2, int n2) {
 
 #include <assert.h>
 
-void testGetEditDistance() {
-    printf("testing getEditDistance ...\n");
+void testSubarrayGetEditDistance() {
+    printf("testing Subarray_getEditDistance ...\n");
     byte * p[][3] = {
         {"aa", "a", "\1"},
         {"aa", "aa", "\0"},
@@ -84,8 +86,8 @@ void testGetEditDistance() {
         {"a", "b*", "\2"},
     };
     for (int i = 0; i < sizeof(p) / sizeof(p[0]); i++) {
-        int d1 = getEditDistance(p[i][0], strlen(p[i][0]), 0, p[i][1], strlen(p[i][1]), 0);
-        int d2 = getEditDistance_dp(p[i][0], strlen(p[i][0]), p[i][1], strlen(p[i][1]));
+        int d1 = Subarray_getEditDistance(p[i][0], 0, strlen(p[i][0]), p[i][1], 0, strlen(p[i][1]));
+        int d2 = Subarray_getEditDistance2(p[i][0], 0, strlen(p[i][0]), p[i][1], 0, strlen(p[i][1]));
         assert(d1 == p[i][2][0]);
         if (d2 != p[i][2][0]) {
             printf("%d %s %ld %s %ld %d\n", i, p[i][0], strlen(p[i][0]), p[i][1], strlen(p[i][1]), d2);

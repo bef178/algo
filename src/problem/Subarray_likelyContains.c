@@ -1,7 +1,3 @@
-/**
- * likelihood String.contains()
- */
-
 #include <assert.h>
 
 static int onePassHashMod(int last, int ch, int seed, int m) {
@@ -23,7 +19,16 @@ static int powMod(int x, int n, int m) {
     return result;
 }
 
-int String_contains(byte * s, int sn, byte * p, int pn) {
+/**
+ * "likely" contains() via iterable hash function
+ * return false for definitely not contains, true for much likely contains
+ */
+int Subarray_likelyContains(byte * s, int sl, int sr, byte * p, int pl, int pr) {
+    s += sl;
+    int sn = sr - sl;
+    p += pl;
+    int pn = pr - pl;
+
     const int seed = 233;
     const int m = 31;
 

@@ -5,8 +5,9 @@ void testSort();
 void testList();
 void testHashMap();
 
-void testCstringRotateL();
-void testGetEditDistance();
+void testSubarrayGetEditDistance();
+void testSubarrayRemoveByte();
+void testSubarrayRotateL();
 void testPermutation();
 void testCatalanPairParen();
 

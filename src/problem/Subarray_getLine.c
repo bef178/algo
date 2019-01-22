@@ -1,58 +1,60 @@
 #include <assert.h>
 
 /**
- * read one line from @src to @dst
- * read at most @n bytes
- * always copy line terminators
- * return number of actual bytes copied
+ * a[l,r)
+ * line terminators are any of CR LF, CR, LF, or EOF.
+ * return the next index of line terminator, could be @r
  */
-int getLine(byte * dst, const byte * src, const int n) {
-    assert(dst != NULL);
-    assert(src != NULL);
-    assert(n >= 0);
+int Subarray_getLine(const byte * s, int l, int r) {
+    assert(s != NULL);
+    assert(l >= 0);
+    assert(r >= l);
 
     int stat = 0;
-    byte * dst1 = dst + n;
-    while (dst < dst1) {
+    int i = l;
+    int j = l; // end of "trimmed" data
+    while (i < r) {
         switch (stat) {
-            case 0: {
-                int ch = *src++;
+            case 0: { // not meet a terminator
+                int ch = *s++;
                 switch (ch) {
                     case CR:
                         stat = 1;
-                        *dst++ = ch;
+                        j = i++;
                         break;
                     case LF:
                         stat = 2;
-                        *dst++ = ch;
+                        j = i++;
                         break;
                     case EOF:
                         stat = 2;
-                        src--;
+                        j = i;
                         break;
                     default:
-                        *dst++ = ch;
+                        i++;
                         break;
                 }
                 break;
             }
-            case 1: {
-                int ch = *src++;
+            case 1: { // meet CR
+                int ch = *s++;
                 switch (ch) {
                     case LF:
                         stat = 2;
-                        *dst++ = ch;
+                        i++;
                         break;
                     default:
-                        src--;
                         stat = 2;
                         break;
                 }
                 break;
             }
             case 2: {
-                return dst - (dst1 - n);
+                r = i; // trick to break loop
+                break;
             }
         }
     }
+    // XXX take use of @j
+    return i;
 }

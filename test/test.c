@@ -4,8 +4,9 @@ int main() {
     testList();
     testHashMap();
 
-    testCstringRotateL();
-    testGetEditDistance();
+    testSubarrayGetEditDistance();
+    testSubarrayRemoveByte();
+    testSubarrayRotateL();
     testPermutation();
     testCatalanPairParen();
 
