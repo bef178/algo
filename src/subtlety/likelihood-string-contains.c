@@ -48,5 +48,3 @@ int String_contains(byte * s, int sn, byte * p, int pn) {
     }
     return -1;
 }
-
-int main() {}
