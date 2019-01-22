@@ -18,11 +18,4 @@ int getIdChecksum(const char * p) {
     return c[k];
 }
 
-#include <assert.h>
-#include <stdio.h>
-
-void testGetIdChecksum() {
-    char * p = "110108194910010014"; // 北京海淀
-    assert(p[17] == getIdChecksum(p));
-    printf("%s %c\n", p, getIdChecksum(p));
-}
+// "110108194910010014"; // 北京海淀
