@@ -6,7 +6,7 @@
 
 #include <stdlib.h>
 
-ListHead * SingleLinkedList_reverse(ListHead * p) {
+ListHead * LinkedList_reverse(ListHead * p) {
     if (p == NULL) {
         return NULL;
     }

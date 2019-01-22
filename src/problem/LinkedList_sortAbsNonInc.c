@@ -4,7 +4,7 @@
 
 #include <stdlib.h>
 
-static ListNode * sortAbsNonIncreasinglyList(ListNode * head) {
+ListNode * LinkedList_sortAbsNonInc(ListNode * head) {
     if (head == NULL) {
         return head;
     }
@@ -35,7 +35,7 @@ static ListNode * sortAbsNonIncreasinglyList(ListNode * head) {
     return newHead;
 }
 
-static ListNode * sortAbsNonIncreasinglyList2(ListNode * head) {
+ListNode * LinkedList_sortAbsNonInc2(ListNode * head) {
     if (head == NULL) {
         return NULL;
     }
@@ -63,5 +63,3 @@ static ListNode * sortAbsNonIncreasinglyList2(ListNode * head) {
 // 5, -5, 5*, -5*, 4, 3, -2
 // 5, 4, 3, 2
 // -5, -4, -3, -2
-void testSortAbsNonIncreasinglyList() {
-}
