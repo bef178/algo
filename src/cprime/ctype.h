@@ -1,5 +1,5 @@
-#ifndef _INCLUDED_CCH
-#define _INCLUDED_CCH
+#ifndef _INCLUDED_CTYPE
+#define _INCLUDED_CTYPE
 
 #define HT 0x09
 #define LF 0x0a
@@ -18,4 +18,4 @@ int toLower(int ch);
 
 int toUpper(int ch);
 
-#endif // _INCLUDED_CCH
+#endif // _INCLUDED_CTYPE
