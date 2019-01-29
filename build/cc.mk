@@ -1,58 +1,53 @@
 ##
-# makefile for cc
+# for c
 #
 
-TOP := .
-BUILD := $(TOP)/build
-OUT := $(TOP)/out
-ifndef SRC
-SRC := $(TOP)/src
-endif
+BUILD := $(shell dirname $(lastword $(MAKEFILE_LIST)))
+BUILD := $(patsubst ./%,%,$(BUILD))
 
-include $(BUILD)/util.mk
+include $(BUILD)/utility.mk
 
 ########
 
-HEADER_FILES := $(foreach D,$(SRC),$(call find-files-h,$(D)))
-SOURCE_FILES := $(foreach D,$(SRC),$(call find-files-c,$(D)))
+$(call check-var,SRC)
+$(call check-var,OUT)
 
-$(info goal [$(MAKECMDGOALS)], target file [$(TARGET_FILE)])
+HEADER_FILES := $(foreach D,$(SRC),$(call find-h-files,$(D)))
+
+SOURCE_FILES := $(foreach D,$(SRC),$(call find-c-files,$(D)))
+
+# keep paths, in case of same basenames in different directories
+OBJECT_FILES := $(patsubst %.c,$(OUT)/%.o,$(patsubst ./%,%,$(SOURCE_FILES)))
 
 ########
-
-OBJECT_FILES := $(patsubst %.c,$(OUT)/%.o,$(SOURCE_FILES))
 
 CC := gcc
 CCFLAGS = -std=c99 -Werror $(addprefix -include ,$(HEADER_FILES))
 
-.PHONY: dummy
-dummy:
-
-.PHONY: out
-out: $(OBJECT_FILES)
-	@echo "linking [$(TARGET_FILE)] ..."
-	@-mkdir -p $(shell dirname $(TARGET_FILE))
-	@$(CC) $(CCFLAGS) -o $(TARGET_FILE) $^
-
-.PHONY: a
-a: $(OBJECT_FILES)
-	@echo "archiving [$(TARGET_FILE)] ..."
-	@ar cr $(TARGET_FILE) $^
-
-.PHONY: o
-o: $(OBJECT_FILES)
-	@echo "linking [$(TARGET_FILE)] ..."
-	@ld -r $^ -o $(TARGET_FILE)
-
 .PHONY: obj
 obj: $(OBJECT_FILES)
+
+.PHONY: check-OUT_FILE
+check-OUT_FILE:
+	@$(call check-var,OUT_FILE)
+
+.PHONY: out
+out: check-OUT_FILE $(OBJECT_FILES)
+	@echo "linking [$(OUT_FILE)] ..."
+	@-mkdir -p $(shell dirname $(OUT_FILE))
+	@$(CC) $(CCFLAGS) -o $(OUT_FILE) $(OBJECT_FILES)
+
+.PHONY: a
+a: check-OUT_FILE $(OBJECT_FILES)
+	@echo "archiving [$(OUT_FILE)] ..."
+	@ar cr $(OUT_FILE) $(OBJECT_FILES)
+
+.PHONY: o
+o: check-OUT_FILE $(OBJECT_FILES)
+	@echo "linking [$(OUT_FILE)] ..."
+	@ld -r $(OBJECT_FILES) -o $(OUT_FILE)
 
 $(OUT)/%.o: %.c $(HEADER_FILES)
 	@echo "compiling [$@] ..."
 	@-mkdir -p $(@D)
 	@$(CC) $(CCFLAGS) -c $< -o $@
-
-.PHONY: clean
-clean:
-	@echo "cleaning ..."
-	@rm -rf $(OUT)
