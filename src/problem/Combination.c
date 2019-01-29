@@ -3,10 +3,9 @@
  */
 
 #include <assert.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-#include "BitOp.h"
 
 int Combination_calculate(int n, int m) {
     assert(m >= 0 && n >= m);
@@ -22,9 +21,9 @@ int Combination_calculate(int n, int m) {
 
 int Combination_nextIndex(int index) {
     assert (index > 0);
-    int n = BitOp_getNumberOfBitOne(index);
+    int n = Int64_getNumberOfBitOne(index);
     while (++index > 0) {
-        if (BitOp_getNumberOfBitOne(index) == n) {
+        if (Int64_getNumberOfBitOne(index) == n) {
             return index;
         }
     }
