@@ -42,5 +42,5 @@ void testSort() {
     testSingleSort(&ShellSort_sort, a, 0, n);
 
     printf("testing RadixSort ...\n");
-    testSingleSort(&RadixSort_lsd, a, 0, n);
+    testSingleSort(&RadixSort_leastSignificantDigit, a, 0, n);
 }

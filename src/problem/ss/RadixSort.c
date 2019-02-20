@@ -8,7 +8,7 @@
  *  msd: [2,1,10] => [1,10,2] // using lexicographic order
  * non-comparion
  */
-void RadixSort_lsd(int * a, int l, int r) {
+void RadixSort_leastSignificantDigit(int * a, int l, int r) {
 
     static const int RADIX = 10;
 

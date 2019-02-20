@@ -6,7 +6,7 @@
  * in-place
  */
 
-void ssort(int * a, int l, int r) {
+void SelectionSort_sort(int * a, int l, int r) {
     for (int i = l; i < r; i++) {
         int k = i;
         for (int j = i; j < r; j++) {

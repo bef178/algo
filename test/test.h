@@ -1,6 +1,7 @@
 #ifndef _INCLUDED_TEST
 #define _INCLUDED_TEST
 
+void testSearch();
 void testSort();
 void testList();
 void testHashMap();

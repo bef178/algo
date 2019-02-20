@@ -8,7 +8,7 @@
  * stable
  * in-place
  */
-void isort(int * a, int l, int r) {
+void InsertionSort_sort(int * a, int l, int r) {
     for (int i = l + 1; i < r; i++) {
         int t = a[i];
         int j = i - 1;
@@ -21,7 +21,7 @@ void isort(int * a, int l, int r) {
 }
 
 // insertion sort with binary search
-void isort1(int * a, int l, int r) {
+static void InsertionSort_sort1(int * a, int l, int r) {
     for (int i = l + 1; i < r; i++) {
         int t = a[i];
         int k = BinarySearch_upperBound(a, 0, i, a[i]);

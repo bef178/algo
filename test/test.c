@@ -1,5 +1,6 @@
 int main() {
 
+    testSearch();
     testSort();
     testList();
     testHashMap();
