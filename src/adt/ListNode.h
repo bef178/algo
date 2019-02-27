@@ -7,7 +7,7 @@ typedef struct ListNode {
     int64 value;
 } ListNode;
 
-ListNode * ListNode_malloc(int64 malloc);
+ListNode * ListNode_malloc(int64 value);
 
 void ListNode_free(ListNode * self);
 
