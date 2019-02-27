@@ -3,6 +3,7 @@
 
 typedef struct HashMap {
     Int64_comparef * compareKey;
+    Int64_hashf * hashKey;
     int size;
     int numSlots;
     ListNode * slots[0]; // linked list with head node
@@ -24,16 +25,17 @@ static int checkCapacity(int requiredCapacity) {
 }
 
 static ListNode * findSlot(HashMap * self, int64 key) {
-    word hashCode = Hash_rehash((word) key);
+    word hashCode = Hash_rehash(self->hashKey(key));
     return self->slots[hashCode % self->numSlots];
 }
 
-HashMap * HashMap_malloc(int capacity, Int64_comparef * compareKey) {
+HashMap * HashMap_malloc(int capacity, Int64_comparef * compareKey, Int64_hashf * hashKey) {
     assert(capacity > 0);
     assert(compareKey != NULL);
     capacity = checkCapacity(capacity);
     HashMap * map = calloc(1, sizeof(HashMap) + capacity * sizeof(ListNode *));
     map->compareKey = compareKey;
+    map->hashKey = hashKey;
     // expect half full and 2 elements in every linked list in average
     map->numSlots = capacity;
     for (int i = 0; i < map->numSlots; i++) {

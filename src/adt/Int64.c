@@ -2,6 +2,10 @@ int Int64_compare(int64 i, int64 j) {
     return i - j;
 }
 
+word Int64_hash(int64 i) {
+    return (word) i;
+}
+
 int Int64_getNumberOfBitOne(int64 i) {
     int n = 0;
     while (i != 0) {

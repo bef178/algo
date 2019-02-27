@@ -7,7 +7,7 @@
 
 typedef struct HashMap HashMap;
 
-HashMap * HashMap_malloc(int capacity, Int64_comparef * compareKey);
+HashMap * HashMap_malloc(int capacity, Int64_comparef * compareKey, Int64_hashf * hashKey);
 
 void HashMap_free(HashMap * self);
 
