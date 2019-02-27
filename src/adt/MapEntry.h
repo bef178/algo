@@ -10,4 +10,6 @@ MapEntry * MapEntry_malloc(int64 key, void * value);
 
 void MapEntry_free(MapEntry * self);
 
+MapEntry * MapEntry_copy(MapEntry * self);
+
 #endif // _INCLUDED_MAPENTRY

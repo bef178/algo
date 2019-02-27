@@ -10,3 +10,7 @@ MapEntry * MapEntry_malloc(int64 key, void * value) {
 void MapEntry_free(MapEntry * self) {
     free(self);
 }
+
+MapEntry * MapEntry_copy(MapEntry * self) {
+    return MapEntry_malloc(self->key, self->value);
+}

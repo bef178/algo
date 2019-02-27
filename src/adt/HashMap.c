@@ -1,16 +1,14 @@
 #include <assert.h>
 #include <stdlib.h>
 
-#include "MapEntry.h"
-
 typedef struct HashMap {
     Int64_comparef * compareKey;
-    int capacity;
     int size;
+    int numSlots;
     ListNode * slots[0]; // linked list with head node
 } HashMap;
 
-static int alignCapacity(int requiredCapacity) {
+static int checkCapacity(int requiredCapacity) {
     const int MAX = ~(-1U >> 1) >> 1; // 1 << ((sizeof(int32) << 3) - 2);
     const int MIN = 1 << 6; // 64
     if (requiredCapacity <= MIN) {
@@ -27,17 +25,18 @@ static int alignCapacity(int requiredCapacity) {
 
 static ListNode * findSlot(HashMap * self, int64 key) {
     word hashCode = Hash_rehash((word) key);
-    return self->slots[hashCode % self->capacity];
+    return self->slots[hashCode % self->numSlots];
 }
 
 HashMap * HashMap_malloc(int capacity, Int64_comparef * compareKey) {
     assert(capacity > 0);
     assert(compareKey != NULL);
-    capacity = alignCapacity(capacity);
+    capacity = checkCapacity(capacity);
     HashMap * map = calloc(1, sizeof(HashMap) + capacity * sizeof(ListNode *));
     map->compareKey = compareKey;
-    map->capacity = capacity;
-    for (int i = 0; i < map->capacity; i++) {
+    // expect half full and 2 elements in every linked list in average
+    map->numSlots = capacity;
+    for (int i = 0; i < map->numSlots; i++) {
         map->slots[i] = ListNode_malloc(0);
     }
     return map;
@@ -45,14 +44,14 @@ HashMap * HashMap_malloc(int capacity, Int64_comparef * compareKey) {
 
 void HashMap_free(HashMap * self) {
     HashMap_clear(self);
-    for (int i = 0; i < self->capacity; i++) {
+    for (int i = 0; i < self->numSlots; i++) {
         ListNode_free(self->slots[i]);
     }
     free(self);
 }
 
 void HashMap_clear(HashMap * self) {
-    for (int i = 0; i < self->capacity; i++) {
+    for (int i = 0; i < self->numSlots; i++) {
         ListNode * node = ListNode_delinkNext(self->slots[i]);
         while (node != NULL) {
             ListNode * p = node->next;
@@ -118,4 +117,38 @@ void * HashMap_remove(HashMap * self, int64 key) {
         }
     }
     return NULL;
+}
+
+Iterator * HashMapIterator_malloc(HashMap * self) {
+    Iterator * it = Iterator_malloc();
+    ListNode * p = it->head;
+    for (int i = 0; i < self->numSlots; i++) {
+        ListNode * node = self->slots[i];
+        while (node->next != NULL) {
+            node = node->next;
+            MapEntry * newEntry = MapEntry_copy((MapEntry *) node->value);
+            ListNode * newNode = ListNode_malloc((int64) newEntry);
+            ListNode_insertNext(p, newNode);
+            p = p->next;
+        }
+    }
+    return it;
+}
+
+void HashMapIterator_free(Iterator * it) {
+    while (it->head->next != NULL) {
+        ListNode * p = ListNode_removeNext(it->head);
+        MapEntry * entry = (MapEntry *) p->value;
+        MapEntry_free(entry);
+        ListNode_free(p);
+    }
+    Iterator_free(it);
+}
+
+boolean HashMapIterator_hasNext(Iterator * it) {
+    return Iterator_hasNext(it);
+}
+
+MapEntry * HashMapIterator_next(Iterator * it) {
+    return (MapEntry *) Iterator_next(it);
 }
