@@ -121,7 +121,7 @@ void * HashMap_remove(HashMap * self, int64 key) {
     return NULL;
 }
 
-Iterator * HashMapIterator_malloc(HashMap * self) {
+HashMapIterator * HashMapIterator_malloc(HashMap * self) {
     Iterator * it = Iterator_malloc();
     ListNode * p = it->head;
     for (int i = 0; i < self->numSlots; i++) {
@@ -137,7 +137,8 @@ Iterator * HashMapIterator_malloc(HashMap * self) {
     return it;
 }
 
-void HashMapIterator_free(Iterator * it) {
+void HashMapIterator_free(HashMapIterator * self) {
+    Iterator * it = (Iterator *) self;
     while (it->head->next != NULL) {
         ListNode * p = ListNode_removeNext(it->head);
         MapEntry * entry = (MapEntry *) p->value;
@@ -147,10 +148,10 @@ void HashMapIterator_free(Iterator * it) {
     Iterator_free(it);
 }
 
-boolean HashMapIterator_hasNext(Iterator * it) {
-    return Iterator_hasNext(it);
+boolean HashMapIterator_hasNext(HashMapIterator * self) {
+    return Iterator_hasNext((Iterator *) self);
 }
 
-MapEntry * HashMapIterator_next(Iterator * it) {
-    return (MapEntry *) Iterator_next(it);
+MapEntry * HashMapIterator_next(HashMapIterator * self) {
+    return (MapEntry *) Iterator_next((Iterator *) self);
 }
