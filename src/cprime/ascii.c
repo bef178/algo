@@ -1,4 +1,8 @@
-boolean isWhiteSpace(const int ch) {
+boolean isVisible(const int ch) {
+    return ch > 0x20 && ch < 0x7F; // exclude SP and DEL
+}
+
+boolean isWhitespace(const int ch) {
     switch (ch) {
         case '\t': // HT'0x09'
         case '\n': // LF'0x0A'

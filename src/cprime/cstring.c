@@ -109,7 +109,7 @@ int str_substring(byte * dst, const byte * src, int i, int j) {
 
 byte * str_trimFore(byte * s) {
     assert(s != NULL);
-    while (isWhiteSpace(*s)) {
+    while (isWhitespace(*s)) {
         ++s;
     }
     return s;
@@ -121,7 +121,7 @@ byte * str_trimHind(byte * s) {
     while (*p != NUL) {
         ++p;
     }
-    while (--p >= s && isWhiteSpace(*p)) {
+    while (--p >= s && isWhitespace(*p)) {
         // dummy
     }
     return ++p;
