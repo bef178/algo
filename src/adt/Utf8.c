@@ -5,24 +5,15 @@
 #include <assert.h>
 #include <stdlib.h>
 
-/**
- *  get nearest utf8 character head from @p
- */
-const byte * utf8Glyph_getHead(const byte * p) {
-    while ((*p & 0xc0) == 0x80) {
-        ++p;
-    }
-    return p;
+boolean Utf8_isFirstByte(const byte aByte) {
+    return (aByte & 0xc0) != 0x80 && (aByte & 0xfe) != 0xfe;
 }
 
-boolean utf8Glyph_isHead(const byte * p) {
-    return (*p & 0xc0) != 0x80;
-}
+int Utf8_codePointSize(const byte firstByte) {
+    assert(Utf8_isFirstByte(firstByte));
 
-int utf8Glyph_size(const byte * utf8) {
-    assert(utf8Glyph_isHead(utf8));
     int size = 0;
-    while (getBit(utf8, size) && size < 8) {
+    while (size < 8 && getBit(&firstByte, size)) {
         ++size;
     }
     if (size == 1 || size > 6) {
@@ -37,10 +28,10 @@ int utf8Glyph_size(const byte * utf8) {
  * convert 1 utf8 character to 1 ucs4 character
  * return the size of this @utf8 character
  */
-int utf8_toUcs4(const byte * utf8, int32 * ucs4) {
+int Utf8_toUcs4(const byte * utf8, int32 * ucs4) {
     assert(utf8 != NULL && ucs4 != NULL);
 
-    int size = utf8Glyph_size(utf8);
+    int size = Utf8_codePointSize(*utf8);
     switch (size) {
         case 0:
             break;
