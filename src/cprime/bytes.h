@@ -9,7 +9,7 @@ void mem_reset(void * p, int n);
 
 boolean mem_resize(void ** p, int n);
 
-int mem_compare(const byte * p1, const byte * p2, int n);
+int mem_compare(const byte * p1, int p1size, const byte * p2, int p2size);
 
 void mem_copy(byte * dst, const byte * src, int n);
 

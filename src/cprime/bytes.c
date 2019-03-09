@@ -33,30 +33,41 @@ boolean mem_resize(void ** p, int n) {
     return false;
 }
 
-int mem_compare(const byte * p1, const byte * p2, int n) {
-    assert(p1 != NULL);
-    assert(p2 != NULL);
-    assert(n >= 0);
+int mem_compare(const byte * p1, int p1size, const byte * p2, int p2size) {
+    assert(p1size >= 0);
+    assert(p2size >= 0);
 
-    const word * w1 = (const word *) p1;
-    const word * w2 = (const word *) p2;
-    while (n >= sizeof(word)) {
-        if (*w1 != *w2) {
-            return *w1 < *w2 ? -1 : 1;
-        }
-        ++w1;
-        ++w2;
-        n -= sizeof(word);
+    if (p1 == p2) {
+        return 0;
+    } else if (p1 == NULL) {
+        return -1;
+    } else if (p2 == NULL) {
+        return 1;
     }
 
-    p1 = (const byte *) w1;
-    p2 = (const byte *) w2;
+    int n = p1size < p2size ? p1size : p2size;
+    if (n >= 24) {
+        const word * w1 = (const word *) p1;
+        const word * w2 = (const word *) p2;
+        while (n >= sizeof(word)) {
+            if (*w1 != *w2) {
+                return *w1 < *w2 ? -1 : 1;
+            }
+            ++w1;
+            ++w2;
+            n -= sizeof(word);
+        }
+
+        p1 = (const byte *) w1;
+        p2 = (const byte *) w2;
+    }
     while (n > 0 && *p1 == *p2) {
         ++p1;
         ++p2;
         --n;
     }
-    return n == 0 ? 0 : (*p1 < *p2 ? -1 : 1);
+
+    return n == 0 ? (p1size - p2size) : (*p1 - *p2);
 }
 
 void mem_copy(byte * dst, const byte * src, int n) {
