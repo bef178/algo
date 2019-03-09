@@ -1,0 +1,16 @@
+type String {
+
+    String concatenate(String s, String another);
+
+    compare(String s, String another);
+
+    String copy(String s);
+
+    indexOf(String s, int startIndex, String p);
+
+    size(String s);
+
+    String substring(String s, int startIndex, int endIndex);
+
+    codePointAt(String s, int index);
+};
