@@ -1,0 +1,10 @@
+type IStack {
+
+    peek();
+
+    pop();
+
+    push();
+
+    size();
+};

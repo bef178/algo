@@ -1,0 +1,10 @@
+type IStack {
+
+    enqueue();
+
+    dequeue();
+
+    peek();
+
+    size();
+};
