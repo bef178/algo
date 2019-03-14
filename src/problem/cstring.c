@@ -6,6 +6,8 @@
 #include <assert.h>
 #include <stdlib.h>
 
+int str_length(const byte * s);
+
 int str_concatenate(byte * dst, const byte * src, const int n) {
     assert(dst != NULL);
     assert(src != NULL);
@@ -107,6 +109,10 @@ int str_substring(byte * dst, const byte * src, int i, int j) {
     return size;
 }
 
+/**
+ * trim 'white spaces' from head
+ * returns where the trimmed string @s 'should' start
+ */
 byte * str_trimFore(byte * s) {
     assert(s != NULL);
     while (isWhitespace(*s)) {
@@ -115,6 +121,11 @@ byte * str_trimFore(byte * s) {
     return s;
 }
 
+/**
+ * trim 'white spaces' from tail
+ * indicate where '\0' should be, instead of write it to string @s
+ * returns where the trimmed string @s 'should' end
+ */
 byte * str_trimHind(byte * s) {
     assert(s != NULL);
     byte * p = s;
