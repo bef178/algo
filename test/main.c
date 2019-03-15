@@ -10,6 +10,8 @@ void testSubarrayRotateL();
 void testPermutation();
 void testCatalanPairParen();
 
+void testCsv();
+
 int main() {
 
     testSearch();
@@ -22,6 +24,8 @@ int main() {
     testSubarrayRotateL();
     testPermutation();
     testCatalanPairParen();
+
+    testCsv();
 
     return 0;
 }
