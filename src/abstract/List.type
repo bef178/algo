@@ -1,4 +1,4 @@
-type IList {
+type List {
 
     clear();
 

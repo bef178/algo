@@ -1,4 +1,4 @@
-type IStack {
+type Queue {
 
     enqueue();
 
