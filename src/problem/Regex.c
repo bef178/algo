@@ -1,27 +1,46 @@
 /**
- * regex: '.' 1 byte
- * regex: '*' 0 or more prev byte
+ * regex: '.' 1 unit
+ * regex: '*' 0 or more prev unit
  */
 
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>
 
-static boolean matchesRegex(const byte * s, const byte * regex) {
+// a valid regex will not start with '*' and have no neighboring '*'
+static boolean isValidRegex(const byte * regex) {
+    if (regex == NULL) {
+        return false;
+    }
+
+    boolean metAsterisk = true;
+    const int n = strlen(regex);
+    for (int i = 0; i < n; i++) {
+        if (regex[i] == '*') {
+            if (metAsterisk) {
+                return false;
+            }
+            metAsterisk = true;
+        } else {
+            metAsterisk = false;
+        }
+    }
+    return true;
+}
+
+static boolean matches(const byte * regex, const byte * s) {
+    assert(isValidRegex(regex));
     assert(s != NULL);
-    assert(regex != NULL);
 
     if (regex[0] == NUL) {
         return s[0] == NUL;
     }
 
-    assert(regex[0] != '*');
-
     // non-greedy '*'
 
     if (regex[0] == '.' && regex[1] == '*') {
         while (true) {
-            if (matchesRegex(s, regex + 2)) {
+            if (matches(regex + 2, s)) {
                 return true;
             }
             if (s[0] == NUL) {
@@ -34,7 +53,7 @@ static boolean matchesRegex(const byte * s, const byte * regex) {
 
     if (regex[0] == s[0] && regex[1] == '*') {
         while (true) {
-            if (matchesRegex(s, regex + 2)) {
+            if (matches(regex + 2, s)) {
                 return true;
             }
             if (regex[0] != s[0]) { // including s[0] == NUL
@@ -46,49 +65,40 @@ static boolean matchesRegex(const byte * s, const byte * regex) {
     }
 
     if (regex[0] != s[0] && regex[1] == '*') {
-        return matchesRegex(s, regex + 2);
+        return matches(regex + 2, s);
     }
 
     // assert regex[1] != '*';
 
     if (regex[0] == '.') {
         if (s[0] != NUL) {
-            return matchesRegex(s + 1, regex + 1);
+            return matches(regex + 1, s + 1);
         }
         return false;
     }
 
     if (regex[0] == s[0]) {
         // s[0] cannot be NUL since regex[0] is not NUL
-        return matchesRegex(s + 1, regex + 1);
+        return matches(regex + 1, s + 1);
     }
 
     return false;
 }
 
-static boolean matchesRegex_dp(const byte * s, const byte * regex) {
+static boolean matches_dp(const byte * regex, const byte * s) {
+    assert(isValidRegex(regex));
     assert(s != NULL);
-    assert(regex != NULL);
 
     int n = strlen(regex);
 
-    // a valid regex will not start with '*' and have no neighboring '*'
-    assert(regex[0] != '*');
-    for (int i = 1; i < n; i++) {
-        if (regex[i] == '*') {
-            assert(regex[i - 1] != '*');
-        }
-    }
-
-    // imagine @regex in a horizontal line, while @s in vertical
-    // for regex[0..n) and s[0..m), the matrix should be m[m + 1][n + 1], extra "1" for empty string
-    // that is, for string s[0..j] and regex[0..i], the matching result saves to m[j + 1][i + 1]
-    // and, updating a row in matrix only requires the above row, so keeping tow rows to save memory
-
-    boolean * p = calloc(n + 1, sizeof(boolean));
+    // imagine regex in horizontal while s in vertical
+    // for regex[0..n) and s[0..m), the matrix should be a[m + 1][n + 1], a[0][.] and a[.][0] for empty string
+    // that is, for regex[0..i] and s[0..j], the matching result saves to a[j + 1][i + 1]
+    // keep two rows to save memory
 
     // init current matching row
-    p[0] = true; // empty string matches empty string
+    boolean * p = calloc(n + 1, sizeof(boolean));
+    p[0] = true; // empty string matches empty regex
     for (int i = 0; i < n; i++) {
         if (regex[i] == '*') {
             p[i + 1] = p[i - 2 + 1];
@@ -103,7 +113,7 @@ static boolean matchesRegex_dp(const byte * s, const byte * regex) {
         boolean * t = q;
         q = p;
         p = t;
-        p[0] = false; // non-empty s does not match empty regex
+        p[0] = false; // non-empty string does not match empty regex
         for (int i = 0; i < n; i++) {
             if (regex[i] == '*') {
                 if (regex[i - 1] == '.' || regex[i - 1] == s[j]) {
@@ -111,8 +121,7 @@ static boolean matchesRegex_dp(const byte * s, const byte * regex) {
                         || p[i - 1 + 1] // a* as single a
                         || p[i - 2 + 1]; // a* as empty
                 } else {
-                    // a* as empty
-                    p[i + 1] = p[i - 2 + 1];
+                    p[i + 1] = p[i - 2 + 1]; // a* as empty
                 }
             } else if (regex[i] == '.') {
                 p[i + 1] = q[i - 1 + 1];
@@ -134,5 +143,5 @@ static boolean matchesRegex_dp(const byte * s, const byte * regex) {
 }
 
 boolean Regex_matches(const byte * regex, const byte * s) {
-    return matchesRegex_dp(s, regex);
+    return matches_dp(regex, s);
 }
