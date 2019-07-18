@@ -16,8 +16,10 @@ typedef int64_t word;
 #endif
 
 typedef _Bool boolean;
-#define false   (0)
-#define true    (1)
+#define false   (!!0)
+#define true    (!false)
+#define FALSE   false
+#define TRUE    true
 
 typedef float float32;
 typedef double float64;
