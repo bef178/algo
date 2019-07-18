@@ -1,13 +1,13 @@
 /**
- * wildcard: '*': 0 or more bytes
- * wildcard: '?': 1 byte
+ * wildcard: '*': 0 or more units
+ * wildcard: '?': 1 unit
  */
 
 #include <assert.h>
 
-static boolean matchesWildcard(const byte * s, const byte * wildcard) {
-    assert(s != NULL);
+boolean Wildcard_matches(const byte * wildcard, const byte * s) {
     assert(wildcard != NULL);
+    assert(s != NULL);
 
     const byte * p1 = NULL; // next of an '*', save for backtrace
     const byte * s1 = NULL; // first 0 or more bytes of s1 will be consumed by above '*'
@@ -18,7 +18,7 @@ static boolean matchesWildcard(const byte * s, const byte * wildcard) {
             if (*wildcard == NUL) {
                 return true;
             }
-            s1 = s;
+            s1 = s; // not move forward in case '*' consuming 0 unit
             continue;
         }
         if (*wildcard == '?' || *wildcard == *s) {
@@ -42,8 +42,4 @@ static boolean matchesWildcard(const byte * s, const byte * wildcard) {
         wildcard++;
     }
     return true;
-}
-
-boolean Wildcard_matches(const byte * wildcard, const byte * s) {
-    return matchesWildcard(s, wildcard);
 }
