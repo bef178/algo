@@ -1,8 +1,12 @@
+
+include ./build/utility.mk
+
 .PHONY: test
 test:
 	$(eval TEST_EXECUTABLE=./out/test.out)
 	@ \
-		SRC="./src ./test" \
+		HEADER_FILES="./src/predefined.h ./src/ctype/Int64.h $(foreach D,./src ./test,$(call find-h-files,$(D)))" \
+		SOURCE_FILES="$(foreach D,./src ./test,$(call find-c-files,$(D)))" \
 		OUT="./out" \
 		OUT_FILE=$(TEST_EXECUTABLE) \
 		make out -f ./build/cc.mk
@@ -11,7 +15,8 @@ test:
 .PHONY: obj
 obj:
 	@ \
-		SRC="./src" \
+		HEADER_FILES="./src/predefined.h ./src/ctype/Int64.h $(call find-h-files,./src)" \
+		SOURCE_FILES="$(call find-c-files,./src)" \
 		OUT="./out" \
 		make $@ -f ./build/cc.mk
 

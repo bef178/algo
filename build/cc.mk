@@ -9,12 +9,9 @@ include $(BUILD)/utility.mk
 
 ########
 
-$(call check-var,SRC)
+$(call check-var,HEADER_FILES)
+$(call check-var,SOURCE_FILES)
 $(call check-var,OUT)
-
-HEADER_FILES := $(foreach D,$(SRC),$(call find-h-files,$(D)))
-
-SOURCE_FILES := $(foreach D,$(SRC),$(call find-c-files,$(D)))
 
 # keep paths, in case of same basenames in different directories
 OBJECT_FILES := $(patsubst %.c,$(OUT)/%.o,$(patsubst ./%,%,$(SOURCE_FILES)))

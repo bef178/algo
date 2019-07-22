@@ -1,7 +1,6 @@
 #ifndef _INCLUDED_HASHMAP
 #define _INCLUDED_HASHMAP
 
-#include "Int64.h"
 #include "Iterator.h"
 #include "MapEntry.h"
 

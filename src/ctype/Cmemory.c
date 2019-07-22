@@ -89,3 +89,53 @@ void mem_copy(byte * dst, const byte * src, int n) {
         *dst++ = *src++;
     }
 }
+
+int32 hash_bkdr(const byte * p, const int n) {
+    // BKDR hash seed: 31, 131, 1313, 13131, 131313, ...
+    // hashCode = hashCode * SEED + i;
+
+    int32 hashCode = 0;
+    const byte * p1 = p + n;
+    while (p < p1) {
+        hashCode = hashCode << 5 - hashCode + (0xFF & *p++);
+    }
+    return hashCode;
+}
+
+int32 hash_djb(const byte * p, const int n) {
+    // DJB hash seed: 5381
+    // hashCode = hashCode * 33 + i static const int SEED = 33;
+
+    int32 hashCode = 5381;
+    const byte * p1 = p + n;
+    while (p < p1) {
+        hashCode = hashCode << 5 + hashCode + (0xFF & *p++);
+    }
+    return hashCode;
+}
+
+static void setBits(byte bits, byte targetBits, boolean value) {
+    if (value) {
+        bits |= targetBits;
+    } else {
+        bits &= ~targetBits;
+    }
+}
+
+static int testBits(byte bits, byte targetBits) {
+    return bits & targetBits;
+}
+
+void setSingleBit(const void * stream, int offset, boolean value) {
+    assert(stream != NULL);
+    assert(offset >= 0);
+    const byte * a = (const byte *) stream;
+    setBits(a[offset >> 3], 1 << (7 - (offset & 7)), value);
+}
+
+boolean testSingleBit(const void * stream, int offset) {
+    assert(stream != NULL);
+    assert(offset >= 0);
+    const byte * a = (const byte *) stream;
+    return testBits(a[offset >> 3], 1 << (7 - (offset & 7))) == 0 ? true : false;
+}

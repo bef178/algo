@@ -21,13 +21,30 @@ int Combination_calculate(int n, int m) {
 
 int Combination_nextIndex(int index) {
     assert (index > 0);
-    int n = Int64_getNumberOfBitOne(index);
-    while (++index > 0) {
-        if (Int64_getNumberOfBitOne(index) == n) {
-            return index;
+
+    int n = sizeof(int) * 8;
+
+    int i = -1;
+    while (++i < n - 1) {
+        if (testSingleBit(&index, i)) {
+            break;
         }
     }
-    return -1;
+    if (i == n - 1) {
+        return -1;
+    }
+
+    int j = i;
+    while (++j < n) {
+        if (!testSingleBit(&index, j)) {
+            break;
+        }
+    }
+    if (j == n) {
+        return -1;
+    }
+
+    return rorp(index, 0, j + 1, i + 1);
 }
 
 int Combination_toCombination(byte * alphabet, int n, int index, byte * dst) {

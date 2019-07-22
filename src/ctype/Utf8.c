@@ -13,7 +13,7 @@ int Utf8_codePointSize(const byte firstByte) {
     assert(Utf8_isFirstByte(firstByte));
 
     int size = 0;
-    while (size < 8 && getBit(&firstByte, size)) {
+    while (size < 8 && testSingleBit(&firstByte, size)) {
         ++size;
     }
     if (size == 1 || size > 6) {
@@ -43,7 +43,7 @@ int Utf8_toUcs4(const byte * utf8, int32 * ucs4) {
             // parse the head
             for (int i = size + 1; i < 8; ++i) {
                 ch <<= 1;
-                if (getBit(utf8, i)) {
+                if (testSingleBit(utf8, i)) {
                     ch |= 1;
                 }
             }

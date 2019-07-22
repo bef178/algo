@@ -25,7 +25,7 @@ static int checkCapacity(int requiredCapacity) {
 }
 
 static ListNode * findSlot(HashMap * self, int64 key) {
-    word hashCode = Hash_rehash(self->hashKey(key));
+    int32 hashCode = self->hashKey(key);
     return self->slots[hashCode % self->numSlots];
 }
 
