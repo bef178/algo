@@ -9,7 +9,7 @@ typedef struct HashMap {
     ListNode * slots[0]; // linked list with head node
 } HashMap;
 
-static int checkCapacity(int requiredCapacity) {
+static int alignCapacity(int requiredCapacity) {
     const int MAX = ~(-1U >> 1) >> 1; // 1 << ((sizeof(int32) << 3) - 2);
     const int MIN = 1 << 6; // 64
     if (requiredCapacity <= MIN) {
@@ -24,15 +24,23 @@ static int checkCapacity(int requiredCapacity) {
     return capacity;
 }
 
-static ListNode * findSlot(HashMap * self, int64 key) {
+static ListNode * findLowerBound(HashMap * self, int64 key) {
     int32 hashCode = self->hashKey(key);
-    return self->slots[hashCode % self->numSlots];
+    ListNode * p = self->slots[hashCode % self->numSlots];
+    while (p->next != NULL) {
+        MapEntry * entry = (void *) p->next->value;
+        if (self->compareKey(entry->key, key) == 0) {
+            break;
+        }
+        p = p->next;
+    }
+    return p;
 }
 
 HashMap * HashMap_malloc(int capacity, Int64_comparef * compareKey, Int64_hashf * hashKey) {
     assert(capacity > 0);
     assert(compareKey != NULL);
-    capacity = checkCapacity(capacity);
+    capacity = alignCapacity(capacity);
     HashMap * map = calloc(1, sizeof(HashMap) + capacity * sizeof(ListNode *));
     map->compareKey = compareKey;
     map->hashKey = hashKey;
@@ -70,65 +78,55 @@ int HashMap_size(HashMap * self) {
 }
 
 boolean HashMap_containsKey(HashMap * self, int64 key) {
-    return HashMap_get(self, key) != NULL;
+    return findLowerBound(self, key)->next != NULL;
 }
 
-void * HashMap_get(HashMap * self, int64 key) {
-    ListNode * node = findSlot(self, key)->next;
-    while (node != NULL) {
-        MapEntry * entry = (void *) node->value;
-        if (self->compareKey(entry->key, key) == 0) {
-            return entry->value;
-        }
-        node = node->next;
+int64 HashMap_get(HashMap * self, int64 key) {
+    ListNode * p = findLowerBound(self, key);
+    if (p->next != NULL) {
+        MapEntry * entry = (void *) p->next->value;
+        return entry->value;
     }
-    return NULL;
+    return 0;
 }
 
-void * HashMap_put(HashMap * self, int64 key, void * value) {
-    assert(value != NULL);
-    ListNode * node = findSlot(self, key);
-    while (node->next != NULL) {
-        ListNode * p = node->next;
-        MapEntry * entry = (void *) p->value;
-        if (self->compareKey(entry->key, key) == 0) {
-            // designated: replace rather than remove then add to tail
-            void * oldValue = entry->value;
-            entry->value = value;
-            return oldValue;
-        }
-        node = node->next;
+int64 HashMap_put(HashMap * self, int64 key, int64 value) {
+    ListNode * p = findLowerBound(self, key);
+    if (p->next != NULL) {
+        MapEntry * entry = (void *) p->next->value;
+        // designated: replace rather than remove then add to tail
+        int64 oldValue = entry->value;
+        entry->value = value;
+        return oldValue;
+    } else {
+        MapEntry * entry = MapEntry_malloc(key, value);
+        ListNode * newNode = ListNode_malloc((int64) entry);
+        ListNode_insertNext(p, newNode);
+        self->size++;
+        return 0;
     }
-    ListNode * newNode = ListNode_malloc((int64) MapEntry_malloc(key, value));
-    ListNode_insertNext(node, newNode);
-    self->size++;
-    return NULL;
 }
 
-void * HashMap_remove(HashMap * self, int64 key) {
-    ListNode * node = findSlot(self, key);
-    while (node->next != NULL) {
-        ListNode * p = node->next;
-        MapEntry * entry = (void *) p->value;
-        if (self->compareKey(entry->key, key) == 0) {
-            ListNode_removeNext(node);
-            self->size--;
-            void * oldValue = entry->value;
-            MapEntry_free(entry);
-            return oldValue;
-        }
+int64 HashMap_remove(HashMap * self, int64 key) {
+    ListNode * p = findLowerBound(self, key);
+    if (p->next != NULL) {
+        MapEntry * entry = (void *) ListNode_removeNext(p)->value;
+        self->size--;
+        int64 oldValue = entry->value;
+        MapEntry_free(entry);
+        return oldValue;
     }
-    return NULL;
+    return 0;
 }
 
-HashMapIterator * HashMapIterator_malloc(HashMap * self) {
+HashMapIterator * HashMapIterator_malloc(HashMap * map) {
     Iterator * it = Iterator_malloc();
     ListNode * p = it->head;
-    for (int i = 0; i < self->numSlots; i++) {
-        ListNode * node = self->slots[i];
+    for (int i = 0; i < map->numSlots; i++) {
+        ListNode * node = map->slots[i];
         while (node->next != NULL) {
             node = node->next;
-            MapEntry * newEntry = MapEntry_copy((MapEntry *) node->value);
+            MapEntry * newEntry = MapEntry_copy((void *) node->value);
             ListNode * newNode = ListNode_malloc((int64) newEntry);
             ListNode_insertNext(p, newNode);
             p = p->next;
@@ -141,7 +139,7 @@ void HashMapIterator_free(HashMapIterator * self) {
     Iterator * it = (Iterator *) self;
     while (it->head->next != NULL) {
         ListNode * p = ListNode_removeNext(it->head);
-        MapEntry * entry = (MapEntry *) p->value;
+        MapEntry * entry = (void *) p->value;
         MapEntry_free(entry);
         ListNode_free(p);
     }
@@ -153,5 +151,5 @@ boolean HashMapIterator_hasNext(HashMapIterator * self) {
 }
 
 MapEntry * HashMapIterator_next(HashMapIterator * self) {
-    return (MapEntry *) Iterator_next((Iterator *) self);
+    return (void *) Iterator_next((Iterator *) self);
 }

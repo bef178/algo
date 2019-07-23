@@ -1,6 +1,6 @@
 #include <stdlib.h>
 
-MapEntry * MapEntry_malloc(int64 key, void * value) {
+MapEntry * MapEntry_malloc(int64 key, int64 value) {
     MapEntry * self = calloc(1, sizeof(MapEntry));
     self->key = key;
     self->value = value;

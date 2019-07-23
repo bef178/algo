@@ -18,13 +18,13 @@ int HashMap_size(HashMap * self);
 
 boolean HashMap_containsKey(HashMap * self, int64 key);
 
-void * HashMap_get(HashMap * self, int64 key);
+int64 HashMap_get(HashMap * self, int64 key);
 
-void * HashMap_put(HashMap * self, int64 key, void * value);
+int64 HashMap_put(HashMap * self, int64 key, int64 value);
 
-void * HashMap_remove(HashMap * self, int64 key);
+int64 HashMap_remove(HashMap * self, int64 key);
 
-HashMapIterator * HashMapIterator_malloc(HashMap * self);
+HashMapIterator * HashMapIterator_malloc(HashMap *);
 
 boolean HashMapIterator_hasNext(HashMapIterator *);
 
