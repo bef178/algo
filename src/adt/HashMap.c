@@ -41,6 +41,28 @@ static ListNode * findLowerBound(HashMap * self, int64 key) {
     return p;
 }
 
+static void add(ListNode * p, int64 key, int64 value) {
+    assert(p->next == NULL);
+    MapEntry * entry = MapEntry_malloc(key, value);
+    ListNode * newNode = ListNode_malloc((int64) entry);
+    ListNode_insertNext(p, newNode);
+}
+
+static int64 get(ListNode * p) {
+    assert(p->next != NULL);
+    MapEntry * entry = (void *) p->next->value;
+    return entry->value;
+}
+
+static int64 update(ListNode * p, int64 key, int64 value) {
+    assert(p->next != NULL);
+    MapEntry * entry = (void *) p->next->value;
+    // designated: replace rather than remove then add to tail
+    int64 oldValue = entry->value;
+    entry->value = value;
+    return oldValue;
+}
+
 HashMap * HashMap_malloc(int capacity, Int64_comparef * compareKey, Int64_hashf * hashKey) {
     assert(capacity > 0);
     assert(compareKey != NULL);
@@ -83,26 +105,44 @@ boolean HashMap_containsKey(HashMap * self, int64 key) {
 }
 
 int64 HashMap_get(HashMap * self, int64 key) {
+    return HashMap_getOrDefault(self, key, 0);
+}
+
+int64 HashMap_getOrDefault(HashMap * self, int64 key, int64 defaultValue) {
     ListNode * p = findLowerBound(self, key);
     if (p->next != NULL) {
-        MapEntry * entry = (void *) p->next->value;
-        return entry->value;
+        return get(p);
+    } else {
+        return defaultValue;
     }
-    return 0;
+}
+
+/**
+ * equivalent to:
+ *  if (map.contains(key)) {
+ *      return map.get(key);
+ *  } else {
+ *      map.put(key, value);
+ *      return value;
+ *  }
+ */
+int64 HashMap_getOrPut(HashMap * self, int64 key, int64 value) {
+    ListNode * p = findLowerBound(self, key);
+    if (p->next != NULL) {
+        return get(p);
+    } else {
+        add(p, key, value);
+        self->size++;
+        return value;
+    }
 }
 
 int64 HashMap_put(HashMap * self, int64 key, int64 value) {
     ListNode * p = findLowerBound(self, key);
     if (p->next != NULL) {
-        MapEntry * entry = (void *) p->next->value;
-        // designated: replace rather than remove then add to tail
-        int64 oldValue = entry->value;
-        entry->value = value;
-        return oldValue;
+        return update(p, key, value);
     } else {
-        MapEntry * entry = MapEntry_malloc(key, value);
-        ListNode * newNode = ListNode_malloc((int64) entry);
-        ListNode_insertNext(p, newNode);
+        add(p, key, value);
         self->size++;
         return 0;
     }

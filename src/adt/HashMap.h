@@ -17,6 +17,10 @@ boolean HashMap_containsKey(HashMap * self, int64 key);
 
 int64 HashMap_get(HashMap * self, int64 key);
 
+int64 HashMap_getOrDefault(HashMap * self, int64 key, int64 defaultValue);
+
+int64 HashMap_getOrPut(HashMap * self, int64 key, int64 value);
+
 int64 HashMap_put(HashMap * self, int64 key, int64 value);
 
 int64 HashMap_remove(HashMap * self, int64 key);
