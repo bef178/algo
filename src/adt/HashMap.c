@@ -26,7 +26,11 @@ static int alignCapacity(int requiredCapacity) {
 
 static ListNode * findLowerBound(HashMap * self, int64 key) {
     int32 hashCode = self->hashKey(key);
-    ListNode * p = self->slots[hashCode % self->numSlots];
+    int slotIndex = hashCode % self->numSlots;
+    if (self->slots[slotIndex] == NULL) {
+        self->slots[slotIndex] = ListNode_malloc(0);
+    }
+    ListNode * p = self->slots[slotIndex];
     while (p->next != NULL) {
         MapEntry * entry = (void *) p->next->value;
         if (self->compareKey(entry->key, key) == 0) {
@@ -46,28 +50,25 @@ HashMap * HashMap_malloc(int capacity, Int64_comparef * compareKey, Int64_hashf 
     map->hashKey = hashKey;
     // expect half full and 2 elements in every linked list in average
     map->numSlots = capacity;
-    for (int i = 0; i < map->numSlots; i++) {
-        map->slots[i] = ListNode_malloc(0);
-    }
     return map;
 }
 
 void HashMap_free(HashMap * self) {
     HashMap_clear(self);
-    for (int i = 0; i < self->numSlots; i++) {
-        ListNode_free(self->slots[i]);
-    }
     free(self);
 }
 
 void HashMap_clear(HashMap * self) {
     for (int i = 0; i < self->numSlots; i++) {
-        ListNode * node = ListNode_delinkNext(self->slots[i]);
-        while (node != NULL) {
-            ListNode * p = node->next;
-            MapEntry * entry = (void *) node->value;
-            MapEntry_free(entry);
-            node = p;
+        if (self->slots[i] != NULL) {
+            ListNode * node = self->slots[i];
+            while (node != NULL) {
+                ListNode * nextNode = node->next;
+                MapEntry_free((void *) node->value);
+                ListNode_free(node);
+                node = nextNode;
+            }
+            self->slots[i] = NULL;
         }
     }
     self->size = 0;
@@ -123,6 +124,9 @@ HashMapIterator * HashMapIterator_malloc(HashMap * map) {
     Iterator * it = Iterator_malloc();
     ListNode * p = it->head;
     for (int i = 0; i < map->numSlots; i++) {
+        if (map->slots[i] == NULL) {
+            continue;
+        }
         ListNode * node = map->slots[i];
         while (node->next != NULL) {
             node = node->next;
