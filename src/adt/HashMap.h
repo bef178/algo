@@ -1,12 +1,9 @@
 #ifndef _INCLUDED_HASHMAP
 #define _INCLUDED_HASHMAP
 
-#include "Iterator.h"
-#include "MapEntry.h"
+#include "MapIterator.h"
 
 typedef struct HashMap HashMap;
-
-typedef void HashMapIterator;
 
 HashMap * HashMap_malloc(int capacity, Int64_comparef * compareKey, Int64_hashf * hashKey);
 
@@ -24,12 +21,6 @@ int64 HashMap_put(HashMap * self, int64 key, int64 value);
 
 int64 HashMap_remove(HashMap * self, int64 key);
 
-HashMapIterator * HashMapIterator_malloc(HashMap *);
-
-boolean HashMapIterator_hasNext(HashMapIterator *);
-
-MapEntry * HashMapIterator_next(HashMapIterator *);
-
-void HashMapIterator_free(HashMapIterator *);
+MapIterator * HashMap_mallocIterator(HashMap *);
 
 #endif // _INCLUDED_HASHMAP
