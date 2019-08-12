@@ -3,7 +3,7 @@ $(if $($1),,$(error E: [$1] is empty))
 endef
 
 define find-files
-$(shell if test -d $1; then find -L $1 -type f -iname $2 -and -not -name ".*" -printf "%d\t%p\n" | sort | cut -f2 2>/dev/null; fi)
+$(shell if test -d $1; then find -L $1 -type f -iname $2 -and -not -name ".*" -printf "%p\n" | sort 2>/dev/null; fi)
 endef
 
 define find-h-files
