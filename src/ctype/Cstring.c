@@ -1,8 +1,3 @@
-/**
- * minimal complete subset of string operations:
- * concatenate, compare, copy, length, substring
- */
-
 #include <assert.h>
 #include <stdlib.h>
 

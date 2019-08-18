@@ -1,3 +1,8 @@
+/**
+ * minimal complete string operations:
+ * concatenate, compare, copy, length, substring
+ */
+
 type String {
 
     String concatenate(String s, String another);
