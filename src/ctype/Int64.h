@@ -1,8 +1,8 @@
 #ifndef _INCLUDED_INT64
 #define _INCLUDED_INT64
 
-int32 hash(int32);
-int32 hash6(int32);
+int32 hash32(int32);
+
 int32 rol(int32, int);
 int32 ror(int32, int);
 int32 rorp(int32, int i, int j, int offset);

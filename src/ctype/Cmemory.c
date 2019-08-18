@@ -97,7 +97,7 @@ int32 hash_bkdr(const byte * p, const int n) {
     int32 hashCode = 0;
     const byte * p1 = p + n;
     while (p < p1) {
-        hashCode = hashCode << 5 - hashCode + (0xFF & *p++);
+        hashCode = (hashCode << 5) - hashCode + (0xFF & *p++);
     }
     return hashCode;
 }
@@ -109,7 +109,7 @@ int32 hash_djb(const byte * p, const int n) {
     int32 hashCode = 5381;
     const byte * p1 = p + n;
     while (p < p1) {
-        hashCode = hashCode << 5 + hashCode + (0xFF & *p++);
+        hashCode = (hashCode << 5) + hashCode + (0xFF & *p++);
     }
     return hashCode;
 }

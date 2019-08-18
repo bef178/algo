@@ -2,12 +2,12 @@
 
 // spreads the impact of higher bits downward
 // openjdk8, java.util.HashMap.hash(Object)
-int32 hash(int32 i) {
+int32 hash32(int32 i) {
     return i ^ shr(i, 16);
 }
 
 // jdk6, java.util.HashMap.hash(int)
-int32 hash6(int32 i) {
+static int32 hash32_jdk6(int32 i) {
     i ^= (i >> 20) ^ (i >> 12);
     return i ^ (i >> 7) ^ (i >> 4);
 }
@@ -42,8 +42,8 @@ int Int64_compare(int64 i, int64 j) {
     return i - j;
 }
 
-int32 Int64_hash(int64 d) {
-    int32 h = (d >> 32) & 0xFFFFFFFF;
-    int32 l = d & 0xFFFFFFFF;
-    return hash(h) ^ hash(l);
+int32 Int64_hash(int64 i) {
+    int32 h = (i >> 32) & 0xFFFFFFFF;
+    int32 l = i & 0xFFFFFFFF;
+    return hash32(h) ^ hash32(l);
 }
