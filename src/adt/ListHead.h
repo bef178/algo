@@ -7,6 +7,9 @@
 #define GET_CONTAINER(__structType, __memberName, __memberAddr)    \
     (__structType *)((word) (__memberAddr) - MEMBER_OFFSET(__structType, __memberName))
 
+#define CAST(__addr, __type)    \
+    *((__type *) (__addr))
+
 typedef struct ListHead {
     struct ListHead * next;
     struct ListHead * prev;
