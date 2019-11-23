@@ -1,0 +1,246 @@
+通过两个栈实现一个队列
+把一个int数组中的数字拼成一个串，这个串代表的数字最小
+连通图构造最小生成树 Prim
+求有向图的强连通分量
+贾志刚 春秋 英雄志
+adt general list
+goog: 多一边的二子树
+旅行商问题 某旅行商要去若干个城市。各个城市之间的路程已知。求一条路线，从驻地出发，经过且仅经过每个城市一次，最后回到原驻地，并且整个路程最短。
+
+  1 L0 D1 A: ()
+  2 L3 D1 B: (a,b,c)
+  3 L2 D3 C: (A,(B,(A)))
+  4 L0 D0 Z:
+  5      Za: (Z,Z)
+  6      Zb: (,B,a)
+  7       a: a
+  8 
+  9 只有当表尾为空时表头可以为空。
+ 10 
+ 11 A 不含有元素。
+ 12 Z 本身为空。Za应表述成A。Zb不合法。a不是广义表。
+
+
+  1 多段图问题
+  2 
+  3 一带权有向图，其顶点集被划分成了多个不相交的子集
+  4 整图中只有一个源点和一个汇点
+  5 求由源到汇的最小成本路径
+  6 
+  7 ------------------------------------------------------------
+
+
+  1 0/1背包问题
+  2 
+  3 有一定容量的背包和多件物品，物品不可分割
+  4 每件物品的体积与价值已知，物品总数已知
+  5 求某种装包的策略，使得背包内物品的总价值最大
+
+
+
+杨氏矩阵查找
+
+求子数组的和的绝对值的最小值
+1. sum[i] = sum(a, 0, i);
+2. sort(sum, 0, n)
+3. min(sum[0], sum[i + 1] - sum[i])
+
+两个数组合并后的第K大的数
+
+对于数组A[0,1,2,3,4,...,k]，求得0<=i < j < k，且使得A[j] - A[i]为最大值。
+
+对于递增的数组A[0,1,2,3,4,...,k]，数组B[0,1,2,3,4,...k']，对于0<=i<k,0<=j<k'，对于计算出的A[i]+B[j]，求其前k小个元素。
+
+对于链表表示的完全二叉树，给出根节点的指针，统计其节点的数量。
+
+
+左偏树（堆）的实现
+
+
+
+线索二叉树
+并查集
+huffman树
+图
+Prim
+Kruskal
+求关节点
+拓扑排序
+关键路径
+Floyd
+Bellman-Ford
+AVL
+败者树多项式
+八皇后
+静态链表
+二叉树遍历的游标类
+最优二叉搜索树
+重连通分量
+锦标赛排序
+B树
+trie树
+约瑟夫问题
+Fib
+杨辉三角
+
+pxf可视化工具 px font?
+颜色查看、选取工具
+数制转化工具
+
+javascript 解释器的实现
+
+写真天蚕变
+连连看
+n^2-1个拼图
+真正的拼图
+扫雷
+四子相连
+华容道
+
+android: contacts export/import
+
+android: diary / server
+
+android: text editor
+
+android: mailer
+
+android: avi player
+
+android: file manager
+
+判断单词/图片的相似性 余弦
+
+浏览器的fingerprint
+
+chrome extension: color picker & meature/marker tool
+
+std c subset compiler
+
+pd-read 简易阅读软件
+
+pd-glry 参考gThumb
+i: file property
+F8: gallery preview at bottom
+slide show
+使用外存以便不失真地查看巨大的图片
+audio/video 交互
+灰度x08,0x0F,0x18
+
+pd-note 速记
+
+js csv parser using state machine
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+code struct
+
+thoughts and perls and patterns about how to organize code and design
+
+raw/
+
+db table
+table knows how to op rows but unconscious about the meaning of the data
+
+polling task and single task
+
+config
+in memory and in file
+
+
+gc类语言无法给出ref到int的强转，原因之一是转int后无法跟踪原内存
+
+
+红黑树
+
+B树和B+树
+
+Bloom filter
+
+LevelDb
+
+java 内存模型
+
+jvm加载class原理机制
+什么是，有哪些，tomcat有什么不同，
+
+java内存分配
+堆结构，各区域
+
+jc原理和算法
+分布式jc, minor jc和major jc，gc调优
+
+分布式缓存和一致性hash
+
+
+--- mayi xu peng
+cortana 平台 
+不同组件的封装 运维 支持
+面向开发者
+
+完善 有必要的情况下改写 
+50%
+5、6个人
+---
+
+
+https://hutool.cn/
+https://github.com/looly/hutool/blob/v4-master/hutool-http/src/main/java/cn/hutool/http/Header.java
+
+learn java
+http://javawebtutor.com/articles/servlets/session_management_in_java.php
+
+
+
+
+
+
+==公共子串(LCS)==
+s1, s2
+构造int矩阵 {s1.size(), s2.size()} s1向下 s2向右
+if (s1[i] == s2[j]) {
+	if (i > 0 && j > 0) {
+		m[i][j] = m[i-1][j-1] + 1;
+	} else {
+		m[i][j] = 1;
+	}
+} else {
+	m[i][j] = 0;
+}
+
+若可以不相邻
+http://www.cnblogs.com/dartagnan/archive/2011/10/06/2199764.html
+for i=0,s1.length; j=0,s2.length
+	if s1[i] == s2[j]
+		// return f(s1, i-1, s2, j-1) + s1[i]
+		m.get(i,j).n = m.get(i-1,j-1).n + 1
+		m.get(i,j).p = m.get(i-1,j-1)
+	else
+		// return better(f(s1, i-1, s2, j), f(s1, i, s2, j-1))
+		if m.get(i-1,j).n >= m.get(i,j-1).n
+			m.get(i,j).n = m.get(i-1,j).n
+			m.get(i,j).p = m.get(i-1,j)
+		else
+			m.get(i,j).n = m.get(i,j-1).n
+			m.get(i,j).p = m.get(i,j-1)
+
+若有多个字符串
+广义后缀树
+
+the lang
+
+matlab
+
+tab manager demo
+
