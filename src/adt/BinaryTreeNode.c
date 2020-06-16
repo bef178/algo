@@ -49,6 +49,14 @@ void BinaryTreeNode_enlinkR(BinaryTreeNode * self,
     }
 }
 
+int BinaryTreeNode_level(BinaryTreeNode * self) {
+    int level = -1;
+    for (BinaryTreeNode * p = self; p != null; p = p->parent) {
+        level++;
+    }
+    return level;
+}
+
 void BinaryTreeNode_print(BinaryTreeNode * self) {
     if (self == NULL) {
         return;
@@ -65,4 +73,31 @@ void BinaryTreeNode_print(BinaryTreeNode * self) {
         printf("%ld", self->r->value);
     }
     printf("\n");
+}
+
+////////
+
+void BinaryTree_free(BinaryTreeNode * root) {
+    if (root != NULL) {
+        BinaryTree_free(root->l);
+        BinaryTree_free(root->r);
+        BinaryTreeNode_free(root);
+    }
+}
+
+int BinaryTree_depth(BinaryTreeNode * root) {
+    if (root == NULL) {
+        return -1;
+    }
+    int l = BinaryTree_depth(root->l);
+    int r = BinaryTree_depth(root->r);
+    return (l >= r ? l : r) + 1;
+}
+
+void BinaryTree_print(BinaryTreeNode * root) {
+    if (root != NULL) {
+        BinaryTreeNode_print(root);
+        BinaryTree_print(root->l);
+        BinaryTree_print(root->r);
+    }
 }
