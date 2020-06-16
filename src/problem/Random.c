@@ -8,27 +8,26 @@
  * randm() generates a random number in [0,m) in p=1/m
  * return a random number in [0,n) in p=1/n
  */
-int Random_rand(const int n, int (*randm)(), int m) {
+int Random_randn(const int n, int (*randm)(), int m) {
     assert(n > 0);
     assert(randm != NULL);
     assert(m > 1);
 
     int numBits = 1;
-    int p = m;
-    for (int i = n; (i = (i / m)) != 0; ) {
+    int extendedBound = m;
+    while (extendedBound < n) {
         numBits++;
-        p *= m;
+        extendedBound *= m; // caution: overflow
     }
-    assert(p > n);
+    int upperBound = extendedBound - extendedBound % n;
 
-    int upperBound = n - p % n;
     while (true) {
-        int k = randm();
+        int r = 0;
         for (int i = 0; i < numBits; i++) {
-            k = k * m + randm(); // extend as if m-based digit
+            r = r * m + randm(); // extend as if m-based digit
         }
-        if (k < upperBound) {
-            return k % n;
+        if (r < upperBound) {
+            return r % n;
         }
     }
 }
@@ -48,24 +47,24 @@ int Random_rand2(int (*rand2p)()) {
     }
 }
 
-
 /**
  * 蓄水池采样 Reservoir Sampling
- * 给定多个点，随机返回其中m个点，使每个点被选中的概率均等
+ * 给定多个点，随机拾取其中n个点，使每个点被选中的概率均等
+ * return Reservoir size
  */
-int Random_getReservoirSamples(int (*next)(), const int m, int * samples) {
+int Random_getReservoirSamples(int (*next)(), int * samples, const int n) {
     assert(next != NULL);
-    assert(m > 0);
+    assert(n > 0);
     assert(samples != NULL);
     srand(time(NULL));
     int i = 0;
     int v = EOF;
     while ((v = next()) != EOF) {
-        if (i < m) {
+        if (i < n) {
             samples[i] = v;
         } else {
             int j = rand() % i;
-            if (j < m) {
+            if (j < n) {
                 // replace
                 samples[j] = v;
             }
