@@ -6,18 +6,18 @@
 
 #include <stdlib.h>
 
-ListHead * LinkedList_reverse(ListHead * p) {
+LinkNode * LinkedList_reverse(LinkNode * p) {
     if (p == NULL) {
         return NULL;
     }
 
-    ListHead * newHead = p;
+    LinkNode * newHead = p;
     p = p->next;
     newHead->next = NULL;
-    ListHead * newTail = newHead;
+    LinkNode * newTail = newHead;
 
     while (p != NULL && p != newTail) {
-        ListHead * q = p;
+        LinkNode * q = p;
         p = p->next;
         q->next = newHead;
         newHead = q;

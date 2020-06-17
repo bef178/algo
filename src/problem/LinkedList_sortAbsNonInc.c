@@ -4,14 +4,14 @@
 
 #include <stdlib.h>
 
-ListNode * LinkedList_sortAbsNonInc(ListNode * head) {
+LinkNode * LinkedList_sortAbsNonInc(LinkNode * head) {
     if (head == NULL) {
         return head;
     }
 
-    ListNode * pivot = NULL; // points to the last positive node
+    LinkNode * pivot = NULL; // points to the last positive node
     while (head != NULL) {
-        ListNode * p = head;
+        LinkNode * p = head;
         head = head->next;
         p->next = pivot;
         pivot = p;
@@ -22,9 +22,9 @@ ListNode * LinkedList_sortAbsNonInc(ListNode * head) {
     if (head == NULL) {
         return pivot;
     }
-    ListNode * newHead = pivot;
+    LinkNode * newHead = pivot;
     while (head != NULL) {
-        ListNode * p = head;
+        LinkNode * p = head;
         head = head->next;
         p->next = pivot->next;
         pivot->next = p;
@@ -35,27 +35,27 @@ ListNode * LinkedList_sortAbsNonInc(ListNode * head) {
     return newHead;
 }
 
-ListNode * LinkedList_sortAbsNonInc2(ListNode * head) {
+LinkNode * LinkedList_sortAbsNonInc2(LinkNode * head) {
     if (head == NULL) {
         return NULL;
     }
 
     // with head node
-    ListNode * tmpHead = ListNode_malloc(0);
-    ListNode_enlinkNext(tmpHead, head);
+    LinkNode * tmpHead = LinkNode_malloc(0);
+    LinkNode_enlinkNext(tmpHead, head);
 
-    ListNode * negHead = NULL;
+    LinkNode * negHead = NULL;
 
     head = tmpHead;
     while (head->next != NULL) {
         if (head->next->value < 0) {
-            ListNode * p = ListNode_removeNext(head);
-            ListNode_insertNext(p, negHead);
+            LinkNode * p = LinkNode_removeNext(head);
+            LinkNode_insertNext(p, negHead);
             negHead = p;
         }
     }
-    ListNode_enlinkNext(head, negHead);
-    head = ListNode_delinkNext(tmpHead);
+    LinkNode_enlinkNext(head, negHead);
+    head = LinkNode_delinkNext(tmpHead);
     free(tmpHead);
     return head;
 }

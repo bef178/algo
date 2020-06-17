@@ -28,4 +28,7 @@ typedef double float64;
 
 #define NUL     ('\0')
 
+#define public
+#define internal
+
 #endif // _INCLUDED_PREDEFINED

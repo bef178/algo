@@ -3,7 +3,7 @@
 
 Iterator * Iterator_malloc() {
     Iterator * self = calloc(1, sizeof(Iterator));
-    self->head = ListNode_malloc(0);
+    self->head = LinkNode_malloc(0);
     self->current = self->head;
     return self;
 }
@@ -12,10 +12,10 @@ void Iterator_free(Iterator * self) {
     assert(self != NULL);
     assert(self->head != NULL);
     while (self->head->next != NULL) {
-        ListNode * p = ListNode_removeNext(self->head);
-        ListNode_free(p);
+        LinkNode * p = LinkNode_removeNext(self->head);
+        LinkNode_free(p);
     }
-    ListNode_free(self->head);
+    LinkNode_free(self->head);
     self->head = NULL;
     free(self);
     self = NULL;

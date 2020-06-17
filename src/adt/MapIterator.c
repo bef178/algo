@@ -4,10 +4,10 @@
 void MapIterator_free(MapIterator * self) {
     Iterator * it = (Iterator *) self;
     while (it->head->next != NULL) {
-        ListNode * p = ListNode_removeNext(it->head);
+        LinkNode * p = LinkNode_removeNext(it->head);
         MapEntry * entry = (void *) p->value;
         MapEntry_free(entry);
-        ListNode_free(p);
+        LinkNode_free(p);
     }
     Iterator_free(it);
 }

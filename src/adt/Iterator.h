@@ -1,11 +1,11 @@
 #ifndef _INCLUDED_ITERATOR
 #define _INCLUDED_ITERATOR
 
-#include "ListNode.h"
+#include "LinkNode.h"
 
 typedef struct Iterator {
-    ListNode * head;
-    ListNode * current;
+    LinkNode * head;
+    LinkNode * current;
 } Iterator;
 
 Iterator * Iterator_malloc();
