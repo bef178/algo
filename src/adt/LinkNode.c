@@ -35,6 +35,24 @@ LinkNode * LinkNode_delinkNext(LinkNode * self) {
 }
 
 public
+void LinkNode_enlinkPrev(LinkNode * self, LinkNode * futurePrev) {
+    self->prev = futurePrev;
+    if (futurePrev != NULL) {
+        futurePrev->next = self;
+    }
+}
+
+public
+LinkNode * LinkNode_delinkPrev(LinkNode * self) {
+    LinkNode * p = self->prev;
+    if (p != NULL) {
+        self->prev = NULL;
+        p->next = NULL;
+    }
+    return p;
+}
+
+public
 void LinkNode_insertNext(LinkNode * self, LinkNode * futureNext) {
     assert(futureNext != NULL);
     LinkNode * p = LinkNode_delinkNext(self);

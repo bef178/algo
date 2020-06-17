@@ -2,8 +2,14 @@
 #define _INCLUDED_LINKNODE
 
 typedef struct LinkNode {
-    struct LinkNode * next;
-    struct LinkNode * prev;
+    union {
+        struct LinkNode * next;
+        struct LinkNode * r;
+    };
+    union {
+        struct LinkNode * prev;
+        struct LinkNode * l;
+    };
     int64 value;
 } LinkNode;
 
