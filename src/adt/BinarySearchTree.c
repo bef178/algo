@@ -1,27 +1,15 @@
 #include <assert.h>
 
-void BinarySearchTree_add(BinaryTreeNode * root, int64 value) {
-    assert(root != NULL);
-    if (value < root->value) {
-        if (root->l == NULL) {
-            root->l = BinaryTreeNode_malloc(value);
-        } else {
-            BinarySearchTree_add(root->l, value);
-        }
-    } else {
-        if (root->r == NULL) {
-            root->r = BinaryTreeNode_malloc(value);
-        } else {
-            BinarySearchTree_add(root->r, value);
-        }
-    }
-}
-
 /**
+ * leetcode #701 Insert into a Binary Search Tree
+ *
  * return the root
  */
-void BinarySearchTree_add2(BinaryTreeNode * root, int64 value) {
-    assert(root != NULL);
+BinaryTreeNode * BinarySearchTree_add(BinaryTreeNode * root, int64 value) {
+    if (root == NULL) {
+        return BinaryTreeNode_malloc(value);
+    }
+
     BinaryTreeNode * p = root;
     while (true) {
         if (value < p->value) {
@@ -29,7 +17,7 @@ void BinarySearchTree_add2(BinaryTreeNode * root, int64 value) {
                 p->l = BinaryTreeNode_malloc(value);
                 break;
             } else {
-                p = p->r;
+                p = p->l;
             }
         } else {
             if (p->r == NULL) {
