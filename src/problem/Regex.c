@@ -7,29 +7,32 @@
 #include <stdlib.h>
 #include <string.h>
 
-// a valid regex will not start with '*' and have no neighboring '*'
-static boolean isValidRegex(const byte * regex) {
+/**
+ * a valid regex will not start with '*' and have no neighboring '*'
+ */
+public
+boolean Regex_isValid(const byte * regex) {
     if (regex == NULL) {
         return false;
     }
 
-    boolean metAsterisk = true;
+    boolean meetsAsterisk = true;
     const int n = strlen(regex);
     for (int i = 0; i < n; i++) {
         if (regex[i] == '*') {
-            if (metAsterisk) {
+            if (meetsAsterisk) {
                 return false;
             }
-            metAsterisk = true;
+            meetsAsterisk = true;
         } else {
-            metAsterisk = false;
+            meetsAsterisk = false;
         }
     }
     return true;
 }
 
 static boolean matches(const byte * regex, const byte * s) {
-    assert(isValidRegex(regex));
+    assert(Regex_isValid(regex));
     assert(s != NULL);
 
     if (regex[0] == NUL) {
@@ -86,13 +89,13 @@ static boolean matches(const byte * regex, const byte * s) {
 }
 
 static boolean matches_dp(const byte * regex, const byte * s) {
-    assert(isValidRegex(regex));
+    assert(Regex_isValid(regex));
     assert(s != NULL);
 
     int n = strlen(regex);
 
     // imagine regex in horizontal while s in vertical
-    // for regex[0..n) and s[0..m), the matrix should be a[m + 1][n + 1], a[0][.] and a[.][0] for empty string
+    // for regex[0..n) and s[0..m), the matrix should be a[m + 1][n + 1]; a[0][.] and a[.][0] for empty string
     // that is, for regex[0..i] and s[0..j], the matching result saves to a[j + 1][i + 1]
     // keep two rows to save memory
 
@@ -142,6 +145,7 @@ static boolean matches_dp(const byte * regex, const byte * s) {
     return matches;
 }
 
+public
 boolean Regex_matches(const byte * regex, const byte * s) {
     return matches_dp(regex, s);
 }
