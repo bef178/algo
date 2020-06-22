@@ -12,6 +12,8 @@ void testCatalanPairParen();
 
 void testCsv();
 
+void testBase64();
+
 int main() {
 
     testSearch();
@@ -26,6 +28,8 @@ int main() {
     testCatalanPairParen();
 
     testCsv();
+
+    testBase64();
 
     return 0;
 }
