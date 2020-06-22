@@ -1,8 +1,8 @@
 /**
  * Base64
  *
- *  encoding: byte stream to base64 stream
- *  decoding: base64 stream to byte stream
+ * encoding: byte stream to base64 stream
+ * decoding: base64 stream to byte stream
  */
 
 #include <assert.h>
