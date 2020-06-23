@@ -27,7 +27,6 @@ void RgbText_encode1unit(int rgb, byte * dst, int start) {
     Hexdig_encode1byte(RgbText_getR(rgb), dst, start + 1);
     Hexdig_encode1byte(RgbText_getG(rgb), dst, start + 3);
     Hexdig_encode1byte(RgbText_getB(rgb), dst, start + 5);
-    return start - start;
 }
 
 /**
