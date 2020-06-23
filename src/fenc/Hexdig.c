@@ -34,6 +34,9 @@ int encode4bit(int value) {
     assert(false);
 }
 
+/**
+ * always produce 2 bytes
+ */
 public
 void Hexdig_encode1byte(int aByte, byte * dst, int k) {
     assert(aByte >= 0 && aByte <= 0xFF);
@@ -77,6 +80,9 @@ int decode4bit(int ch) {
     assert(false);
 }
 
+/**
+ * always consume 2 bytes
+ */
 public
 int Hexdig_decode1byte(byte * src, int i) {
     byte aByte = decode4bit(src[i++]);
