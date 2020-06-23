@@ -14,6 +14,8 @@ void testCsv();
 
 void testBase64();
 
+void testUtf8();
+
 int main() {
 
     testSearch();
@@ -30,6 +32,8 @@ int main() {
     testCsv();
 
     testBase64();
+
+    testUtf8();
 
     return 0;
 }

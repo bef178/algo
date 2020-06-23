@@ -133,9 +133,10 @@ void setSingleBit(const void * stream, int offset, boolean value) {
     setBits(a[offset >> 3], 1 << (7 - (offset & 7)), value);
 }
 
+public
 boolean testSingleBit(const void * stream, int offset) {
     assert(stream != NULL);
     assert(offset >= 0);
     const byte * a = (const byte *) stream;
-    return testBits(a[offset >> 3], 1 << (7 - (offset & 7))) == 0 ? true : false;
+    return testBits(a[offset >> 3], 1 << (7 - (offset & 7))) != 0 ? true : false;
 }
