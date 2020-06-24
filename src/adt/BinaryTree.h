@@ -7,12 +7,14 @@ typedef LinkNode BinaryTreeNode;
 
 extern BinaryTreeNode * (*BinaryTreeNode_malloc)(int64);
 
-void BinaryTree_free(LinkNode * root);
+void BinaryTree_free(BinaryTreeNode * root);
 
-int BinaryTree_depth(LinkNode * root);
+int BinaryTree_size(BinaryTreeNode * root);
 
-int BinaryTree_getNodeLevel(LinkNode * root, LinkNode * node);
+int BinaryTree_depth(BinaryTreeNode * root);
 
-void BinaryTree_print(LinkNode * root);
+int BinaryTree_getNodeLevel(BinaryTreeNode * root, BinaryTreeNode * node);
+
+void BinaryTree_print(BinaryTreeNode * root);
 
 #endif // _INCLUDED_BINARYTREE

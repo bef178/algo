@@ -15,7 +15,7 @@ typedef struct LinkNode {
 
 LinkNode * LinkNode_malloc(int64 value);
 
-void LinkNode_free(LinkNode * self);
+int64 LinkNode_free(LinkNode * self);
 
 void LinkNode_enlinkNext(LinkNode * self, LinkNode * futureNext);
 

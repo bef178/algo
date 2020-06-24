@@ -9,12 +9,42 @@ public
 BinaryTreeNode * (*BinaryTreeNode_malloc)(int64) = LinkNode_malloc;
 
 public
-void BinaryTree_free(LinkNode * root) {
+int64 (*BinaryTreeNode_free)(BinaryTreeNode *) = LinkNode_free;
+
+public
+void BinaryTree_free(BinaryTreeNode * root) {
     if (root != NULL) {
         BinaryTree_free(root->l);
         BinaryTree_free(root->r);
         LinkNode_free(root);
     }
+}
+
+public
+int BinaryTree_size(LinkNode * root) {
+    if (root == NULL) {
+        return 0;
+    }
+
+    int n = 0;
+    LinkNode * head = LinkNode_malloc(0);
+    LinkNode * rootP = LinkNode_malloc((int64) root);
+    LinkNode_enlinkNext(head, rootP);
+    while (head->next != NULL) {
+        LinkNode * nodeP = LinkNode_delinkNext(head);
+        n++;
+        BinaryTreeNode * p = (void *) LinkNode_free(nodeP);
+        if (p->prev != NULL) {
+            LinkNode * nodeP1 = LinkNode_malloc((int64) p->prev);
+            LinkNode_enlinkNext(head, nodeP1);
+        }
+        if (p->next != NULL) {
+            LinkNode * nodeP2 = LinkNode_malloc((int64) p->next);
+            LinkNode_enlinkNext(head, nodeP2);
+        }
+    }
+    LinkNode_free(head);
+    return n;
 }
 
 /**

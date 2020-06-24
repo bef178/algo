@@ -9,8 +9,10 @@ LinkNode * LinkNode_malloc(int64 value) {
 }
 
 public
-void LinkNode_free(LinkNode * self) {
+int64 LinkNode_free(LinkNode * self) {
+    int64 value = self->value;
     free(self);
+    return value;
 }
 
 /**
