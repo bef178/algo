@@ -16,6 +16,8 @@ void testBase64();
 
 void testUtf8();
 
+void testRawInt();
+
 int main() {
 
     testSearch();
@@ -34,6 +36,8 @@ int main() {
     testBase64();
 
     testUtf8();
+
+    testRawInt();
 
     return 0;
 }
