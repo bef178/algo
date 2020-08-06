@@ -46,8 +46,7 @@ void RawInt_sar(byte * a, int i, int j, int numBits);
  */
 public
 void RawInt_adc(byte * augend, int augendStart, int augendEnd,
-        byte * addend, int addendStart, int addendEnd,
-        boolean * cf);
+        byte * addend, int addendStart, int addendEnd);
 
 public
 void RawInt_adc8(byte * augend, int augendStart, int augendEnd, int64 addend);
@@ -60,7 +59,11 @@ void RawInt_neg(byte * raw, int rawStart, int rawEnd);
  */
 public
 void RawInt_sbc(byte * minuend, int minuendStart, int minuendEnd,
-        byte * subtrahend, int subtrahendStart, int subtrahendEnd,
-        boolean * cf);
+        byte * subtrahend, int subtrahendStart, int subtrahendEnd);
+
+public
+void RawInt_mul(byte * multiplicand, int multiplicandStart, int multiplicandEnd,
+        byte * multiplier, int multiplierStart, int multiplierEnd,
+        byte * product, int productStart, int productEnd);
 
 #endif // _INCLUDED_RAWINT

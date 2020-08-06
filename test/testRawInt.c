@@ -72,15 +72,30 @@ void test_RawInt_adc() {
     RawInt_mov8(a1, 0, 8, value1);
     byte a2[4];
     RawInt_mov8(a2, 0, 4, value2);
-    boolean cf;
 
-    RawInt_adc(a1, 0, 8, a2, 0, 4, &cf);
+    RawInt_adc(a1, 0, 8, a2, 0, 4);
     assert(RawInt_toInt64(a1, 0, 8) == value1 + value2);
 
-    cf = false;
-    RawInt_sbc(a1, 0, 8, a2, 0, 4, &cf);
+    RawInt_sbc(a1, 0, 8, a2, 0, 4);
     int64 difference = RawInt_toInt64(a1, 0, 8);
     assert(difference == value1);
+}
+
+void test_RawInt_mul() {
+    printf("testing RawInt_mul ...\n");
+
+    int64 value1 = 679234892;
+    int value2 = 12345;
+
+    byte a1[8];
+    RawInt_mov8(a1, 0, 8, value1);
+    byte a2[4];
+    RawInt_mov8(a2, 0, 4, value2);
+    byte a3[8];
+
+    RawInt_mul(a1, 0, 8, a2, 0, 4, a3, 0, 8);
+
+    assert(RawInt_toInt64(a3, 0, 8) == value1 * value2);
 }
 
 void testRawInt() {
@@ -88,4 +103,5 @@ void testRawInt() {
     test_RawInt_shl();
     test_RawInt_sar();
     test_RawInt_adc();
+    test_RawInt_mul();
 }
