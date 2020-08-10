@@ -66,4 +66,10 @@ void RawInt_mul(byte * multiplicand, int multiplicandStart, int multiplicandEnd,
         byte * multiplier, int multiplierStart, int multiplierEnd,
         byte * product, int productStart, int productEnd);
 
+public
+boolean RawInt_div(byte * dividend, int dividendStart, int dividendEnd,
+        byte * divisor, int divisorStart, int divisorEnd,
+        byte * quotient, int quotientStart, int quotientEnd,
+        byte * remainder, int remainderStart, int remainderEnd);
+
 #endif // _INCLUDED_RAWINT

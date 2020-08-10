@@ -28,9 +28,9 @@ void RawInt_adc(byte * augend, int augendStart, int augendEnd,
         byte * addend, int addendStart, int addendEnd) {
     boolean cf = false;
     byte addendSignByte = addend[addendStart] >= 0 ? 0 : -1;
-    for (int offset = 0; offset < augendEnd - augendStart; offset++) {
-        int i = augendEnd - 1 - offset;
-        int j = addendEnd - 1 - offset;
+    for (int d = 0; d < augendEnd - augendStart; d++) {
+        int i = augendEnd - 1 - d;
+        int j = addendEnd - 1 - d;
         byte addend1 = (j >= addendStart) ? addend[j] : addendSignByte;
         augend[i] = adc(augend[i], addend1, &cf);
     }
@@ -69,7 +69,7 @@ void RawInt_sbc(byte * minuend, int minuendStart, int minuendEnd,
 }
 
 /**
- * product = multiplicand * multiplier
+ * multiplicand * multiplier = product
  * unsigned
  */
 public
@@ -102,4 +102,84 @@ void RawInt_mul(
             RawInt_adc8(product, 0, k + 1, jv * iv);
         }
     }
+}
+
+static
+int numLeadingClearBits(byte * a, int i, int j) {
+    int n = 0;
+    while (i < j) {
+        if (a[i] == 0) {
+            n += 8;
+            i++;
+            continue;
+        } else {
+            int mask = 1 << 7;
+            while ((a[i] & mask) == 0) {
+                n++;
+                mask >>= 1;
+            }
+        }
+        break;
+    }
+    return n;
+}
+
+/**
+ * dividend / divisor = quotient ... remainder
+ * unsigned
+ */
+public
+boolean RawInt_div(byte * dividend, int dividendStart, int dividendEnd,
+        byte * divisor, int divisorStart, int divisorEnd,
+        byte * quotient, int quotientStart, int quotientEnd,
+        byte * remainder, int remainderStart, int remainderEnd) {
+    if (RawInt_cmp8(divisor, divisorStart, divisorEnd, 0) == 0) {
+        return false;
+    }
+
+    if (RawInt_cmp8(dividend, dividendStart, dividendEnd, 0) == 0) {
+        RawInt_mov8(quotient, quotientStart, quotientEnd, 0);
+        RawInt_mov8(remainder, remainderStart, remainderEnd, 0);
+        return true;
+    }
+
+    if (RawInt_cmp(dividend, dividendStart, dividendEnd, divisor, divisorStart, divisorEnd) < 0) {
+        RawInt_mov8(quotient, quotientStart, quotientEnd, 0);
+        RawInt_mov(remainder, remainderStart, remainderEnd, dividend, dividendStart, dividendEnd);
+        return true;
+    }
+    memset(quotient + quotientStart, 0, quotientEnd - quotientStart);
+
+    int n = dividendEnd - RawInt_getEffectiveStartIndex(dividend, dividendStart, dividendEnd);
+
+    byte a1[n];
+    RawInt_mov(a1, 0, n, dividend, dividendStart, dividendEnd);
+
+    byte a2[n];
+    RawInt_mov(a2, 0, n, divisor, divisorStart, divisorEnd);
+
+    int bitOffset = numLeadingClearBits(a2, 0, n) - numLeadingClearBits(a1, 0, n);
+    RawInt_shl(a2, 0, n, bitOffset);
+
+    while (true) {
+        if (RawInt_cmp(a1, 0, n, a2, 0, n) >= 0) {
+            RawInt_sbc(a1, 0, n, a2, 0, n);
+            if (bitOffset < 64) {
+                RawInt_adc8(quotient, quotientStart, quotientEnd, 1 << bitOffset);
+            } else {
+                byte a[n];
+                RawInt_mov8(a, 0, n, 1);
+                RawInt_shl(a, 0, n, bitOffset);
+                RawInt_adc(quotient, quotientStart, quotientEnd, a, 0, n);
+            }
+        } else {
+            if (bitOffset == 0) {
+                break;
+            }
+            RawInt_sar(a2, 0, n, 1);
+            bitOffset--;
+        }
+    }
+    RawInt_mov(remainder, remainderStart, remainderEnd, a1, 0, n);
+    return true;
 }

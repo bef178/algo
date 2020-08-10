@@ -46,13 +46,14 @@ int RawInt_cmp(byte * one, int oneStart, int oneEnd,
         return ((oneLen < anotherLen) == (one[0] >= 0)) ? -1 : 1;
     }
 
-    // same size, compare byte by byte
-    for (int i = 0; i < oneLen; i++) {
-        if (one[i] != another[i]) {
-            return ((one[i] < another[i]) == (one[0] >= 0)) ? -1 : 1;
-        }
+    int result = memcmp(one, another, oneLen);
+    if (result < 0) {
+        return -1;
+    } else if (result == 0) {
+        return 0;
+    } else {
+        return 1;
     }
-    return 0;
 }
 
 public
@@ -95,6 +96,7 @@ int64 RawInt_toInt64(byte * a, int i, int j) {
 
 public
 void RawInt_print(byte * a, int i, int j) {
+    printf("0x");
     for (int k = i; k < j; k++) {
         printf("%02X", a[k] & 0xFF);
     }

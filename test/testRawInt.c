@@ -1,6 +1,9 @@
 #include <assert.h>
 #include <memory.h>
 #include <inttypes.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
 static
 void test_RawInt_mov8_1(int64 expectedValue, byte * expectedBytes, int expectedBytesCount) {
@@ -30,6 +33,28 @@ void test_RawInt_mov() {
     int64 expectedValue3 = 666;
     byte expectedBytes3[] = { 0, 0, 2, 0x9A };
     test_RawInt_mov8_1(expectedValue3, expectedBytes3, 4);
+}
+
+void test_RawInt_cmp() {
+    printf("testing RawInt_cmp ...\n");
+
+    srand(time(NULL));
+    for (int i = 0; i < 1000; i++) {
+        int value1 = rand();
+        byte a1[4];
+        RawInt_mov8(a1, 0, 4, value1);
+        int value2 = rand();
+        byte a2[4];
+        RawInt_mov8(a2, 0, 4, value2);
+        int cmpResult = RawInt_cmp(a1, 0, 4, a2, 0, 4);
+        if (cmpResult == 0) {
+            assert(value1 == value2);
+        } else if (cmpResult < 0) {
+            assert(value1 < value2);
+        } else {
+            assert(value1 > value2);
+        }
+    }
 }
 
 void test_RawInt_shl() {
@@ -98,10 +123,31 @@ void test_RawInt_mul() {
     assert(RawInt_toInt64(a3, 0, 8) == value1 * value2);
 }
 
+void test_RawInt_div() {
+    printf("testing RawInt_div ...\n");
+
+    int64 value1 = 679234892;
+    int value2 = 12345;
+
+    byte a1[8];
+    RawInt_mov8(a1, 0, 8, value1);
+    byte a2[4];
+    RawInt_mov8(a2, 0, 4, value2);
+    byte a3[8];
+    byte a4[8];
+
+    RawInt_div(a1, 0, 8, a2, 0, 4, a3, 0, 8, a4, 0, 8);
+
+    assert(RawInt_toInt64(a3, 0, 8) == value1 / value2);
+    assert(RawInt_toInt64(a4, 0, 8) == value1 % value2);
+}
+
 void testRawInt() {
     test_RawInt_mov();
+    test_RawInt_cmp();
     test_RawInt_shl();
     test_RawInt_sar();
     test_RawInt_adc();
     test_RawInt_mul();
+    test_RawInt_div();
 }
