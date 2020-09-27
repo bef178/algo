@@ -4,6 +4,14 @@
 
 #include <assert.h>
 
+static const int32 DAYS_OVER_MONTH_365[] = {
+        31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
+};
+
+static const int32 DAYS_OVER_MONTH_366[] = {
+        31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
+};
+
 static boolean isLeapYear(int32 year) {
     if (year % 100 == 0) {
         return year % 400 == 0;
@@ -11,16 +19,8 @@ static boolean isLeapYear(int32 year) {
     return year % 4 == 0;
 }
 
-static const int32 MONTH_DAYS_365[] = {
-        31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
-};
-
-static const int32 MONTH_DAYS_366[] = {
-        31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
-};
-
-static const int32 * daysPerMonth(int32 year) {
-    return isLeapYear(year) ? MONTH_DAYS_366 : MONTH_DAYS_365;
+static const int32 * getDaysOverMonthsByYear(int32 year) {
+    return isLeapYear(year) ? DAYS_OVER_MONTH_366 : DAYS_OVER_MONTH_365;
 }
 
 static int32 daysToDayOfWeek(int64 days) {
@@ -32,7 +32,7 @@ static int32 daysToDayOfWeek(int64 days) {
     return from;
 }
 
-// ensure year in int32 range
+// int32 years
 static int64 MIN_DAYS = -784353015833L;
 static int64 MAX_DAYS = 784351576777L;
 
@@ -50,7 +50,7 @@ boolean TimeUtil_breakDays(const int64 days,
         return false;
     }
 
-    // map to 2000-01-01
+    // rebase to 2000-01-01
     int64 i = days - (Y1 * 30 + 7);
 
     int32 n400 = (int32) (i / Y400);
@@ -90,10 +90,10 @@ boolean TimeUtil_breakDays(const int64 days,
         *outDayOfYear = dayOfYear;
     }
 
-    const int32 * monthDays = daysPerMonth(year);
+    const int32 * daysOverMonths = getDaysOverMonthsByYear(year);
     int32 m = 0;
-    while (j >= monthDays[m]) {
-        j -= monthDays[m];
+    while (j >= daysOverMonths[m]) {
+        j -= daysOverMonths[m];
         m++;
     }
 
@@ -116,13 +116,9 @@ boolean TimeUtil_breakDays(const int64 days,
     return true;
 }
 
-static int32 daysPerYear(int32 year) {
-    return isLeapYear(year) ? 366 : 365;
-}
-
 public
 int64 TimeUtil_totalDays(const int32 year, const int32 dayOfYear) {
-    assert(dayOfYear >= 0 && dayOfYear < daysPerYear(year));
+    assert(dayOfYear >= 0 && dayOfYear < (isLeapYear(year) ? 366 : 355));
     // align to year 0 to avoid overflow
     int32 numLeapYears = year > 0
             ? (1 + (year - 1) / 4 - (year - 1) / 100 + (year - 1) / 400)
@@ -133,12 +129,13 @@ int64 TimeUtil_totalDays(const int32 year, const int32 dayOfYear) {
 public
 int32 TimeUtil_toDayOfYear(const int32 year, const int32 monthOfYear, const int32 dayOfMonth) {
     assert(monthOfYear >= 0 && monthOfYear < 12);
-    assert(dayOfMonth >= 0 && dayOfMonth < daysPerMonth(year)[monthOfYear]);
 
-    const int32 * monthDays = daysPerMonth(year);
+    const int32 * daysOverMonths = getDaysOverMonthsByYear(year);
+    assert(dayOfMonth >= 0 && dayOfMonth < daysOverMonths[monthOfYear]);
+
     int32 dayOfYear = dayOfMonth;
     for (int32 i = 0; i < monthOfYear; i++) {
-        dayOfYear += monthDays[i];
+        dayOfYear += daysOverMonths[i];
     }
     return dayOfYear;
 }

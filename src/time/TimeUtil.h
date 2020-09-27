@@ -6,14 +6,14 @@ boolean TimeUtil_breakMilliseconds(const int64 milliseconds,
         int64 * outDays, int32 * outMillisecondOfDay);
 
 public
+int64 TimeUtil_totalMilliseconds(int64 days, int32 millisecondOfDay);
+
+public
 boolean TimeUtil_breakMillisecondOfDay(const int32 millisecondOfDay,
         int32 * outHour, int32 * outMinute, int32 * outSecond, int32 * outMillisecond);
 
 public
-int64 totalMilliseconds(int64 days, int32 millisecondOfDay);
-
-public
-int32 TimeUtil_toMillisecondOfDay(int32 hh, int32 mm, int32 ss, int32 sss);
+int32 TimeUtil_toMillisecondOfDay(int32 hour, int32 minute, int32 second, int32 millisecond);
 
 public
 boolean TimeUtil_breakDays(const int64 days,

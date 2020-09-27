@@ -43,6 +43,12 @@ boolean TimeUtil_breakMilliseconds(const int64 milliseconds,
 }
 
 public
+int64 TimeUtil_totalMilliseconds(int64 days, int32 millisecondOfDay) {
+    assert(millisecondOfDay >= 0 && millisecondOfDay < MILLISECONDS_PER_DAY);
+    return MILLISECONDS_PER_DAY * days + millisecondOfDay;
+}
+
+public
 boolean TimeUtil_breakMillisecondOfDay(const int32 millisecondOfDay,
         int32 * outHour, int32 * outMinute, int32 * outSecond, int32 * outMillisecond) {
     if (millisecondOfDay < 0 || millisecondOfDay > MILLISECONDS_PER_DAY) {
@@ -81,17 +87,11 @@ boolean TimeUtil_breakMillisecondOfDay(const int32 millisecondOfDay,
 }
 
 public
-int64 totalMilliseconds(int64 days, int32 millisecondOfDay) {
-    assert(millisecondOfDay >= 0 && millisecondOfDay < MILLISECONDS_PER_DAY);
-    return MILLISECONDS_PER_DAY * days + millisecondOfDay;
-}
-
-public
-int32 TimeUtil_toMillisecondOfDay(int32 hh, int32 mm, int32 ss, int32 sss) {
-    assert(hh >= 0 && hh < 60);
-    assert(mm >= 0 && mm < 60);
-    assert(ss >= 0 && ss < 60);
-    assert(sss >= 0 && sss < 1000);
-    return MILLISECONDS_PER_HOUR * hh + MILLISECONDS_PER_MINUTE * mm
-            + MILLISECONDS_PER_SECOND * ss + sss;
+int32 TimeUtil_toMillisecondOfDay(int32 hour, int32 minute, int32 second, int32 millisecond) {
+    assert(hour >= 0 && hour < 60);
+    assert(minute >= 0 && minute < 60);
+    assert(second >= 0 && second < 60);
+    assert(millisecond >= 0 && millisecond < 1000);
+    return MILLISECONDS_PER_HOUR * hour + MILLISECONDS_PER_MINUTE * minute
+            + MILLISECONDS_PER_SECOND * second + millisecond;
 }
