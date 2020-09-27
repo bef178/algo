@@ -139,3 +139,19 @@ int32 TimeUtil_toDayOfYear(const int32 year, const int32 monthOfYear, const int3
     }
     return dayOfYear;
 }
+
+public
+int TimeUtil_toUtcString(int64 timestamp, byte * dst) {
+    int64 days;
+    int32 millisecondOfDay;
+    TimeUtil_breakMilliseconds(timestamp, &days, &millisecondOfDay);
+
+    int32 year, monthOfYear, dayOfMonth;
+    TimeUtil_breakDays(days, &year, NULL, &monthOfYear, &dayOfMonth, NULL, NULL);
+
+    int32 hh, mm, ss, sss;
+    TimeUtil_breakMillisecondOfDay(millisecondOfDay, &hh, &mm, &ss, &sss);
+
+    return sprintf(dst, "%04d-%02d-%02dT%02d:%02d:%02d.%03dZ",
+            year, monthOfYear + 1, dayOfMonth + 1, hh, mm, ss, sss);
+}

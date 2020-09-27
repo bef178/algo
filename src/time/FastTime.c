@@ -34,15 +34,5 @@ FastTime * FastTime_addMilliseconds(FastTime * self, int64 milliseconds) {
 
 public
 int FastTime_toDateString(FastTime * self, byte * dst) {
-    int64 days;
-    int32 millisecondOfDay;
-    TimeUtil_breakMilliseconds(self->s3, &days, &millisecondOfDay);
-
-    int32 year, dayOfYear, monthOfYear, dayOfMonth, weekOfYear, dayOfWeek;
-    TimeUtil_breakDays(days, &year, &dayOfYear, &monthOfYear, &dayOfMonth, &weekOfYear, & dayOfWeek);
-
-    int32 hh, mm, ss, sss;
-    TimeUtil_breakMillisecondOfDay(millisecondOfDay, &hh, &mm, &ss, &sss);
-
-    return sprintf(dst, "%04d-%02d-%02dT%02d:%02d:%02d.%03dZ", year, monthOfYear, dayOfMonth, hh, mm, ss, sss);
+    return TimeUtil_toUtcString(self->s3, dst);
 }

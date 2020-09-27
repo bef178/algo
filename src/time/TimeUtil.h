@@ -27,4 +27,7 @@ int64 TimeUtil_totalDays(const int32 year, const int32 dayOfYear);
 public
 int32 TimeUtil_toDayOfYear(const int32 year, const int32 monthOfYear, const int32 dayOfMonth);
 
+public
+int TimeUtil_toUtcString(const long timestamp, byte * dst);
+
 #endif // _INCLUDED_TIMEUTIL
