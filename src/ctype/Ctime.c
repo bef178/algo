@@ -178,7 +178,11 @@ boolean Ctime_breakDays(const int64 days,
         j--;
     }
 
-    const int32 year = 2000 + 400 * n400 + 100 * n100 + 4 * n4 + 1 * n1;
+    int32 year = 2000 + 400 * n400 + 100 * n100 + 4 * n4 + 1 * n1;
+    if (j < 0) {
+        year--;
+        j += isLeapYear(year) ? 366 : 365;
+    }
     if (outYear != NULL) {
         *outYear = year;
     }

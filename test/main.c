@@ -18,6 +18,8 @@ void testUtf8();
 
 void testRawInt();
 
+void testCtime();
+
 int main() {
 
     testSearch();
@@ -38,6 +40,8 @@ int main() {
     testUtf8();
 
     testRawInt();
+
+    testCtime();
 
     return 0;
 }
