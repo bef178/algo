@@ -28,6 +28,6 @@ public
 int32 Ctime_toDayOfYear(const int32 year, const int32 monthOfYear, const int32 dayOfMonth);
 
 public
-int Ctime_toUtcString(const long timestamp, byte * dst);
+int Ctime_toUtcString(const int64 timestamp, byte * dst);
 
 #endif // _INCLUDED_CTIME
