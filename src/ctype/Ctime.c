@@ -1,5 +1,5 @@
 /**
- * Date and Time on Gregorian calendar
+ * Date and Time on ISO-8601
  *
  * Age of the universe: 1.38e10y
  * 1d = 86400s
@@ -97,7 +97,7 @@ int32 Ctime_toMillisecondOfDay(int32 hh, int32 mm, int32 ss, int32 sss) {
 }
 
 /*******************
- * Date on Gregorian calendar
+ * Date on ISO-8601
  */
 
 #include <assert.h>
