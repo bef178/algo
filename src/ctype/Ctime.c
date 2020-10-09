@@ -1,5 +1,7 @@
 /**
- * Date and Time on ISO-8601
+ * Date and Time
+ *
+ * refer to ISO-8601
  *
  * Age of the universe: 1.38e10y
  * 1d = 86400s
@@ -97,7 +99,7 @@ int32 Ctime_toMillisecondOfDay(int32 hh, int32 mm, int32 ss, int32 sss) {
 }
 
 /*******************
- * Date on ISO-8601
+ * Date
  */
 
 #include <assert.h>
@@ -117,8 +119,8 @@ static boolean isLeapYear(int32 year) {
     return year % 4 == 0;
 }
 
-static const int32 * getDaysOverMonthsByYear(int32 year) {
-    return isLeapYear(year) ? DAYS_OVER_MONTH_366 : DAYS_OVER_MONTH_365;
+static const int32 * getDaysOverMonthsByYear(boolean isLeapYear) {
+    return isLeapYear ? DAYS_OVER_MONTH_366 : DAYS_OVER_MONTH_365;
 }
 
 static int32 daysToDayOfWeek(int64 days) {
@@ -192,7 +194,7 @@ boolean Ctime_breakDays(const int64 days,
         *outDayOfYear = dayOfYear;
     }
 
-    const int32 * daysOverMonths = getDaysOverMonthsByYear(year);
+    const int32 * daysOverMonths = getDaysOverMonthsByYear(isLeapYear(year));
     int32 m = 0;
     while (j >= daysOverMonths[m]) {
         j -= daysOverMonths[m];
@@ -229,10 +231,10 @@ int64 Ctime_totalDays(const int32 year, const int32 dayOfYear) {
 }
 
 public
-int32 Ctime_toDayOfYear(const int32 year, const int32 monthOfYear, const int32 dayOfMonth) {
+int32 Ctime_toDayOfYear(const boolean isLeapYear, const int32 monthOfYear, const int32 dayOfMonth) {
     assert(monthOfYear >= 0 && monthOfYear < 12);
 
-    const int32 * daysOverMonths = getDaysOverMonthsByYear(year);
+    const int32 * daysOverMonths = getDaysOverMonthsByYear(isLeapYear);
     assert(dayOfMonth >= 0 && dayOfMonth < daysOverMonths[monthOfYear]);
 
     int32 dayOfYear = dayOfMonth;

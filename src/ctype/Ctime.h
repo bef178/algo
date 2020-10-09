@@ -2,7 +2,7 @@
 #define _INCLUDED_CTIME
 
 /**
- * Date and Time on ISO-8601
+ * Date and Time
  */
 
 public
@@ -35,7 +35,7 @@ public
 int64 Ctime_totalDays(const int32 year, const int32 dayOfYear);
 
 public
-int32 Ctime_toDayOfYear(const int32 year, const int32 monthOfYear, const int32 dayOfMonth);
+int32 Ctime_toDayOfYear(const boolean isLeapYear, const int32 monthOfYear, const int32 dayOfMonth);
 
 /**
  * will take at least 24 bytes in dst
