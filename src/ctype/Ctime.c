@@ -29,14 +29,14 @@ static const int32 MILLISECONDS_PER_HOUR = 1000 * 60 * 60; // MILLISECONDS_PER_M
 static const int32 MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24; // MILLISECONDS_PER_HOUR * 24;
 
 public
-boolean Ctime_breakMilliseconds(const int64 milliseconds,
+boolean Ctime_breakMilliseconds(const int64 millisecondsSinceEpoch,
         int64 * outDays, int32 * outMillisecondOfDay) {
-    int32 i = (int32) (milliseconds % MILLISECONDS_PER_DAY);
+    int32 i = (int32) (millisecondsSinceEpoch % MILLISECONDS_PER_DAY);
     if (i < 0) {
         i += MILLISECONDS_PER_DAY;
     }
     if (outDays != NULL) {
-        *outDays = (milliseconds - i) / MILLISECONDS_PER_DAY;
+        *outDays = (millisecondsSinceEpoch - i) / MILLISECONDS_PER_DAY;
     }
     if (outMillisecondOfDay != NULL) {
         *outMillisecondOfDay = i;
@@ -45,9 +45,9 @@ boolean Ctime_breakMilliseconds(const int64 milliseconds,
 }
 
 public
-int64 Ctime_totalMilliseconds(int64 days, int32 millisecondOfDay) {
+int64 Ctime_totalMilliseconds(int64 daysSinceEpoch, int32 millisecondOfDay) {
     assert(millisecondOfDay >= 0 && millisecondOfDay < MILLISECONDS_PER_DAY);
-    return MILLISECONDS_PER_DAY * days + millisecondOfDay;
+    return MILLISECONDS_PER_DAY * daysSinceEpoch + millisecondOfDay;
 }
 
 public
@@ -112,7 +112,8 @@ static const int32 DAYS_OVER_MONTH_366[] = {
         31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
 };
 
-static boolean isLeapYear(int32 year) {
+public
+boolean Ctime_isLeapYear(int32 year) {
     if (year % 100 == 0) {
         return year % 400 == 0;
     }
@@ -123,9 +124,10 @@ static const int32 * getDaysOverMonthsByYear(boolean isLeapYear) {
     return isLeapYear ? DAYS_OVER_MONTH_366 : DAYS_OVER_MONTH_365;
 }
 
-static int32 daysToDayOfWeek(int64 days) {
+public
+int32 Ctime_daysToDayOfWeek(int64 daysSinceEpoch) {
     int32 from = 4; // 1970-01-01 is Thursday
-    from = (int32) ((from + days) % 7);
+    from = (int32) ((from + daysSinceEpoch) % 7);
     if (from < 0) {
         from += 7;
     }
@@ -142,16 +144,16 @@ static const int32 Y100 = 36524; // Y4 * 25 - 1
 static const int32 Y400 = 146097; // Y100 * 4 + 1
 
 public
-boolean Ctime_breakDays(const int64 days,
+boolean Ctime_breakDays(const int64 daysSinceEpoch,
         int32 * outYear, int32 * outDayOfYear,
         int32 * outMonthOfYear, int32 * outDayOfMonth,
         int32 * outWeekOfYear, int32 * outDayOfWeek) {
-    if (days < MIN_DAYS || days >= MAX_DAYS) {
+    if (daysSinceEpoch < MIN_DAYS || daysSinceEpoch >= MAX_DAYS) {
         return false;
     }
 
     // rebase to 2000-01-01
-    int64 i = days - (Y1 * 30 + 7);
+    int64 i = daysSinceEpoch - (Y1 * 30 + 7);
 
     int32 n400 = (int32) (i / Y400);
     i -= Y400 * n400;
@@ -183,7 +185,7 @@ boolean Ctime_breakDays(const int64 days,
     int32 year = 2000 + 400 * n400 + 100 * n100 + 4 * n4 + 1 * n1;
     if (j < 0) {
         year--;
-        j += isLeapYear(year) ? 366 : 365;
+        j += Ctime_isLeapYear(year) ? 366 : 365;
     }
     if (outYear != NULL) {
         *outYear = year;
@@ -194,7 +196,7 @@ boolean Ctime_breakDays(const int64 days,
         *outDayOfYear = dayOfYear;
     }
 
-    const int32 * daysOverMonths = getDaysOverMonthsByYear(isLeapYear(year));
+    const int32 * daysOverMonths = getDaysOverMonthsByYear(Ctime_isLeapYear(year));
     int32 m = 0;
     while (j >= daysOverMonths[m]) {
         j -= daysOverMonths[m];
@@ -210,11 +212,11 @@ boolean Ctime_breakDays(const int64 days,
     }
 
     if (outWeekOfYear != NULL) {
-        *outWeekOfYear = (daysToDayOfWeek(days - dayOfYear) + dayOfYear) / 7;
+        *outWeekOfYear = (Ctime_daysToDayOfWeek(daysSinceEpoch - dayOfYear) + dayOfYear) / 7;
     }
 
     if (outDayOfWeek != NULL) {
-        *outDayOfWeek = daysToDayOfWeek(days);
+        *outDayOfWeek = Ctime_daysToDayOfWeek(daysSinceEpoch);
     }
 
     return true;
@@ -222,7 +224,7 @@ boolean Ctime_breakDays(const int64 days,
 
 public
 int64 Ctime_totalDays(const int32 year, const int32 dayOfYear) {
-    assert(dayOfYear >= 0 && dayOfYear < (isLeapYear(year) ? 366 : 355));
+    assert(dayOfYear >= 0 && dayOfYear < (Ctime_isLeapYear(year) ? 366 : 355));
     // align to year 0 to avoid overflow
     int32 numLeapYears = year > 0
             ? (1 + (year - 1) / 4 - (year - 1) / 100 + (year - 1) / 400)

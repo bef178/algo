@@ -6,7 +6,7 @@
  */
 
 public
-boolean Ctime_breakMilliseconds(const int64 milliseconds,
+boolean Ctime_breakMilliseconds(const int64 millisecondsSinceEpoch,
         int64 * outDays, int32 * outMillisecondOfDay);
 
 public
@@ -18,6 +18,12 @@ boolean Ctime_breakMillisecondOfDay(const int32 millisecondOfDay,
 
 public
 int32 Ctime_toMillisecondOfDay(int32 hh, int32 mm, int32 ss, int32 sss);
+
+public
+boolean Ctime_isLeapYear(int32 year);
+
+public
+int32 Ctime_daysToDayOfWeek(int64 daysSinceEpoch);
 
 /**
  * all out values are indices, starting from 0
