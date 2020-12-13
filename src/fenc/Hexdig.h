@@ -2,7 +2,7 @@
 #define _INCLUDED_HEXDIG
 
 public
-void Hexdig_encode1byte(int aByte, byte * dst, int k);
+void Hexdig_encode1byte(int srcByte, byte * dst, int start);
 
 public
 int Hexdig_decode1byte(byte * src, int i);

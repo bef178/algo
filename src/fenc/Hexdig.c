@@ -1,8 +1,5 @@
 /**
  * Hexdig
- *
- * encoding: 0x3FD4 => "3FD4"
- * decoding: base64 stream to byte stream
  */
 
 #include <assert.h>
@@ -35,15 +32,16 @@ int encode4bit(int value) {
 }
 
 /**
+ * 'a' => ['9','7']
  * always produce 2 bytes
  */
 public
-void Hexdig_encode1byte(int aByte, byte * dst, int k) {
-    assert(aByte >= 0 && aByte <= 0xFF);
+void Hexdig_encode1byte(int srcByte, byte * dst, int start) {
+    assert(srcByte >= 0 && srcByte <= 0xFF);
     assert(dst != NULL);
-    assert(k >= 0);
-    dst[k++] = encode4bit((aByte >> 4) & 0x0F);
-    dst[k] = encode4bit(aByte & 0x0F);
+    assert(start >= 0);
+    dst[start++] = encode4bit((srcByte >> 4) & 0x0F);
+    dst[start] = encode4bit(srcByte & 0x0F);
 }
 
 static
@@ -81,11 +79,11 @@ int decode4bit(int ch) {
 }
 
 /**
+ * ['9','7'] => 'a'
  * always consume 2 bytes
  */
 public
 int Hexdig_decode1byte(byte * src, int i) {
-    byte aByte = decode4bit(src[i++]);
-    aByte = (aByte << 4) | decode4bit(src[i]);
-    return aByte;
+    int dstByte = decode4bit(src[i++]);
+    return (dstByte << 4) | decode4bit(src[i]);
 }
