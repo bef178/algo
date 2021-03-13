@@ -12,7 +12,7 @@ void RadixSort_leastSignificantDigit(int * a, int l, int r) {
 
     static const int RADIX = 10;
 
-    int max = a[indexOfMax(a, l, r)];
+    int max = a[Int32Array_max(a, l, r)];
 
     int c[RADIX];
     int t[r - l];

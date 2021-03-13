@@ -10,13 +10,13 @@ void InsertionSort_sort(int * a, int l, int r);
 
 void SelectionSort_sort(int * a, int l, int r);
 
-void BubbleSort_sort(int * a, int l, int r);
-
 void HeapSort_sort(int * a, int l, int r);
 
-void MergeSort_sort(int * a, int l, int r);
+void Sort_bubblesort(int * a, int l, int r);
 
-void QuickSort_sort(int * a, int l, int r);
+void Sort_mergesort(int * a, int l, int r);
+
+void Sort_quicksort(int * a, int l, int r);
 
 void ShellSort_sort(int * a, int l, int r);
 

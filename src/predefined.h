@@ -18,17 +18,18 @@ typedef int64_t word;
 typedef _Bool boolean;
 #define false   (!!0)
 #define true    (!false)
-#define FALSE   false
-#define TRUE    true
 
 typedef float float32;
 typedef double float64;
 
+// null pointer
 #define null    ((void *) 0)
 
+// U+0000, <Null>(NUL)
 #define NUL     ('\0')
 
 #define public
+#define interface
 #define internal
 
 #endif // _INCLUDED_PREDEFINED

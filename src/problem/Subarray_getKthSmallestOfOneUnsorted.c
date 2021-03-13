@@ -22,11 +22,11 @@ static int partition(int * a, int l, int r) {
             l++;
         }
         if (l < r) {
-            swap(a, l, r);
+            Int32Array_swap(a, l, r);
         }
     }
     if (p != r) {
-        swap(a, p, r);
+        Int32Array_swap(a, p, r);
     }
     return r;
 }

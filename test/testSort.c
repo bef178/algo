@@ -38,6 +38,15 @@ void testSort() {
     printf("testing HeapSort ...\n");
     testSingleSort(&HeapSort_sort, a, 0, n);
 
+    printf("testing Sort_bubblesort ...\n");
+    testSingleSort(&Sort_bubblesort, a, 0, n);
+
+    printf("testing Sort_mergesort ...\n");
+    testSingleSort(&Sort_mergesort, a, 0, n);
+
+    printf("testing Sort_quicksort ...\n");
+    testSingleSort(&Sort_quicksort, a, 0, n);
+
     printf("testing ShellSort ...\n");
     testSingleSort(&ShellSort_sort, a, 0, n);
 

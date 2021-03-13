@@ -15,7 +15,7 @@ void SelectionSort_sort(int * a, int l, int r) {
             }
         }
         if (i != k) {
-            swap(a, i, k);
+            Int32Array_swap(a, i, k);
         }
     }
 }

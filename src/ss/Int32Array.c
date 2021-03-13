@@ -1,4 +1,4 @@
-int indexOfMax(int * a, int l, int r) {
+int Int32Array_max(int * a, int l, int r) {
     int max = l;
     for (int i = l + 1; i < r; i++) {
         if (a[max] < a[i]) {
@@ -8,7 +8,7 @@ int indexOfMax(int * a, int l, int r) {
     return max;
 }
 
-int indexOfMin(int * a, int l, int r) {
+int Int32Array_min(int * a, int l, int r) {
     int min = l;
     for (int i = l + 1; i < r; i++) {
         if (a[min] > a[i]) {
@@ -18,7 +18,7 @@ int indexOfMin(int * a, int l, int r) {
     return min;
 }
 
-void swap(int * a, int i, int j) {
+void Int32Array_swap(int* a, int i, int j) {
     int t = a[i];
     a[i] = a[j];
     a[j] = t;
