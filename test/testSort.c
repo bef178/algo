@@ -13,8 +13,7 @@ static void printIntArray(const int * a, int l, int r) {
     printf("\n");
 }
 
-static int compareInt(const void * a, const void * b)
-{
+static int compareInt(const void * a, const void * b) {
   return *(int*)a - *(int*)b;
 }
 
@@ -41,14 +40,21 @@ void testSort() {
     printf("testing Sort_bubblesort ...\n");
     testSingleSort(&Sort_bubblesort, a, 0, n);
 
+    printf("testing Sort_insertionsort ...\n");
+    testSingleSort(&Sort_insertionsort, a, 0, n);
+    testSingleSort(&Sort_insertionsort1, a, 0, n);
+
     printf("testing Sort_mergesort ...\n");
     testSingleSort(&Sort_mergesort, a, 0, n);
 
     printf("testing Sort_quicksort ...\n");
     testSingleSort(&Sort_quicksort, a, 0, n);
 
-    printf("testing ShellSort ...\n");
-    testSingleSort(&ShellSort_sort, a, 0, n);
+    printf("testing Sort_selectionsort ...\n");
+    testSingleSort(&Sort_selectionsort, a, 0, n);
+
+    printf("testing Sort_shellsort ...\n");
+    testSingleSort(&Sort_shellsort, a, 0, n);
 
     printf("testing RadixSort ...\n");
     testSingleSort(&RadixSort_leastSignificantDigit, a, 0, n);
