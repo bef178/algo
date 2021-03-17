@@ -1,18 +1,17 @@
-#include <string.h>
+#include <memory.h>
 
 // the k most significant bits of x
-static int msbits(int x, int k) {
+static
+int msbits(int x, int k) {
     return ((unsigned) x) >> (sizeof(x) - k);
 }
 
 /**
- * bucket sort a.k.a. bin sort
- * for multiple keys by dropping into buckets with most-significant key and sort respectively
+ * for multiple keys by putting elements into buckets according to most-significant key then sort respectively
  * distribution sort
  */
-void BucketSort_sort(int * a, int l, int r) {
-
-    static const int k = 4;
+void Sort_bucketsort(int * a, int l, int r) {
+    const int k = 4;
 
     // var buckets;
     for (int i = l; i < r; i++) {

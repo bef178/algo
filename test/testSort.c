@@ -34,11 +34,14 @@ void testSort() {
     int a[] = {6,5,3,1,8,7,2,4};
     int n = sizeof(a) / sizeof(int);
 
-    printf("testing HeapSort ...\n");
-    testSingleSort(&HeapSort_sort, a, 0, n);
-
     printf("testing Sort_bubblesort ...\n");
     testSingleSort(&Sort_bubblesort, a, 0, n);
+
+    printf("testing Sort_countingsort ...\n");
+    testSingleSort(&Sort_countingsort, a, 0, n);
+
+    printf("testing Sort_heapsort ...\n");
+    testSingleSort(&Sort_heapsort, a, 0, n);
 
     printf("testing Sort_insertionsort ...\n");
     testSingleSort(&Sort_insertionsort, a, 0, n);
@@ -50,12 +53,15 @@ void testSort() {
     printf("testing Sort_quicksort ...\n");
     testSingleSort(&Sort_quicksort, a, 0, n);
 
+    printf("testing Sort_radixsort ...\n");
+    testSingleSort(&Sort_radixsort, a, 0, n);
+
+    printf("testing Sort_radixsort ...\n");
+    testSingleSort(&Sort_radixsort, a, 0, n);
+
     printf("testing Sort_selectionsort ...\n");
     testSingleSort(&Sort_selectionsort, a, 0, n);
 
     printf("testing Sort_shellsort ...\n");
     testSingleSort(&Sort_shellsort, a, 0, n);
-
-    printf("testing RadixSort ...\n");
-    testSingleSort(&RadixSort_leastSignificantDigit, a, 0, n);
 }

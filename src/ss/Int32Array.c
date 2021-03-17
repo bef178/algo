@@ -1,4 +1,4 @@
-int Int32Array_max(int * a, int l, int r) {
+int Int32Array_indexOfMax(int * a, int l, int r) {
     int max = l;
     for (int i = l + 1; i < r; i++) {
         if (a[max] < a[i]) {
@@ -8,7 +8,7 @@ int Int32Array_max(int * a, int l, int r) {
     return max;
 }
 
-int Int32Array_min(int * a, int l, int r) {
+int Int32Array_indexOfMin(int * a, int l, int r) {
     int min = l;
     for (int i = l + 1; i < r; i++) {
         if (a[min] > a[i]) {
