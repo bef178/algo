@@ -26,7 +26,7 @@ int Combination_nextIndex(int index) {
 
     int i = -1;
     while (++i < n - 1) {
-        if (testSingleBit(&index, i)) {
+        if (Cstream_testSingleBit(&index, i)) {
             break;
         }
     }
@@ -36,7 +36,7 @@ int Combination_nextIndex(int index) {
 
     int j = i;
     while (++j < n) {
-        if (!testSingleBit(&index, j)) {
+        if (!Cstream_testSingleBit(&index, j)) {
             break;
         }
     }
@@ -44,7 +44,7 @@ int Combination_nextIndex(int index) {
         return -1;
     }
 
-    return rorp(index, 0, j + 1, i + 1);
+    return Int32_rorp(index, 0, j + 1, i + 1);
 }
 
 int Combination_toCombination(byte * alphabet, int n, int index, byte * dst) {

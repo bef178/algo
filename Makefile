@@ -2,8 +2,9 @@ include ./build/utility.mk
 
 define reorder-header-files
 $(filter %/predefined.h,$1) \
+$(filter %/Int32.h,$1) \
 $(filter %/Int64.h,$1) \
-$(filter-out %/predefined.h %/Int64.h,$1)
+$(filter-out %/predefined.h %/Int32.h %/Int64.h,$1)
 endef
 
 .PHONY: test

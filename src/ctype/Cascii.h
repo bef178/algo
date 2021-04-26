@@ -1,5 +1,5 @@
-#ifndef _INCLUDED_CTYPE
-#define _INCLUDED_CTYPE
+#ifndef _INCLUDED_CASCII
+#define _INCLUDED_CASCII
 
 #define HT 0x09
 #define LF 0x0a
@@ -26,4 +26,4 @@ int toLower(int ch);
 
 int toUpper(int ch);
 
-#endif // _INCLUDED_CTYPE
+#endif // _INCLUDED_CASCII

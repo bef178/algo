@@ -1,7 +1,15 @@
 #include <assert.h>
 #include <stdlib.h>
 
-int str_length(const byte * s);
+int str_length(const byte * s) {
+    assert(s != NULL);
+    const byte * p = s;
+    while (*s != NUL) {
+        ++s;
+    }
+    return (int)(s - p);
+}
+
 
 int str_concatenate(byte * dst, const byte * src, const int n) {
     assert(dst != NULL);
@@ -68,15 +76,6 @@ int str_indexOf(const byte * s, const byte * p) {
         i++;
     }
     return -1;
-}
-
-int str_length(const byte * s) {
-    assert(s != NULL);
-    const byte * p = s;
-    while (*s != NUL) {
-        ++s;
-    }
-    return (int)(s - p);
 }
 
 int str_substring(byte * dst, const byte * src, int i, int j) {

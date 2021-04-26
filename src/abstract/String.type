@@ -5,17 +5,17 @@
 
 type String {
 
-    String concatenate(String s, String another);
+    String concatenate(String self, String another);
 
-    compare(String s, String another);
+    int compare(String self, String another);
 
-    String copy(String s);
+    String copy(String self);
 
-    indexOf(String s, int startIndex, String p);
+    int indexOf(String self, String p, int startIndex);
 
-    size(String s);
+    int size(String self);
 
-    String substring(String s, int startIndex, int endIndex);
+    String substring(String self, int startIndex, int endIndex);
 
-    codePointAt(String s, int index);
+    int codePointAt(String self, int index);
 };

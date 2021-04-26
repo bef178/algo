@@ -86,7 +86,7 @@ int Utf8_getNumUtf8BytesByUtf8Head(const byte headByte) {
     assert(Utf8_isUtf8Head(headByte));
 
     int n = 0;
-    while (n < 8 && testSingleBit(&headByte, n)) {
+    while (n < 8 && Cstream_testSingleBit(&headByte, n)) {
         ++n;
     }
     switch (n) {
