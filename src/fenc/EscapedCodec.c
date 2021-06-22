@@ -41,18 +41,6 @@ void Escaped_init() {
     }
 }
 
-public
-void Escaped_finalize() {
-    if (Escaped_encoding != NULL) {
-        free(Escaped_encoding);
-        Escaped_encoding = NULL;
-    }
-    if (Escaped_decoding != NULL) {
-        free(Escaped_decoding);
-        Escaped_decoding = NULL;
-    }
-}
-
 static
 int Escaped_encode1byte(int aByte, byte * dst, int k) {
     assert(aByte >= 0 && aByte <= 0xFF);
@@ -68,7 +56,7 @@ int Escaped_encode1byte(int aByte, byte * dst, int k) {
     } else {
         dst[k++] = '\\';
         dst[k++] = 'x';
-        Hexdig_encode1byte(aByte, dst, k);
+        HexCodec_encode1byte(aByte, dst, k);
         return 4;
     }
 }
@@ -97,7 +85,7 @@ int Escaped_decode1byte(byte * src, int i, byte * outByte) {
     if (aByte == '\\') {
         aByte = src[i++] & 0xFF;
         if (aByte == 'x') {
-            *outByte = Hexdig_decode1byte(src, i);
+            *outByte = HexCodec_decode1byte(src, i);
             return 4;
         } else if (aByte >= 0x20 && aByte < 0x7F && Escaped_decoding[aByte] >= 0) {
             *outByte = Escaped_decoding[aByte];

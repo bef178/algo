@@ -1,5 +1,5 @@
 /**
- * Hexdig
+ * HexCodec
  */
 
 #include <assert.h>
@@ -36,7 +36,7 @@ int encode4bit(int value) {
  * always produce 2 bytes
  */
 public
-void Hexdig_encode1byte(int srcByte, byte * dst, int start) {
+void HexCodec_encode1byte(int srcByte, byte * dst, int start) {
     assert(srcByte >= 0 && srcByte <= 0xFF);
     assert(dst != NULL);
     assert(start >= 0);
@@ -83,7 +83,7 @@ int decode4bit(int ch) {
  * always consume 2 bytes
  */
 public
-int Hexdig_decode1byte(byte * src, int i) {
+int HexCodec_decode1byte(byte * src, int i) {
     int dstByte = decode4bit(src[i++]);
     return (dstByte << 4) | decode4bit(src[i]);
 }
