@@ -1,3 +1,10 @@
+/**
+ * leetcode#60
+ * https://leetcode.com/problems/permutation-sequence/
+ *
+ * Given alphabet and index, find the permutation
+ */
+
 #include <assert.h>
 #include <stdlib.h>
 
@@ -26,11 +33,6 @@ int getAvailable(byte * alphabet, int n, byte * used, int j) {
     assert(false);
 }
 
-/**
- * Given alphabet and index, find the permutation
- *
- * leetcode #60. Permutation Sequence
- */
 public
 void Permutation_getByIndex(byte * alphabet, int n, int index, byte * dst) {
     byte * used = calloc(n, sizeof(byte));

@@ -1,11 +1,15 @@
 /**
  * 两个有序数组查找第k小的元素
+ *  drop k/2 element at one time
+ *
+ * leetcode#4
+ * https://leetcode.com/problems/median-of-two-sorted-arrays/
  */
 
 #include <assert.h>
 #include <limits.h>
 
-int Subarray_getKthSmallestOfTwoSorted(int * a1, int n1, int * a2, int n2, int k) {
+int Subarray_getKthSmallestFromTwoSortedArrays(int * a1, int n1, int * a2, int n2, int k) {
     assert(a1 != NULL && n1 >= 0);
     // assert a1 is sorted
     assert(a2 != NULL && n2 >= 0);

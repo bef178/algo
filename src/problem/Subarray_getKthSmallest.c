@@ -1,17 +1,15 @@
 /**
  * 无序数组查找第k小的元素
  *
- * partition and drop
+ * leetcode#215
+ * https://leetcode.com/problems/kth-largest-element-in-an-array/
  */
 
 #include <assert.h>
 #include <limits.h>
 
-static int partition(int * a, int l, int r) {
-    assert(a != NULL);
-    assert(l >= 0);
-    assert(r >= l);
-
+static
+int partition(int * a, int l, int r) {
     int p = l;
     r--;
     while (l < r) {
@@ -31,16 +29,19 @@ static int partition(int * a, int l, int r) {
     return r;
 }
 
-int Subarray_getKthSmallestOfOneUnsorted(int * a, int n, int k) {
-    assert(k >= 0 && k < n);
-    int l = 0;
-    int r = n;
+int Subarray_getKthSmallest(int * a, int l, int r, int k) {
+    assert(a != NULL);
+    assert(l >= 0);
+    assert(r >= l);
+    assert(k >= 0 && k < r - l);
+    a += l;
+    int n = r - l;
     int p = -1;
-    while ((p = partition(a, 0, r)) != k) {
+    while ((p = partition(a, 0, n)) != k) {
         if (p < k) {
-            k -= p + 1;
             a += p + 1;
             n -= p + 1;
+            k -= p + 1;
         } else {
             n = p;
         }

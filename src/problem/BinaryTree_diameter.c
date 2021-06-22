@@ -17,7 +17,8 @@ int BinaryTree_findDiameter(BinaryTreeNode * root, int d) {
 }
 
 /**
- * leetcode #543 Diameter of Binary Tree
+ * leetcode#543
+ * https://leetcode.com/problems/diameter-of-binary-tree/
  *
  * return the distance of diameter path ends, 0 for empty tree, 0 for 1-node tree
  */

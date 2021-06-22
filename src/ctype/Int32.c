@@ -14,6 +14,16 @@ int32 Int32_hash_jdk6(int32 d) {
     return d ^ (d >> 7) ^ (d >> 4);
 }
 
+public
+int32 Int32_max(int32 i, int32 j) {
+    return i >= j ? i : j;
+}
+
+public
+int32 Int32_min(int32 i, int32 j) {
+    return i <= j ? i : j;
+}
+
 // rotate left
 public
 int32 Int32_rol(int32 d, int numBits) {
