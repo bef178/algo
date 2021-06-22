@@ -18,7 +18,14 @@ int Int32Array_indexOfMin(int * a, int l, int r) {
     return min;
 }
 
-void Int32Array_swap(int* a, int i, int j) {
+void Int32Array_print(int * a, int l, int r) {
+    for (int i = l; i < r; i++) {
+        printf("%d ", a[i]);
+    }
+    printf("\n");
+}
+
+void Int32Array_swap(int * a, int i, int j) {
     int t = a[i];
     a[i] = a[j];
     a[j] = t;
