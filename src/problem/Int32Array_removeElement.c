@@ -1,6 +1,25 @@
 #include <assert.h>
-#include <stdio.h>
-#include <string.h>
+
+/**
+ * leetcode#27
+ * https://leetcode.com/problems/remove-element/
+ */
+int Int32Array_removeElement(int * a, int l, int r, int ex) {
+    assert(a != NULL);
+    assert(l >= 0);
+    assert(r >= l);
+    int k = l;
+    while (k < r && a[k] != ex) {
+        k++;
+    }
+    for (int i = k + 1; i < r; i++) {
+        if (a[i] == ex) {
+            continue;
+        }
+        a[k++] = a[i];
+    }
+    return k - l;
+}
 
 /**
  * remove any ch in @targets from string
@@ -30,13 +49,4 @@ int Subarray_removeByte(byte * s, byte * targets) {
     }
     *q = NUL;
     return q - s;
-}
-
-void testSubarrayRemoveByte() {
-    printf("testing Subarray_removeByte ...\n");
-    byte actual[] = "the quick brown fox jumps over the lazy dog";
-    byte * expected = "th qck brwn fx jmps vr th lz dg";
-    int n = Subarray_removeByte(actual, "aeiouy");
-    assert(n == strlen(expected));
-    assert(strncmp(actual, expected, n) == 0);
 }

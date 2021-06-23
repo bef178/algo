@@ -5,9 +5,6 @@
  * https://leetcode.com/problems/kth-largest-element-in-an-array/
  */
 
-#include <assert.h>
-#include <limits.h>
-
 static
 int partition(int * a, int l, int r) {
     int p = l;
@@ -29,7 +26,7 @@ int partition(int * a, int l, int r) {
     return r;
 }
 
-int Subarray_getKthSmallest(int * a, int l, int r, int k) {
+int Int32Array_getKthSmallest(int * a, int l, int r, int k) {
     assert(a != NULL);
     assert(l >= 0);
     assert(r >= l);

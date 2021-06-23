@@ -9,7 +9,7 @@
 #include <assert.h>
 #include <limits.h>
 
-int Subarray_getKthSmallestFromTwoSortedArrays(int * a1, int n1, int * a2, int n2, int k) {
+int Int32Array_getKthSmallestFromTwoSortedArrays(int * a1, int n1, int * a2, int n2, int k) {
     assert(a1 != NULL && n1 >= 0);
     // assert a1 is sorted
     assert(a2 != NULL && n2 >= 0);

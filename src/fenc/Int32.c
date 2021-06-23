@@ -24,6 +24,18 @@ int32 Int32_min(int32 i, int32 j) {
     return i <= j ? i : j;
 }
 
+public
+int32 Int32_minOf3(int32 i, int32 j, int32 k) {
+    int min = i;
+    if (min > j) {
+        min = j;
+    }
+    if (min > k) {
+        min = k;
+    }
+    return min;
+}
+
 // rotate left
 public
 int32 Int32_rol(int32 d, int numBits) {

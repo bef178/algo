@@ -1,6 +1,9 @@
 /**
- * wildcard: '*': 0 or more units
- * wildcard: '?': 1 unit
+ * leetcode#44
+ * https://leetcode.com/problems/wildcard-matching/
+ *
+ * wildcard: '?': matches any single character
+ * wildcard: '*': matches any sequence of characters, including empty sequence
  */
 
 #include <assert.h>

@@ -25,6 +25,13 @@ void Int32Array_print(int * a, int l, int r) {
     printf("\n");
 }
 
+void Int32Array_reverse(int * a, int l, int r) {
+    r--;
+    while (l < r) {
+        Int32Array_swap(a, l++, r--);
+    }
+}
+
 void Int32Array_swap(int * a, int i, int j) {
     int t = a[i];
     a[i] = a[j];
