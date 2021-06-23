@@ -10,7 +10,7 @@ static
 boolean * SHOULD_ENCODE = NULL;
 
 public
-void PctCodec_init() {
+void PctCodec_staticInit() {
     if (SHOULD_ENCODE == NULL) {
         SHOULD_ENCODE = calloc(128, sizeof(byte));
         // byte * UNRESERVED = "-_.~"; // safe

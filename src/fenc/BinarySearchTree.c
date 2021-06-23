@@ -1,7 +1,8 @@
 #include <assert.h>
 
 /**
- * leetcode #701 Insert into a Binary Search Tree
+ * leetcode#701
+ * https://leetcode.com/problems/insert-into-a-binary-search-tree/
  *
  * return the root
  */

@@ -14,6 +14,8 @@
 #define COMMA 0x2c
 #define BACK_QUOTE 0x60
 
+boolean isPrintable(const int ch);
+
 boolean isVisible(const int ch);
 
 boolean isWhitespace(const int ch);

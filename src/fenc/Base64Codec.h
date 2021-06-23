@@ -2,7 +2,7 @@
 #define _INCLUDED_BASE64CODEC
 
 public
-void Base64Codec_init();
+void Base64Codec_staticInit();
 
 /**
  * return number of produced bytes

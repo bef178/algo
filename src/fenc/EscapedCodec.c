@@ -13,7 +13,7 @@ static
 int * Escaped_decoding = NULL;
 
 public
-void Escaped_init() {
+void Escaped_staticInit() {
     if (Escaped_encoding == NULL) {
         Escaped_encoding = calloc(128, sizeof(int));
         memset(Escaped_encoding, -1, 128 * sizeof(int));

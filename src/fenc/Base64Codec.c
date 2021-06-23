@@ -16,7 +16,7 @@ static
 int * Base64Codec_decoding = NULL;
 
 public
-void Base64Codec_init() {
+void Base64Codec_staticInit() {
     if (Base64Codec_encoding == NULL) {
         Base64Codec_encoding = calloc(64, sizeof(int));
         int k = 0;

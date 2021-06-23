@@ -1,3 +1,10 @@
+/**
+ * visible or SP
+ */
+boolean isPrintable(const int ch) {
+    return ch >= 0x20 && ch < 0x7F;
+}
+
 boolean isVisible(const int ch) {
     return ch > 0x20 && ch < 0x7F; // exclude SP and DEL
 }
