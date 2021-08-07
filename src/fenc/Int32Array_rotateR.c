@@ -1,3 +1,5 @@
+#include <assert.h>
+
 /**
  * leetcode#189
  * https://leetcode.com/problems/rotate-array/
@@ -13,7 +15,7 @@ void Int32Array_rotateR(int * a, int l, int r, int k) {
     }
     Int32Array_reverse(a, l, r);
     Int32Array_reverse(a, l, l + k);
-    Int32Array_reverse(a, l, k, r);
+    Int32Array_reverse(a, l + k, r);
 }
 
 /**
