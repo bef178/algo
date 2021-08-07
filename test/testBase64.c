@@ -17,7 +17,7 @@ static void Base64Codec_testEncode(byte * src, int srcSize, byte * base64, int b
 
 void testBase64() {
     printf("testing Base64 ...\n");
-    Base64Codec_init();
+    Base64Codec_staticInit();
     Base64Codec_testEncode("a", 1, "YQ==", 4);
     Base64Codec_testEncode("a\n", 2, "YQo=", 4);
     Base64Codec_testEncode("ab\n", 3, "YWIK", 4);

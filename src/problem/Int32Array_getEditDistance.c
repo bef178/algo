@@ -13,6 +13,8 @@
  * https://leetcode.com/problems/edit-distance/
  */
 
+#include <assert.h>
+
 static const int COST_INSERT = 1;
 static const int COST_REMOVE = 1;
 static const int COST_MODIFY = 1;

@@ -5,6 +5,8 @@
  * https://leetcode.com/problems/kth-largest-element-in-an-array/
  */
 
+#include <assert.h>
+
 static
 int partition(int * a, int l, int r) {
     int p = l;
