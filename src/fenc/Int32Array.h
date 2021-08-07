@@ -11,6 +11,8 @@ void Int32Array_reverse(int * a, int l, int r);
 
 void Int32Array_rotateR(int * a, int l, int r, int k);
 
+void Int32Array_sort5int(int * a, int l, int r);
+
 void Int32Array_swap(int * a, int i, int j);
 
 #endif // _INCLUDED_INT32ARRAY
