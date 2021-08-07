@@ -1,4 +1,6 @@
 
+void testInt32Array();
+
 void testSearch();
 void testSort();
 void testList();
@@ -18,6 +20,8 @@ void testRawInt();
 void testCtime();
 
 int main() {
+
+    testInt32Array();
 
     testSearch();
     testSort();
