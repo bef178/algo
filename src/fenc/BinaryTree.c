@@ -19,6 +19,19 @@ int BinaryTree_size(BinaryTreeNode * root) {
     return BinaryTree_size(root->l) + 1 + BinaryTree_size(root->r);
 }
 
+public
+boolean BinaryTree_containsNode(BinaryTreeNode * root, BinaryTreeNode * node) {
+    assert(node != NULL);
+
+    if (root == node) {
+        return true;
+    } else if (root == NULL) {
+        return false;
+    }
+
+    return BinaryTree_containsNode(root->l, node) || BinaryTree_containsNode(root->r, node);
+}
+
 /**
  * the max distance between the root and a leaf
  * empty tree depth = -1

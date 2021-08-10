@@ -7,6 +7,8 @@ void BinaryTree_free(BinaryTreeNode * root);
 
 int BinaryTree_size(BinaryTreeNode * root);
 
+boolean BinaryTree_containsNode(BinaryTreeNode * root, BinaryTreeNode * node);
+
 int BinaryTree_depth(BinaryTreeNode * root);
 
 int BinaryTree_getNodeLevel(BinaryTreeNode * root, BinaryTreeNode * node);
