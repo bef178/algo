@@ -6,7 +6,7 @@ typedef struct HashMap {
     Int64_hashf * hashKey;
     int size;
     int numSlots;
-    LinkNode * slots[0]; // linked list with head node
+    LinkedListNode * slots[0]; // linked list with head node
 } HashMap;
 
 static int alignCapacity(int requiredCapacity) {
@@ -24,13 +24,13 @@ static int alignCapacity(int requiredCapacity) {
     return capacity;
 }
 
-static LinkNode * findLowerBound(HashMap * self, int64 key) {
+static LinkedListNode * findLowerBound(HashMap * self, int64 key) {
     int32 hashCode = self->hashKey(key);
     int slotIndex = hashCode % self->numSlots;
     if (self->slots[slotIndex] == NULL) {
-        self->slots[slotIndex] = LinkNode_malloc(0);
+        self->slots[slotIndex] = LinkedListNode_wrapValue(0);
     }
-    LinkNode * p = self->slots[slotIndex];
+    LinkedListNode * p = self->slots[slotIndex];
     while (p->next != NULL) {
         MapEntry * entry = (void *) p->next->value;
         if (self->compareKey(entry->key, key) == 0) {
@@ -41,20 +41,20 @@ static LinkNode * findLowerBound(HashMap * self, int64 key) {
     return p;
 }
 
-static void add(LinkNode * p, int64 key, int64 value) {
+static void add(LinkedListNode * p, int64 key, int64 value) {
     assert(p->next == NULL);
-    MapEntry * entry = MapEntry_malloc(key, value);
-    LinkNode * newNode = LinkNode_malloc((int64) entry);
-    LinkNode_insertNext(p, newNode);
+    MapEntry * entry = MapEntry_wrapValue(key, value);
+    LinkedListNode * newNode = LinkedListNode_wrapValue((int64) entry);
+    LinkedListNode_insertNext(p, newNode);
 }
 
-static int64 get(LinkNode * p) {
+static int64 get(LinkedListNode * p) {
     assert(p->next != NULL);
     MapEntry * entry = (void *) p->next->value;
     return entry->value;
 }
 
-static int64 update(LinkNode * p, int64 key, int64 value) {
+static int64 update(LinkedListNode * p, int64 key, int64 value) {
     assert(p->next != NULL);
     MapEntry * entry = (void *) p->next->value;
     // designated: replace rather than remove then add to tail
@@ -67,7 +67,7 @@ HashMap * HashMap_malloc(int capacity, Int64_comparef * compareKey, Int64_hashf 
     assert(capacity > 0);
     assert(compareKey != NULL);
     capacity = alignCapacity(capacity);
-    HashMap * map = calloc(1, sizeof(HashMap) + capacity * sizeof(LinkNode *));
+    HashMap * map = calloc(1, sizeof(HashMap) + capacity * sizeof(LinkedListNode *));
     map->compareKey = compareKey;
     map->hashKey = hashKey;
     // expect half full and 2 elements in every linked list in average
@@ -83,11 +83,11 @@ void HashMap_free(HashMap * self) {
 void HashMap_clear(HashMap * self) {
     for (int i = 0; i < self->numSlots; i++) {
         if (self->slots[i] != NULL) {
-            LinkNode * node = self->slots[i];
+            LinkedListNode * node = self->slots[i];
             while (node != NULL) {
-                LinkNode * nextNode = node->next;
+                LinkedListNode * nextNode = node->next;
                 MapEntry_free((void *) node->value);
-                LinkNode_free(node);
+                LinkedListNode_free(node);
                 node = nextNode;
             }
             self->slots[i] = NULL;
@@ -109,7 +109,7 @@ int64 HashMap_get(HashMap * self, int64 key) {
 }
 
 int64 HashMap_getOrDefault(HashMap * self, int64 key, int64 defaultValue) {
-    LinkNode * p = findLowerBound(self, key);
+    LinkedListNode * p = findLowerBound(self, key);
     if (p->next != NULL) {
         return get(p);
     } else {
@@ -127,7 +127,7 @@ int64 HashMap_getOrDefault(HashMap * self, int64 key, int64 defaultValue) {
  *  }
  */
 int64 HashMap_getOrPut(HashMap * self, int64 key, int64 value) {
-    LinkNode * p = findLowerBound(self, key);
+    LinkedListNode * p = findLowerBound(self, key);
     if (p->next != NULL) {
         return get(p);
     } else {
@@ -138,7 +138,7 @@ int64 HashMap_getOrPut(HashMap * self, int64 key, int64 value) {
 }
 
 int64 HashMap_put(HashMap * self, int64 key, int64 value) {
-    LinkNode * p = findLowerBound(self, key);
+    LinkedListNode * p = findLowerBound(self, key);
     if (p->next != NULL) {
         return update(p, key, value);
     } else {
@@ -149,9 +149,9 @@ int64 HashMap_put(HashMap * self, int64 key, int64 value) {
 }
 
 int64 HashMap_remove(HashMap * self, int64 key) {
-    LinkNode * p = findLowerBound(self, key);
+    LinkedListNode * p = findLowerBound(self, key);
     if (p->next != NULL) {
-        MapEntry * entry = (void *) LinkNode_removeNext(p)->value;
+        MapEntry * entry = (void *) LinkedListNode_removeNext(p)->value;
         self->size--;
         int64 oldValue = entry->value;
         MapEntry_free(entry);
@@ -162,17 +162,17 @@ int64 HashMap_remove(HashMap * self, int64 key) {
 
 MapIterator * HashMap_mallocIterator(HashMap * self) {
     Iterator * it = Iterator_malloc();
-    LinkNode * p = it->head;
+    LinkedListNode * p = it->head;
     for (int i = 0; i < self->numSlots; i++) {
         if (self->slots[i] == NULL) {
             continue;
         }
-        LinkNode * node = self->slots[i];
+        LinkedListNode * node = self->slots[i];
         while (node->next != NULL) {
             node = node->next;
             MapEntry * newEntry = MapEntry_copy((void *) node->value);
-            LinkNode * newNode = LinkNode_malloc((int64) newEntry);
-            LinkNode_insertNext(p, newNode);
+            LinkedListNode * newNode = LinkedListNode_wrapValue((int64) newEntry);
+            LinkedListNode_insertNext(p, newNode);
             p = p->next;
         }
     }

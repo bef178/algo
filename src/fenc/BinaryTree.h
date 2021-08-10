@@ -1,11 +1,7 @@
 #ifndef _INCLUDED_BINARYTREE
 #define _INCLUDED_BINARYTREE
 
-#include "LinkNode.h"
-
-typedef LinkNode BinaryTreeNode;
-
-extern BinaryTreeNode * (*BinaryTreeNode_malloc)(int64);
+#include "BinaryTreeNode.h"
 
 void BinaryTree_free(BinaryTreeNode * root);
 

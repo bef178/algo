@@ -4,14 +4,14 @@
 
 #include <stdlib.h>
 
-LinkNode * LinkedList_sortAbsNonInc(LinkNode * head) {
+LinkedListNode * LinkedList_sortAbsNonInc(LinkedListNode * head) {
     if (head == NULL) {
         return head;
     }
 
-    LinkNode * pivot = NULL; // points to the last positive node
+    LinkedListNode * pivot = NULL; // points to the last positive node
     while (head != NULL) {
-        LinkNode * p = head;
+        LinkedListNode * p = head;
         head = head->next;
         p->next = pivot;
         pivot = p;
@@ -22,9 +22,9 @@ LinkNode * LinkedList_sortAbsNonInc(LinkNode * head) {
     if (head == NULL) {
         return pivot;
     }
-    LinkNode * newHead = pivot;
+    LinkedListNode * newHead = pivot;
     while (head != NULL) {
-        LinkNode * p = head;
+        LinkedListNode * p = head;
         head = head->next;
         p->next = pivot->next;
         pivot->next = p;
@@ -35,27 +35,27 @@ LinkNode * LinkedList_sortAbsNonInc(LinkNode * head) {
     return newHead;
 }
 
-LinkNode * LinkedList_sortAbsNonInc2(LinkNode * head) {
+LinkedListNode * LinkedList_sortAbsNonInc2(LinkedListNode * head) {
     if (head == NULL) {
         return NULL;
     }
 
     // with head node
-    LinkNode * tmpHead = LinkNode_malloc(0);
-    LinkNode_enlinkNext(tmpHead, head);
+    LinkedListNode * tmpHead = LinkedListNode_malloc(0);
+    LinkedListNode_enlinkNext(tmpHead, head);
 
-    LinkNode * negHead = NULL;
+    LinkedListNode * negHead = NULL;
 
     head = tmpHead;
     while (head->next != NULL) {
         if (head->next->value < 0) {
-            LinkNode * p = LinkNode_removeNext(head);
-            LinkNode_insertNext(p, negHead);
+            LinkedListNode * p = LinkedListNode_removeNext(head);
+            LinkedListNode_insertNext(p, negHead);
             negHead = p;
         }
     }
-    LinkNode_enlinkNext(head, negHead);
-    head = LinkNode_delinkNext(tmpHead);
+    LinkedListNode_enlinkNext(head, negHead);
+    head = LinkedListNode_delinkNext(tmpHead);
     free(tmpHead);
     return head;
 }

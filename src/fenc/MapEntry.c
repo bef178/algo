@@ -1,6 +1,6 @@
 #include <stdlib.h>
 
-MapEntry * MapEntry_malloc(int64 key, int64 value) {
+MapEntry * MapEntry_wrapValue(int64 key, int64 value) {
     MapEntry * self = calloc(1, sizeof(MapEntry));
     self->key = key;
     self->value = value;
@@ -12,5 +12,5 @@ void MapEntry_free(MapEntry * self) {
 }
 
 MapEntry * MapEntry_copy(MapEntry * self) {
-    return MapEntry_malloc(self->key, self->value);
+    return MapEntry_wrapValue(self->key, self->value);
 }

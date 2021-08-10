@@ -6,7 +6,7 @@ typedef struct MapEntry {
     int64 value;
 } MapEntry;
 
-MapEntry * MapEntry_malloc(int64 key, int64 value);
+MapEntry * MapEntry_wrapValue(int64 key, int64 value);
 
 void MapEntry_free(MapEntry * self);
 
