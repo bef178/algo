@@ -24,19 +24,19 @@
 #include <assert.h>
 
 static const int32 MILLISECONDS_PER_SECOND = 1000;
-static const int32 MILLISECONDS_PER_MINUTE = 1000 * 60; // MILLISECONDS_PER_SECOND * 60;
-static const int32 MILLISECONDS_PER_HOUR = 1000 * 60 * 60; // MILLISECONDS_PER_MINUTE * 60;
-static const int32 MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24; // MILLISECONDS_PER_HOUR * 24;
+static const int32 MILLISECONDS_PER_MINUTE = MILLISECONDS_PER_SECOND * 60;
+static const int32 MILLISECONDS_PER_HOUR = MILLISECONDS_PER_MINUTE * 60;
+static const int32 MILLISECONDS_PER_DAY = MILLISECONDS_PER_HOUR * 24;
 
 public
 boolean Ctime_breakMilliseconds(const int64 millisecondsSinceEpoch,
-        int64 * outDays, int32 * outMillisecondOfDay) {
+        int64 * outDaysSinceEpoch, int32 * outMillisecondOfDay) {
     int32 i = (int32) (millisecondsSinceEpoch % MILLISECONDS_PER_DAY);
     if (i < 0) {
         i += MILLISECONDS_PER_DAY;
     }
-    if (outDays != NULL) {
-        *outDays = (millisecondsSinceEpoch - i) / MILLISECONDS_PER_DAY;
+    if (outDaysSinceEpoch != NULL) {
+        *outDaysSinceEpoch = (millisecondsSinceEpoch - i) / MILLISECONDS_PER_DAY;
     }
     if (outMillisecondOfDay != NULL) {
         *outMillisecondOfDay = i;
@@ -45,17 +45,15 @@ boolean Ctime_breakMilliseconds(const int64 millisecondsSinceEpoch,
 }
 
 public
-int64 Ctime_totalMilliseconds(int64 daysSinceEpoch, int32 millisecondOfDay) {
+int64 Ctime_totalMilliseconds(const int64 daysSinceEpoch, const int32 millisecondOfDay) {
     assert(millisecondOfDay >= 0 && millisecondOfDay < MILLISECONDS_PER_DAY);
     return MILLISECONDS_PER_DAY * daysSinceEpoch + millisecondOfDay;
 }
 
 public
-boolean Ctime_breakMillisecondOfDay(const int32 millisecondOfDay,
+void Ctime_breakMillisecondOfDay(const int32 millisecondOfDay,
         int32 * outHour, int32 * outMinute, int32 * outSecond, int32 * outMillisecond) {
-    if (millisecondOfDay < 0 || millisecondOfDay > MILLISECONDS_PER_DAY) {
-        return false;
-    }
+    assert(millisecondOfDay >= 0 && millisecondOfDay <= MILLISECONDS_PER_DAY);
 
     if (millisecondOfDay == MILLISECONDS_PER_DAY) {
         // troublesome leap second
@@ -85,7 +83,6 @@ boolean Ctime_breakMillisecondOfDay(const int32 millisecondOfDay,
             *outMillisecond = millisecondOfDay % MILLISECONDS_PER_SECOND;
         }
     }
-    return true;
 }
 
 public
@@ -112,6 +109,11 @@ static const int32 DAYS_OVER_MONTH_366[] = {
         31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
 };
 
+static
+const int32 * getDaysPerMonths(boolean isLeapYear) {
+    return isLeapYear ? DAYS_OVER_MONTH_366 : DAYS_OVER_MONTH_365;
+}
+
 public
 boolean Ctime_isLeapYear(int32 year) {
     if (year % 100 == 0) {
@@ -120,12 +122,8 @@ boolean Ctime_isLeapYear(int32 year) {
     return year % 4 == 0;
 }
 
-static const int32 * getDaysOverMonthsByYear(boolean isLeapYear) {
-    return isLeapYear ? DAYS_OVER_MONTH_366 : DAYS_OVER_MONTH_365;
-}
-
 public
-int32 Ctime_daysToDayOfWeek(int64 daysSinceEpoch) {
+int32 Ctime_toDayOfWeek(int64 daysSinceEpoch) {
     int32 from = 4; // 1970-01-01 is Thursday
     from = (int32) ((from + daysSinceEpoch) % 7);
     if (from < 0) {
@@ -143,17 +141,22 @@ static const int32 Y4 = 1461; // Y1 * 4 + 1
 static const int32 Y100 = 36524; // Y4 * 25 - 1
 static const int32 Y400 = 146097; // Y100 * 4 + 1
 
+
+/**
+ * year starts from 1970
+ * dayOfYear, monthOfYear, dayOfMonth, weekOfYear, dayOfWeek each starts from 0
+ * weekOfYear: 0: the week containing the first Sunday of this year
+ */
 public
-boolean Ctime_breakDays(const int64 daysSinceEpoch,
+void Ctime_breakDays(const int64 daysSinceEpoch,
         int32 * outYear, int32 * outDayOfYear,
         int32 * outMonthOfYear, int32 * outDayOfMonth,
         int32 * outWeekOfYear, int32 * outDayOfWeek) {
-    if (daysSinceEpoch < MIN_DAYS || daysSinceEpoch >= MAX_DAYS) {
-        return false;
-    }
+    assert(daysSinceEpoch < MIN_DAYS || daysSinceEpoch >= MAX_DAYS);
 
     // rebase to 2000-01-01
-    int64 i = daysSinceEpoch - (Y1 * 30 + 7);
+    int64 i = daysSinceEpoch - 10957; // 10957: Y1 * 30 + 7
+    int32 year = 2000;
 
     int32 n400 = (int32) (i / Y400);
     i -= Y400 * n400;
@@ -182,7 +185,7 @@ boolean Ctime_breakDays(const int64 daysSinceEpoch,
         j--;
     }
 
-    int32 year = 2000 + 400 * n400 + 100 * n100 + 4 * n4 + 1 * n1;
+    year += 400 * n400 + 100 * n100 + 4 * n4 + 1 * n1;
     if (j < 0) {
         year--;
         j += Ctime_isLeapYear(year) ? 366 : 365;
@@ -196,10 +199,10 @@ boolean Ctime_breakDays(const int64 daysSinceEpoch,
         *outDayOfYear = dayOfYear;
     }
 
-    const int32 * daysOverMonths = getDaysOverMonthsByYear(Ctime_isLeapYear(year));
+    const int32 * daysPerMonths = getDaysPerMonths(Ctime_isLeapYear(year));
     int32 m = 0;
-    while (j >= daysOverMonths[m]) {
-        j -= daysOverMonths[m];
+    while (j >= daysPerMonths[m]) {
+        j -= daysPerMonths[m];
         m++;
     }
 
@@ -212,14 +215,12 @@ boolean Ctime_breakDays(const int64 daysSinceEpoch,
     }
 
     if (outWeekOfYear != NULL) {
-        *outWeekOfYear = (Ctime_daysToDayOfWeek(daysSinceEpoch - dayOfYear) + dayOfYear) / 7;
+        *outWeekOfYear = (Ctime_toDayOfWeek(daysSinceEpoch - dayOfYear) + dayOfYear) / 7;
     }
 
     if (outDayOfWeek != NULL) {
-        *outDayOfWeek = Ctime_daysToDayOfWeek(daysSinceEpoch);
+        *outDayOfWeek = Ctime_toDayOfWeek(daysSinceEpoch);
     }
-
-    return true;
 }
 
 public
@@ -229,31 +230,34 @@ int64 Ctime_totalDays(const int32 year, const int32 dayOfYear) {
     int32 numLeapYears = year > 0
             ? (1 + (year - 1) / 4 - (year - 1) / 100 + (year - 1) / 400)
             : (year / 4 - year / 100 + year / 400);
-    return -719528 + 1L * 365 * year + numLeapYears + dayOfYear;
+    return -719528 + 1L * 365 * year + numLeapYears + dayOfYear; // 719528: Y400 * 5 - 10957
 }
 
 public
-int32 Ctime_toDayOfYear(const boolean isLeapYear, const int32 monthOfYear, const int32 dayOfMonth) {
+int32 Ctime_toDayOfYear(const int32 monthOfYear, const int32 dayOfMonth, const boolean isLeapYear) {
     assert(monthOfYear >= 0 && monthOfYear < 12);
 
-    const int32 * daysOverMonths = getDaysOverMonthsByYear(isLeapYear);
-    assert(dayOfMonth >= 0 && dayOfMonth < daysOverMonths[monthOfYear]);
+    const int32 * daysPerMonths = getDaysPerMonths(isLeapYear);
+    assert(dayOfMonth >= 0 && dayOfMonth < daysPerMonths[monthOfYear]);
 
     int32 dayOfYear = dayOfMonth;
     for (int32 i = 0; i < monthOfYear; i++) {
-        dayOfYear += daysOverMonths[i];
+        dayOfYear += daysPerMonths[i];
     }
     return dayOfYear;
 }
 
+/**
+ * take 24 bytes
+ */
 public
-int Ctime_toUtcString(int64 timestamp, byte * dst) {
-    int64 days;
+int Ctime_toUtcString(int64 millisecondsSinceEpoch, byte * dst) {
+    int64 daysSinceEpoch;
     int32 millisecondOfDay;
-    Ctime_breakMilliseconds(timestamp, &days, &millisecondOfDay);
+    Ctime_breakMilliseconds(millisecondsSinceEpoch, &daysSinceEpoch, &millisecondOfDay);
 
     int32 year, monthOfYear, dayOfMonth;
-    Ctime_breakDays(days, &year, NULL, &monthOfYear, &dayOfMonth, NULL, NULL);
+    Ctime_breakDays(daysSinceEpoch, &year, NULL, &monthOfYear, &dayOfMonth, NULL, NULL);
 
     int32 hh, mm, ss, sss;
     Ctime_breakMillisecondOfDay(millisecondOfDay, &hh, &mm, &ss, &sss);
