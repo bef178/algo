@@ -1,0 +1,14 @@
+type String {
+
+    String concat(String another);
+
+    int compare(String another);
+
+    int indexOf(String another, int startIndex);
+
+    int size();
+
+    String take(int startIndex, int endIndex);
+
+    int valueAt(int index);
+};

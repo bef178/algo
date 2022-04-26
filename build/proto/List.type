@@ -1,0 +1,34 @@
+type List {
+    void insert(int index, T value);
+    T remove(int index);
+    T get(int index);
+    T set(int index, T value);
+    int indexOf(value, int startIndex);
+    int size();
+    void clear();
+    List concat(List another);
+
+    // linq
+    boolean all(...);
+    boolean any(...);
+    map(...);
+    reduce(...);
+    filter(...);
+    groupBy(...);
+    mapMany(...);
+};
+
+
+type Queue {
+    dequeue();
+    enqueue();
+    peek();
+    size();
+};
+
+type Stack {
+    peek();
+    pop();
+    push();
+    size();
+};
