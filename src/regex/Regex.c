@@ -1,8 +1,3 @@
-/**
- * regex: '.' 1 unit
- * regex: '*' 0 or more prev unit
- */
-
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>
@@ -31,7 +26,8 @@ boolean Regex_isValid(const byte * regex) {
     return true;
 }
 
-static boolean matches(const byte * regex, const byte * s) {
+static
+boolean matches(const byte * regex, const byte * s) {
     assert(Regex_isValid(regex));
     assert(s != NULL);
 
@@ -88,7 +84,8 @@ static boolean matches(const byte * regex, const byte * s) {
     return false;
 }
 
-static boolean matches_dp(const byte * regex, const byte * s) {
+static
+boolean matches_dp(const byte * regex, const byte * s) {
     assert(Regex_isValid(regex));
     assert(s != NULL);
 

@@ -1,9 +1,9 @@
 /**
- * leetcode#41
- * https://leetcode.com/problems/first-missing-positive/
- *
  * Given an array of unsorted integers, find the smallest missing positive integer.
- * Must in O(n) of time and O(1) of space.
+ * Must be in O(n) of time and O(1) of space.
+ *
+ * leetcode #41 hard
+ * https://leetcode.com/problems/first-missing-positive/
  */
 
 // like counting sort, any k should be in a[k-1] if sorted and the missing GT k

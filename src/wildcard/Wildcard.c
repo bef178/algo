@@ -1,13 +1,11 @@
 /**
- * leetcode#44
- * https://leetcode.com/problems/wildcard-matching/
- *
  * wildcard: '?': matches any single character
  * wildcard: '*': matches any sequence of characters, including empty sequence
  */
 
 #include <assert.h>
 
+public
 boolean Wildcard_matches(const byte * wildcard, const byte * s) {
     assert(wildcard != NULL);
     assert(s != NULL);
