@@ -8,14 +8,12 @@
 #include <stdio.h>
 #include <string.h>
 
-typedef char byte;
-
 static
 int min(int i, int j) {
     return i <= j ? i : j;
 }
 
-void palindrome_manacher(byte * a, int l, int r, int * outStartIndex, int * outEndIndex) {
+void palindrome_manacher(int * a, int l, int r, int * outStartIndex, int * outEndIndex) {
     assert(a != NULL);
     assert(l >= 0);
     assert(r >= l); // allow empty string
@@ -24,7 +22,7 @@ void palindrome_manacher(byte * a, int l, int r, int * outStartIndex, int * outE
 
     // make [^#.#...#.#$]
     int n1 = 2 * n + 3;
-    byte * s1 = calloc(n1, sizeof(byte));
+    int * s1 = calloc(n1, sizeof(int));
     s1[0] = '^';
     for (int i = 0; i < n; i++) {
         s1[2 * i + 1] = '#';
@@ -72,7 +70,7 @@ void palindrome_manacher(byte * a, int l, int r, int * outStartIndex, int * outE
     *outEndIndex = resultOffset + resultLength;
 }
 
-void palindrome_raw(byte * a, int l, int r, int * outStartIndex, int * outEndIndex) {
+void palindrome_raw(int * a, int l, int r, int * outStartIndex, int * outEndIndex) {
     assert(a != NULL);
     assert(l >= 0);
     assert(r >= l); // allow empty string
@@ -108,7 +106,7 @@ void palindrome_raw(byte * a, int l, int r, int * outStartIndex, int * outEndInd
 }
 
 static
-void print(byte * a, int l, int r, int start, int end) {
+void print(char * a, int l, int r, int start, int end) {
     for (int i = l; i < r; i++) {
         putchar(a[i]);
     }
@@ -128,7 +126,11 @@ void printLongestPadindrome(char * s) {
     int start = -1;
     int end = -1;
     int n = strlen(s);
-    palindrome_manacher(s, 0, n, &start, &end);
+    int a[n];
+    for (int i = 0; i < n; i++) {
+        a[i] = s[i];
+    }
+    palindrome_manacher(a, 0, n, &start, &end);
     print(s, 0, n, start, end);
 }
 
