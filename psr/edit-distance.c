@@ -7,11 +7,12 @@
  * 2) removal
  * 3) substitution
  *
- * kind of subtle. "convert s1 to s2" is different from "make s1 the same as s2", the latter implies s2 is editable.
+ * "convert s1 to s2" is sightly different from "make s1 the same as s2", the latter implies s2 is editable.
  *
- * leetcode#72
+ * leetcode #72 hard
  * https://leetcode.com/problems/edit-distance/
  */
+
 
 #include <assert.h>
 
@@ -20,7 +21,7 @@ static const int COST_REMOVE = 1;
 static const int COST_MODIFY = 1;
 
 public
-int Int32Array_getEditDistance(int * a1, int l1, int r1, int * a2, int l2, int r2) {
+int findEditDistance(int * a1, int l1, int r1, int * a2, int l2, int r2) {
     assert(a1 != NULL);
     assert(l1 >= 0);
     assert(r1 >= l1);
@@ -55,8 +56,8 @@ int Int32Array_getEditDistance(int * a1, int l1, int r1, int * a2, int l2, int r
     return cost[n1][n2];
 }
 
-static
-int Int32Array_getEditDistance2(int * a1, int l1, int r1, int * a2, int l2, int r2) {
+public
+int findEditDistance2(int * a1, int l1, int r1, int * a2, int l2, int r2) {
     const int COST_INS_OR_DEL = COST_INSERT <= COST_REMOVE ? COST_INSERT : COST_REMOVE;
     while (l1 < r1 && l2 < r2 && a1[l1] == a2[l2]) {
         l1++;
@@ -70,7 +71,7 @@ int Int32Array_getEditDistance2(int * a1, int l1, int r1, int * a2, int l2, int 
     }
 
     return Int32_minOf3(
-        Int32Array_getEditDistance(a1, l1 + 1, r1, a2, l2, r2) + COST_REMOVE, // remove a1[l1] from a1
-        Int32Array_getEditDistance(a1, l1, r1, a2, l2 + 1, r2) + COST_INSERT, // insert a2[l2] into a1
-        Int32Array_getEditDistance(a1, l1 + 1, r1, a2, l2 + 1, r2) + COST_MODIFY);
+        findEditDistance2(a1, l1 + 1, r1, a2, l2, r2) + COST_REMOVE, // remove a1[l1] from a1
+        findEditDistance2(a1, l1, r1, a2, l2 + 1, r2) + COST_INSERT, // insert a2[l2] into a1
+        findEditDistance2(a1, l1 + 1, r1, a2, l2 + 1, r2) + COST_MODIFY);
 }

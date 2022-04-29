@@ -1,12 +1,15 @@
 /**
  * 单链表原地逆序
  *
- * 注意考虑环链
+ * 注意环链
+
+ * leetcode #206 easy
+ * https://leetcode.com/problems/reverse-linked-list/
  */
 
 #include <stdlib.h>
 
-LinkNode * LinkedList_reverse(LinkNode * p) {
+LinkNode * reverseLinkedList(LinkNode * p) {
     if (p == NULL) {
         return NULL;
     }

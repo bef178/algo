@@ -1,7 +1,9 @@
-// leetcode#152
-// https://leetcode.com/problems/maximum-product-subarray/
-//
-// Given an int array, find the largest product of a contiguous non-empty subsequence of the array
+/**
+ * Given an int array, find the largest product of a contiguous non-empty subsequence of the array
+ *
+ * leetcode #152 medium
+ * https://leetcode.com/problems/maximum-product-subarray/
+ */
 
 #include <assert.h>
 
