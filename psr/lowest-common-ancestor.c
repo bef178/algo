@@ -1,3 +1,12 @@
+/**
+ * Find the lowest common ancestor (LCA) of two given tree nodes.
+ * Return `null` when they don't have LCA.
+ * Allow a node to be a descendant of itself.
+ *
+ * 分别向上寻至根，确认根结点相同。起游标，链较长者先步进长度差，之后同时步进，相等时寻得
+ * 若不为树而是链表，同理；若链表有环则是另一个故事
+ */
+
 #include <assert.h>
 
 static

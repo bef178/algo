@@ -1,10 +1,16 @@
 /**
- * sort a single linked list which is already sorted by abs value non-increasingly
+ * Given a singly linked list which is already sorted on abs value, sort it on value
+ *
+ * leetcode #2046 medium
+ * https://leetcode.com/problems/sort-linked-list-already-sorted-using-absolute-values/
+ *
+ * 正序或逆序解法类似。以双正序为例，取出负数加入链首即可。
+ * 1,-2,3,4,-5,-6 => -6,-5,-2,1,3,4
  */
 
 #include <stdlib.h>
 
-LinkedListNode * LinkedList_sortAbsNonInc(LinkedListNode * head) {
+LinkedListNode * sort(LinkedListNode * head) {
     if (head == NULL) {
         return head;
     }
@@ -35,7 +41,7 @@ LinkedListNode * LinkedList_sortAbsNonInc(LinkedListNode * head) {
     return newHead;
 }
 
-LinkedListNode * LinkedList_sortAbsNonInc2(LinkedListNode * head) {
+LinkedListNode * sort2(LinkedListNode * head) {
     if (head == NULL) {
         return NULL;
     }

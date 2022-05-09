@@ -1,7 +1,9 @@
-// leetcode#567
-// https://leetcode.com/problems/permutation-in-string/
-//
-// Given two strings s and sub, return true if s contains a permutation of sub.
+/**
+ * Given two strings `s` and `s1`, return `true` if `s` contains a permutation of `s1`.
+ *
+ * leetcode #567 medium
+ * https://leetcode.com/problems/permutation-in-string/
+ */
 
 boolean checkInclusion(int * s, int n, int * s1, int n1) {
     int s1counts[26] = { 0 };

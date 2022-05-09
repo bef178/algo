@@ -3,7 +3,7 @@
  *
  * since 2008-11-18
  *
- * leetcode#53
+ * leetcode #53 easy
  * https://leetcode.com/problems/maximum-subarray/
  */
 
@@ -12,7 +12,7 @@
 /**
  * dynamic-programming: O(n)
  */
-int Int32Array_getMaxSubarraySum(int * a, int l, int r) {
+int findSubarrayHavingMaxSum(int * a, int l, int r) {
     int sum = INT_MIN;
     int partialSum = INT_MIN;
     for (int i = l; i < r; ++i) {
@@ -31,7 +31,7 @@ int Int32Array_getMaxSubarraySum(int * a, int l, int r) {
 /**
  * divide-and-conquer: O(n*logn)
  */
-int Int32Array_getMaxSubarraySum2(int * a, int l, int r) {
+int findSubarrayHavingMaxSum2(int * a, int l, int r) {
     if (l > r - 1) {
         return -1;
     } else if (l == r - 1) {
@@ -62,12 +62,12 @@ int Int32Array_getMaxSubarraySum2(int * a, int l, int r) {
         sum = s1 + s2;
     }
 
-    int sumL = Int32Array_getMaxSubarraySum2(a, l, m);
+    int sumL = findSubarrayHavingMaxSum2(a, l, m);
     if (sumL > sum) {
         sum = sumL;
     }
 
-    int sumR = Int32Array_getMaxSubarraySum2(a, m, r);
+    int sumR = findSubarrayHavingMaxSum2(a, m, r);
     if (sumR > sum) {
         sum = sumR;
     }
