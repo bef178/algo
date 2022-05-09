@@ -1,20 +1,29 @@
 /**
- * 二叉排序树原地转有序双向链表
+ * 二叉搜索树原地转有序双向链表
+ *
+ * leetcode #426 medium
+ * https://leetcode.com/problems/convert-binary-search-tree-to-sorted-doubly-linked-list/
  */
 
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-static BinaryTreeNode * inplaceConvert(BinaryTreeNode * root) {
+typedef struct Node {
+    struct Node * l;
+    struct Node * r;
+    long value;
+} Node;
+
+static Node * inplaceConvert(Node * root) {
     if (root == NULL) {
         return NULL;
     }
 
-    BinaryTreeNode * head = root;
+    Node * head = root;
     if (root->l != NULL) {
         head = inplaceConvert(root->l);
-        BinaryTreeNode * tail = head;
+        Node * tail = head;
         while (tail->r != NULL) {
             tail = tail->r;
         }
@@ -30,16 +39,11 @@ static BinaryTreeNode * inplaceConvert(BinaryTreeNode * root) {
     return head;
 }
 
-/**
- * if it is binary search tree, the converted list will be ordered
- *
- * use only l-link and r-link
- */
-BinaryTreeNode * BinaryTree_convertToLinkedList(BinaryTreeNode * root) {
+Node * toLinkedList(Node * root) {
     return inplaceConvert(root);
 }
 
-void BinaryTree_printAsLinkedList(BinaryTreeNode * head) {
+void printLinkedList(Node * head) {
     while (head != NULL && head->r != NULL) {
         printf("%ld ", head->value);
         head = head->r;
