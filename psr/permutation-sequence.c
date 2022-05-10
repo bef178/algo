@@ -1,8 +1,8 @@
 /**
- * leetcode#60
- * https://leetcode.com/problems/permutation-sequence/
+ * Given the charset and the index, find the permutation
  *
- * Given alphabet and index, find the permutation
+ * leetcode #60 hard
+ * https://leetcode.com/problems/permutation-sequence/
  */
 
 #include <assert.h>
@@ -18,14 +18,14 @@ int getFactorial(int n) {
 }
 
 static
-int getAvailable(byte * alphabet, int n, byte * used, int j) {
+int getAvailable(byte * charset, int n, boolean * used, int j) {
     for (int i = 0; i < n; i++) {
-        if (used[i] == 1) {
+        if (used[i]) {
             continue;
         }
         if (j == 0) {
-            used[i] = 1;
-            return alphabet[i];
+            used[i] = true;
+            return charset[i];
         } else {
             j--;
         }
@@ -34,12 +34,12 @@ int getAvailable(byte * alphabet, int n, byte * used, int j) {
 }
 
 public
-void Permutation_getByIndex(byte * alphabet, int n, int index, byte * dst) {
-    byte * used = calloc(n, sizeof(byte));
+void getPermutationByIndex(byte * charset, int n, int index, byte * dst) {
+    boolean * used = calloc(n, sizeof(boolean));
     for (int i = 0; i < n; i++) {
         int fi = getFactorial(n - 1 - i);
         int j = index / fi;
-        dst[i] = getAvailable(alphabet, n, used, j);
+        dst[i] = getAvailable(charset, n, used, j);
         index -= j * fi;
     }
 }
