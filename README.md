@@ -1,1 +1,3 @@
-data structure, component and algorithm
+# data structure, algorithm and component
+
+concise and precise
