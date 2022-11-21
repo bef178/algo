@@ -29,7 +29,7 @@ static const int32 MILLISECONDS_PER_HOUR = MILLISECONDS_PER_MINUTE * 60;
 static const int32 MILLISECONDS_PER_DAY = MILLISECONDS_PER_HOUR * 24;
 
 public
-boolean Ctime_breakMilliseconds(const int64 millisecondsSinceEpoch,
+void Ctime_breakMilliseconds(const int64 millisecondsSinceEpoch,
         int64 * outDaysSinceEpoch, int32 * outMillisecondOfDay) {
     int32 i = (int32) (millisecondsSinceEpoch % MILLISECONDS_PER_DAY);
     if (i < 0) {
@@ -41,7 +41,6 @@ boolean Ctime_breakMilliseconds(const int64 millisecondsSinceEpoch,
     if (outMillisecondOfDay != NULL) {
         *outMillisecondOfDay = i;
     }
-    return true;
 }
 
 public
@@ -152,7 +151,7 @@ void Ctime_breakDays(const int64 daysSinceEpoch,
         int32 * outYear, int32 * outDayOfYear,
         int32 * outMonthOfYear, int32 * outDayOfMonth,
         int32 * outWeekOfYear, int32 * outDayOfWeek) {
-    assert(daysSinceEpoch < MIN_DAYS || daysSinceEpoch >= MAX_DAYS);
+    assert(daysSinceEpoch >= MIN_DAYS && daysSinceEpoch < MAX_DAYS);
 
     // rebase to 2000-01-01
     int64 i = daysSinceEpoch - 10957; // 10957: Y1 * 30 + 7

@@ -32,7 +32,7 @@ int32 Ctime_toDayOfWeek(int64 daysSinceEpoch);
  * week-of-year 0 is the week with day-of-year 0 in it
  */
 public
-boolean Ctime_breakDays(const int64 daysSinceEpoch,
+void Ctime_breakDays(const int64 daysSinceEpoch,
         int32 * outYear, int32 * outDayOfYear,
         int32 * outMonthOfYear, int32 * outDayOfMonth,
         int32 * outWeekOfYear, int32 * outDayOfWeek);
