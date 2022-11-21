@@ -1,6 +1,8 @@
 #include <assert.h>
 #include <stdlib.h>
 
+#define NUL ('\0')
+
 int str_length(const byte * s) {
     assert(s != NULL);
     const byte * p = s;

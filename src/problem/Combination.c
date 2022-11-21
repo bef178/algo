@@ -7,6 +7,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define NUL ('\0')
+
 int Combination_calculate(int n, int m) {
     assert(m >= 0 && n >= m);
     m = m < (n - m) ? m : (n - m);

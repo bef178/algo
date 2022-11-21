@@ -1,6 +1,12 @@
 #include <assert.h>
 #include <stdlib.h>
 
+#if __WORDSIZE == 32
+typedef int32_t word;
+#elif __WORDSIZE == 64
+typedef int64_t word;
+#endif
+
 void * mem_pick(int n) {
     assert(n >= 0);
     void * p = calloc(1, n);

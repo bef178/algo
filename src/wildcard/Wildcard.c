@@ -5,6 +5,8 @@
 
 #include <assert.h>
 
+#define NUL ('\0')
+
 public
 boolean Wildcard_matches(const byte * wildcard, const byte * s) {
     assert(wildcard != NULL);

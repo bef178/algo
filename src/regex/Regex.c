@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define NUL ('\0')
+
 /**
  * a valid regex will not start with '*' and have no neighboring '*'
  */
