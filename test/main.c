@@ -6,9 +6,6 @@ void testSort();
 void testList();
 void testHashMap();
 
-void testPermutation();
-void testCatalanPairParen();
-
 void testCsv();
 
 void testBase64();
@@ -27,9 +24,6 @@ int main() {
     testSort();
     testList();
     testHashMap();
-
-    testPermutation();
-    testCatalanPairParen();
 
     testCsv();
 
