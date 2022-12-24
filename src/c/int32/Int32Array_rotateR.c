@@ -4,6 +4,7 @@
  * leetcode#189
  * https://leetcode.com/problems/rotate-array/
  */
+public
 void Int32Array_rotateR(int * a, int l, int r, int k) {
     assert(a != NULL);
     assert(l >= 0);
