@@ -1,6 +1,8 @@
 
 void testInt32Array();
 
+void test_String_find();
+
 void testSearch();
 void testSort();
 void testList();
@@ -20,6 +22,8 @@ int main() {
 
     testInt32Array();
 
+    test_String_find();
+
     testSearch();
     testSort();
     testList();
@@ -34,6 +38,7 @@ int main() {
     testRawInt();
 
     testCtime();
+
 
     return 0;
 }
