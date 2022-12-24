@@ -129,7 +129,8 @@ void printLongestPalindrome(char * s) {
     print(s, 0, n, start, end);
 }
 
-int main() {
+static
+void test() {
     printLongestPalindrome("ccccbaabbaabcac");
     printLongestPalindrome("ab");
     printLongestPalindrome("a");
