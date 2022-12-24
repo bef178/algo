@@ -1,6 +1,7 @@
 #include <assert.h>
 
-static void Int32Array_fillFirst5(int* a, int a0, int a1, int a2, int a3, int a4) {
+static
+void fillFirst5(int * a, int a0, int a1, int a2, int a3, int a4) {
     a[0] = a0;
     a[1] = a1;
     a[2] = a2;
@@ -8,7 +9,8 @@ static void Int32Array_fillFirst5(int* a, int a0, int a1, int a2, int a3, int a4
     a[4] = a4;
 }
 
-void Int32Array_sort5int(int* a1, int l, int r) {
+public
+void Int32Array_sort5(int * a1, int l, int r) {
     assert(a1 != NULL);
     assert(l >= 0);
     assert(r - l == 5);
@@ -51,14 +53,14 @@ void Int32Array_sort5int(int* a1, int l, int r) {
             if (a <= c) {
                 if (b <= c) {
                     // [a,b,c,d,e]
-                    Int32Array_fillFirst5(a1, a, b, c, d, e);
+                    fillFirst5(a1, a, b, c, d, e);
                 } else {
                     // [a,c,b,d,e]
-                    Int32Array_fillFirst5(a1, a, c, b, d, e);
+                    fillFirst5(a1, a, c, b, d, e);
                 }
             } else {
                 // [c,a,b,d,e]
-                Int32Array_fillFirst5(a1, c, a, b, d, e);
+                fillFirst5(a1, c, a, b, d, e);
             }
         } else {
             // [a,b,e,d]
@@ -66,18 +68,18 @@ void Int32Array_sort5int(int* a1, int l, int r) {
             if (b <= c) {
                 if (c <= e) {
                     // [a,b,c,e,d]
-                    Int32Array_fillFirst5(a1, a, b, c, e, d);
+                    fillFirst5(a1, a, b, c, e, d);
                 } else {
                     // [a,b,e,c,d]
-                    Int32Array_fillFirst5(a1, a, b, e, c, d);
+                    fillFirst5(a1, a, b, e, c, d);
                 }
             } else {
                 if (a <= c) {
                     // [a,c,b,e,d]
-                    Int32Array_fillFirst5(a1, a, c, b, e, d);
+                    fillFirst5(a1, a, c, b, e, d);
                 } else {
                     // [c,a,b,e,d]
-                    Int32Array_fillFirst5(a1, c, a, b, e, d);
+                    fillFirst5(a1, c, a, b, e, d);
                 }
             }
         }
@@ -88,18 +90,18 @@ void Int32Array_sort5int(int* a1, int l, int r) {
             if (c <= e) {
                 if (a <= c) {
                     // [a,c,e,b,d]
-                    Int32Array_fillFirst5(a1, a, c, e, b, d);
+                    fillFirst5(a1, a, c, e, b, d);
                 } else {
                     // [c,a,e,b,d]
-                    Int32Array_fillFirst5(a1, c, a, e, b, d);
+                    fillFirst5(a1, c, a, e, b, d);
                 }
             } else {
                 if (b <= c) {
                     // [a,e,b,c,d]
-                    Int32Array_fillFirst5(a1, a, e, b, c, d);
+                    fillFirst5(a1, a, e, b, c, d);
                 } else {
                     // [a,e,c,b,d]
-                    Int32Array_fillFirst5(a1, a, e, c, b, d);
+                    fillFirst5(a1, a, e, c, b, d);
                 }
             }
         } else {
@@ -108,18 +110,18 @@ void Int32Array_sort5int(int* a1, int l, int r) {
             if (a <= c) {
                 if (b <= c) {
                     // [e,a,b,c,d]
-                    Int32Array_fillFirst5(a1, e, a, b, c, d);
+                    fillFirst5(a1, e, a, b, c, d);
                 } else {
                     // [e,a,c,b,d]
-                    Int32Array_fillFirst5(a1, e, a, c, b, d);
+                    fillFirst5(a1, e, a, c, b, d);
                 }
             } else {
                 if (c <= e) {
                     // [c,e,a,b,d]
-                    Int32Array_fillFirst5(a1, c, e, a, b, d);
+                    fillFirst5(a1, c, e, a, b, d);
                 } else {
                     // [e,c,a,b,d]
-                    Int32Array_fillFirst5(a1, e, c, a, b, d);
+                    fillFirst5(a1, e, c, a, b, d);
                 }
             }
         }
