@@ -34,7 +34,7 @@ int getAvailable(byte * charset, int n, boolean * used, int j) {
 }
 
 public
-void getPermutationByIndex(byte * charset, int n, int index, byte * dst) {
+void findPermutationByIndex(byte * charset, int n, int index, byte * dst) {
     boolean * used = calloc(n, sizeof(boolean));
     for (int i = 0; i < n; i++) {
         int fi = getFactorial(n - 1 - i);
@@ -42,4 +42,5 @@ void getPermutationByIndex(byte * charset, int n, int index, byte * dst) {
         dst[i] = getAvailable(charset, n, used, j);
         index -= j * fi;
     }
+    free(used);
 }

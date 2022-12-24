@@ -54,8 +54,10 @@ int findKthSmallest(int * a, int l, int r, int k) {
     assert(l >= 0);
     assert(r >= l);
     assert(k >= 0 && k < r - l);
+
     a += l;
     int n = r - l;
+
     int p = -1;
     while ((p = partition(a, 0, n)) != k) {
         if (p < k) {

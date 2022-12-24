@@ -1,5 +1,5 @@
 /**
- * 环链求环入口
+ * 环链求入口
  *
  * leetcode #142 medium
  * https://leetcode.com/problems/linked-list-cycle-ii/

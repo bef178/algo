@@ -8,12 +8,7 @@
 #include <stdio.h>
 #include <string.h>
 
-static
-int min(int i, int j) {
-    return i <= j ? i : j;
-}
-
-void palindrome_manacher(int * a, int l, int r, int * outStartIndex, int * outEndIndex) {
+void Manacher_findLongestPalindrome(int * a, int l, int r, int * outStartIndex, int * outEndIndex) {
     assert(a != NULL);
     assert(l >= 0);
     assert(r >= l); // allow empty string
@@ -41,7 +36,7 @@ void palindrome_manacher(int * a, int l, int r, int * outStartIndex, int * outEn
 
     for (int i = 1; i < n1 - 1; i++) {
         if (i < mx) {
-            p1[i] = min(mx - i, p1[id - (i - id)]); // id - (i - id) is the mirror point of @i against @id
+            p1[i] = Int32_min(mx - i, p1[id - (i - id)]); // id - (i - id) is the mirror point of @i against @id
         } else {
             p1[i] = 1;
         }
@@ -70,7 +65,7 @@ void palindrome_manacher(int * a, int l, int r, int * outStartIndex, int * outEn
     *outEndIndex = resultOffset + resultLength;
 }
 
-void palindrome_raw(int * a, int l, int r, int * outStartIndex, int * outEndIndex) {
+void findLongestPalindrome(int * a, int l, int r, int * outStartIndex, int * outEndIndex) {
     assert(a != NULL);
     assert(l >= 0);
     assert(r >= l); // allow empty string
@@ -122,7 +117,7 @@ void print(char * a, int l, int r, int start, int end) {
 }
 
 static
-void printLongestPadindrome(char * s) {
+void printLongestPalindrome(char * s) {
     int start = -1;
     int end = -1;
     int n = strlen(s);
@@ -130,13 +125,13 @@ void printLongestPadindrome(char * s) {
     for (int i = 0; i < n; i++) {
         a[i] = s[i];
     }
-    palindrome_manacher(a, 0, n, &start, &end);
+    Manacher_findLongestPalindrome(a, 0, n, &start, &end);
     print(s, 0, n, start, end);
 }
 
 int main() {
-    printLongestPadindrome("ccccbaabbaabcac");
-    printLongestPadindrome("ab");
-    printLongestPadindrome("a");
-    printLongestPadindrome("");
+    printLongestPalindrome("ccccbaabbaabcac");
+    printLongestPalindrome("ab");
+    printLongestPalindrome("a");
+    printLongestPalindrome("");
 }

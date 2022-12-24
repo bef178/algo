@@ -5,7 +5,7 @@
  * https://leetcode.com/problems/permutation-in-string/
  */
 
-boolean checkInclusion(int * s, int n, int * s1, int n1) {
+boolean containsPermutation(int * s, int n, int * s1, int n1) {
     int s1counts[26] = { 0 };
     for (int i = 0; i < n1; i++) {
         s1counts[s1[i] - 'a']++;
