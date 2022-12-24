@@ -5,6 +5,7 @@
 
 int BoyerMoore_find(byte * s, int sLen, byte * p, int pLen);
 int Kmp_find(byte * s, int sLen, byte * p, int pLen);
+int String_find(byte * s, int sLen, byte * p, int pLen);
 
 static
 void testOne(byte * s, int sLen, byte * p, int pLen, const int expected) {
@@ -12,13 +13,19 @@ void testOne(byte * s, int sLen, byte * p, int pLen, const int expected) {
 
     actual = BoyerMoore_find(s, sLen, p, pLen);
     if (actual != expected) {
-        printf("algo: BoyerMoore, input: %s %s, expected: %d, actual: %d\n", s, p, expected, actual);
+        printf("algo: BoyerMoore, input: %s, %s, expected: %d, actual: %d\n", s, p, expected, actual);
         assert(false);
     }
 
     actual = Kmp_find(s, sLen, p, pLen);
     if (actual != expected) {
-        printf("algo: Kmp, input: %s %s, expected: %d, actual: %d\n", s, p, expected, actual);
+        printf("algo: Kmp, input: %s, %s, expected: %d, actual: %d\n", s, p, expected, actual);
+        assert(false);
+    }
+
+    actual = String_find(s, sLen, p, pLen);
+    if (actual != expected) {
+        printf("algo: Naive, input: %s, %s, expected: %d, actual: %d\n", s, p, expected, actual);
         assert(false);
     }
 }
