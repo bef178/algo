@@ -9,22 +9,22 @@ endef
 
 .PHONY: test
 test: TEST_EXECUTABLE := ./out/test.out
-test: HEADER_FILES := $(foreach D,./src ./test,$(call find-h-files,$(D)))
+test: HEADER_FILES := $(foreach D,./src/c ./src/c-test,$(call find-h-files,$(D)))
 test:
 	@ \
 		HEADER_FILES="$(call prioritize-header-files,$(HEADER_FILES))" \
-		SOURCE_FILES="$(foreach D,./src ./test,$(call find-c-files,$(D)))" \
+		SOURCE_FILES="$(foreach D,./src/c ./src/c-test,$(call find-c-files,$(D)))" \
 		OUT="./out" \
 		OUT_FILE=$(TEST_EXECUTABLE) \
 		make out -f ./build/cc.mk
 	@$(TEST_EXECUTABLE)
 
 .PHONY: obj
-obj: HEADER_FILES := $(call find-h-files,./src)
+obj: HEADER_FILES := $(call find-h-files,./src/c)
 obj:
 	@ \
 		HEADER_FILES="$(call prioritize-header-files,$(HEADER_FILES))" \
-		SOURCE_FILES="$(call find-c-files,./src)" \
+		SOURCE_FILES="$(call find-c-files,./src/c)" \
 		OUT="./out" \
 		make $@ -f ./build/cc.mk
 
