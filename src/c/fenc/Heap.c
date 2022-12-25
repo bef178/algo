@@ -27,12 +27,6 @@ void Heap_free(Heap * self) {
     free(self);
 }
 
-static void swapInt64(int64 * a, int i, int j) {
-    int64 t = a[i];
-    a[i] = a[j];
-    a[j] = t;
-}
-
 static void filterUp(Heap * self, int index) {
     // assert index >= 0;
     while (index != 0) {
@@ -40,7 +34,7 @@ static void filterUp(Heap * self, int index) {
         if (self->compare(self->values[t], self->values[index]) <= 0) {
             break;
         }
-        swapInt64(self->values, index, t);
+        Int64Array_swap(self->values, index, t);
         index = t;
     }
 }
@@ -63,7 +57,7 @@ static void filterDn(Heap * self, int index) {
         if (t == index) {
             break;
         }
-        swapInt64(self->values, index, t);
+        Int64Array_swap(self->values, index, t);
         index = t;
     }
 }

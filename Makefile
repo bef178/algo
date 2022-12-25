@@ -3,7 +3,9 @@ include ./build/utility.mk
 define prioritize-header-files
 $(filter %/predefined.h,$1) \
 $(filter %/Int32.h,$1) \
+$(filter %/Int32Array.h,$1) \
 $(filter %/Int64.h,$1) \
+$(filter %/Int64Array.h,$1) \
 $1
 endef
 
